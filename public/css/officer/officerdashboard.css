@@ -1,0 +1,111 @@
+
+
+.table-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    background-color: #f0f0f0;
+    margin-top: 60px;
+}
+
+.colors:nth-child(1) .box_1{
+    border-left: 25px solid #1B9E21;
+}
+.colors:nth-child(2) .box_1{
+    border-left:25px solid #F2C711;
+}
+.colors:nth-child(3) .box_1{
+    border-left:25px solid #03A6DD;
+}
+.colors:nth-child(4) .box_1{
+    border-left:25px solid #B42323;
+}
+.colors:nth-child(5) .box_1{
+    border-left:25px solid #BD03FF;
+}
+.table-container div{
+    background: #FFFFFF;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 300;
+    border-radius: 10px;
+    max-width: 250px;
+    height: 140px;
+    margin: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.table-container div i{
+    font-size: 50px;
+    margin-bottom: 10px;
+    margin-left: 24px;
+}
+.table-container div h2{
+    font-size: 20px;
+    font-weight: 500;
+    background-color: transparent;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.table-container div p{
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    background-color: transparent;
+}
+
+.table-container div:hover{
+        background: #e7e7e7;
+        
+}
+.table-container h2,.table-container a{
+    text-decoration: none;
+    color: black ;
+    list-style: none;
+    
+    
+}
+@media screen and (max-width: 1200px) {
+    .table-container{
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .float-float p{
+      font-size: 32px;
+      padding-top: 20px;
+    }
+}
+@media screen and (max-width: 767px) {
+     
+    .table-container div{
+        width:260px ;
+   
+    }
+    .table-container a div{
+        margin-left: 62px;
+    }
+    .table-container{
+        height: 100%;
+    }
+    .table-container-ul{
+        height: 100vh;
+    }
+    .table-container div i{
+        margin-bottom: 10px;
+        margin-left: 0px !important;
+    }
+   
+    .table-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+        grid-gap: 10px;
+        margin-top: 10px;
+    }
+ 
+    
+}

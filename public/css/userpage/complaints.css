@@ -1,0 +1,212 @@
+html {
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    background-color: #F2F2F2;
+}
+.context-head{
+    width: 100%;
+    margin-top: 25px;
+    margin-left: 0;
+    margin-right: 0;
+    background-color: #1181AC;
+    padding: 12px 0;
+    text-align: center;
+    color: #fff;
+}
+h1{
+    font-size: 2rem; /* Adjust the font size as needed */
+    line-height: 1.2;
+}
+.context-body{
+    display: flex;
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    align-items: center; /* Center items */
+    text-align: justify;
+    font-size: clamp(0.95rem, 1.3vw, .8rem);
+    margin: 0 clamp(20px, 10%, 120px) 0 clamp(20px, 12%, 150px); 
+}
+.context-body > *{
+  margin: 0 20px;
+}
+
+.image_center img{
+margin-top: 20px;
+width: 500px;
+height: auto;
+}
+
+#dropbtn{
+    color: #fff !important;
+}
+
+
+
+
+.complain-box a {
+    position: relative;
+    display: inline-block;
+    padding: 20px 40px;
+    color: #87CEEB;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 20px;
+    letter-spacing: 4px;
+    background-color: #87CEEB;
+  }
+  .complain-box a:hover {
+    background: linear-gradient(90deg, #f9a7a7, #fc7878);
+    border-radius: 2px;
+    box-shadow: 0 0 5px #fc7878,
+                0 0 25px #fc7878,
+                0 0 50px #fc7878,
+                0 0 100px #fc7878;
+  }
+
+  .complain-box a span {
+    position: absolute;
+    display: block;
+  }
+  .complain-box a span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, transparent, #fc7878);
+    animation: btn-anim1 1s linear infinite;
+  }
+ 
+
+  @keyframes btn-anim1 {
+    0% {
+      left: -100%;
+    }
+    50%,100% {
+      left: 100%;
+    }
+  }
+  .complain-box a span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #fc7878);
+    animation: btn-anim2 1s linear infinite;
+    animation-delay: .25s
+  }
+  @keyframes btn-anim2 {
+    0% {
+      top: -100%;
+    }
+    50%,100% {
+      top: 100%;
+    }
+  }
+  .complain-box a span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(270deg, transparent, #fc7878);
+    animation: btn-anim3 1s linear infinite;
+    animation-delay: .5s
+  }
+  @keyframes btn-anim3 {
+    0% {
+      right: -100%;
+    }
+    50%,100% {
+      right: 100%;
+    }
+  }
+  .complain-box a span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, #fc7878);
+    animation: btn-anim4 1s linear infinite;
+    animation-delay: .75s
+  }
+  
+  @keyframes btn-anim4 {
+    0% {
+      bottom: -100%;
+    }
+    50%,100% {
+      bottom: 100%;
+    }
+  }
+  .btn2{
+  background-color: transparent;
+  border: none;
+  color: #000;
+  font-weight: bolder;
+  }
+ 
+  .alias{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  a.forgot-password {
+    color: white;
+    text-decoration: none; 
+    font-size: 14px; 
+  }
+  a.forgot-password:hover {
+    background: none;
+    color: #87CEEB; 
+    border-radius: 0;
+    box-shadow: none;
+  }
+  a.forgot-password:hover:nth-child(1){
+    text-decoration: underline;
+  }
+  .unclickable:hover {
+    pointer-events: none;
+    background: none;
+    color: #87CEEB; 
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.2rem; 
+    }
+    .space{
+        padding-bottom: 20px;
+    }
+    .complain-box {
+        margin-top: -20px;
+    }
+    .image_center img{
+      width: 100%;
+      max-width: 15.625rem;
+      transition: width 0.5s ease;
+    }
+    .context-body {
+      flex-direction: column; /* Stack items vertically on smaller screens */
+      align-items: center; /* Center items */
+  }
+}
+
+@media (max-width:1200px) {
+
+  .context-body{
+      display: grid;
+  }
+  
+  .complain-box a{
+    margin-top: 40px;
+  }
+}
+
+
+

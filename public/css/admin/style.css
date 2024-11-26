@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.bar-graph {
+    display: flex;
+    align-items: flex-end;
+    width: 80%;
+    height: 400px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bar {
+    flex: 1;
+    margin: 0 5px;
+    background-color: #3498db;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+.bar:hover {
+    background-color: #2980b9;
+}
+
+.bar::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px;
+    background-color: #3498db;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    display: none;
+}
+
+.bar:hover::after {
+    display: block;
+}

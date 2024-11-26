@@ -1,0 +1,88 @@
+body{
+    margin: 0;
+}
+#reset-panel{
+    height: 96vh;
+    border-bottom: 2vh solid #F2C711;
+    border-top: 2vh solid #03A6DD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.reset-panel{
+    box-shadow: 0 0 5px rgba(202, 202, 202, 0.75);
+    width: 25rem;
+    background-color: #EBEBEB;
+    padding: 20px 0;
+}
+.reset-panel span:nth-child(2) p{
+    margin: 25px 0 10px 15px;
+    color: #A0A0A0;
+}
+.reset-panel span div:nth-child(1),.reset-panel span div:nth-child(2){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reset-input-email{
+    padding: 0 10px;
+    width: 23rem;
+}
+.reset-input-email input{
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    outline: none;
+    border: 2px solid #F2C711;
+    border-radius: 10px;
+}
+input::placeholder {
+    color: #A0A0A0;
+}
+.reset-input-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px 0;
+}
+.reset-input-button a{
+    text-decoration: none;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    padding: 7px 35px;
+    color: #000000;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.reset-input-button a:hover{
+    background-color: #dedede;
+}
+
+.reset-input-button button{
+    background-color: #03A6DD;
+    border: 1px solid #03A6DD;
+    border-radius: 5px;
+    padding: 8px 35px;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.reset-input-button button:hover{
+    background-color: #05bffd;
+}
+.reset-panel-head p{
+    font-size: 24px;
+    margin: 10px;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.reset-panel-head{
+    align-items: center;
+    justify-content: center;
+}
+hr{
+    border-top: 2px solid #A9A9A9;
+    width: 100%;
+    margin: 25px 0;
+}

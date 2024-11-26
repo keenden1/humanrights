@@ -1,0 +1,318 @@
+html {
+  box-sizing: border-box;
+}
+body{
+   
+    margin: 0;
+    background-color: #F2F2F2;
+}
+
+
+.homepage-latest{
+    position: relative;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  
+}
+
+
+
+.latest-events{
+    color: #fff;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #0390BF;
+    padding: 8px 25px;
+    
+}
+.homepage-latest-text{
+    position: absolute;
+    top: 130px;
+    right: 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 380px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
+}
+.mantra {
+  font-size: clamp(20px, 3vw, 29px); /* Responsive mantra text */
+
+}
+.homepage-latest-text p{
+    text-align: center;
+    margin:15px;
+    min-width: 350px;
+    max-width: 400px;
+    font-size: clamp(12px, 2.5vw, 24px);
+    font-weight: 500;
+
+    color: #fff;
+}
+.mantra{
+    font-size: 29px;
+    background:transparent; 
+}
+
+
+#homepage-latest-image-logo{
+    padding-left: 50px;
+    margin-top: 100px;
+}
+.chatbot{
+    position: absolute;
+    right: 20px;
+    bottom: 50px;
+    font-size: 32px;
+    background-color: #03A6DDed;
+    color: #fff;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Show a pointer cursor on hover */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    transition: transform 0.3s ease; /* Smooth scale effect on hover */
+  }
+  
+  .chatbot:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+  }
+
+
+body .card {
+    display: none;
+    position: absolute;
+    bottom: 60px;
+    right: 30px;
+    height: 420px; /* Increased by 1.2x */
+    width: 300px;  /* Increased by 1.2x */
+    background-color: white;
+    box-shadow: 24px 24px 144px 36px #ccc; /* Increased by 1.2x */
+  }
+  
+  body .card #header {
+    height: 60px; /* Increased by 1.2x */
+    background: #000;
+    padding: 0;
+  }
+  
+  body .card #header h1 {
+    color: #fff;
+    font-size: 24px; /* Increased by 1.2x */
+    font-family: "Finger Paint", cursive;
+    padding: 12px; /* Increased by 1.2x */
+  }
+  
+  body .card #message-section {
+    height: 264px; /* Increased by 1.2x */
+    padding: 0 30px; /* Increased by 1.2x */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+  }
+  
+  body .card #message-section::-webkit-scrollbar {
+    width: 12px; /* Increased by 1.2x */
+  }
+  
+  body .card #message-section::-webkit-scrollbar-track {
+    background: var(--scrollbarBG);
+  }
+  
+  body .card #message-section::-webkit-scrollbar-thumb {
+    background-color: var(--thumbBG);
+    border-radius: 7px; /* Increased by 1.2x */
+    border: 3.6px solid var(--scrollbarBG); /* Increased by 1.2x */
+  }
+  
+  body .card #message-section #bot,
+  body .card #message-section #user {
+    position: relative;
+    bottom: 0;
+    min-height: 18px; /* Increased by 1.2x */
+    border: 1.8px solid #777; /* Increased by 1.2x */
+    background-color: #fff;
+    border-radius: 0px 18px 18px 21.6px; /* Increased by 1.2x */
+    padding: 12px; /* Increased by 1.2x */
+    margin: 18px 0; /* Increased by 1.2x */
+  }
+  
+  body .card #message-section #user {
+    border: 1.8px solid #000; /* Increased by 1.2x */
+    border-radius: 18px 0px 18px 21.6px; /* Increased by 1.2x */
+    background-color: #000;
+    float: right;
+  }
+  
+  body .card #message-section #user #user-response {
+    color: #fff;
+  }
+  
+  body .card #message-section .message {
+    color: #000;
+    clear: both;
+    line-height: 14.4px; /* Increased by 1.2x */
+    font-size: 14.4px; /* Increased by 1.2x */
+    padding: 9.6px; /* Increased by 1.2x */
+    position: relative;
+    margin: 9.6px 0; /* Increased by 1.2x */
+    max-width: 85%;
+    word-wrap: break-word;
+    z-index: 2;
+  }
+  
+  body .card #input-section {
+    z-index: 1;
+    padding: 0 30px; /* Increased by 1.2x */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    overflow: hidden;
+    height: 72px; /* Increased by 1.2x */
+    width: 240px; /* Increased by 1.2x */
+  }
+  
+  body .card #input-section input {
+    color: #000;
+    min-width: 204px; /* Increased by 1.2x */
+    outline: none;
+    height: 36px; /* Increased by 1.2x */
+    max-width: 312px; /* Increased by 1.2x */
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #000 1.2px; /* Increased by 1.2x */
+ 
+  }
+  
+  body .card .send {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    flex: 0 0 auto;
+    margin-left: 16.8px; /* Increased by 1.2x */
+    margin-right: 0;
+    padding: 0;
+    position: relative;
+    outline: none;
+  }
+  
+  body .card .send .circle {
+    position: relative;
+    width: 45.6px; /* Increased by 1.2x */
+    height: 45.6px; /* Increased by 1.2x */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  body .card .send .circle i {
+    font-size: 36px; /* Increased by 1.2x */
+    margin-left: -12px; /* Increased by 1.2x */
+    margin-top: 12px; /* Increased by 1.2x */
+  }
+  .button-x {
+      position: absolute;
+      top: 30px;
+      right:10px;
+      font-size: 20px; /* Adjusted font size */
+      font-weight: bold;
+      color: #fff; /* White color for the 'X' */
+      background-color: transparent;
+      border: none; /* No border for a clean look */
+      cursor: pointer; /* Pointer cursor to indicate it's clickable */
+      transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for hover effects */
+      padding: 5px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Added subtle shadow */
+      text-decoration: none;
+  }
+  
+  .button-x:hover {
+      transform: scale(1.2); /* Scale the button on hover */
+      color: #0390BF; /* Change color to red when hovered */
+  }
+  
+  .button-x:active {
+      transform: scale(1); /* Reset scale on click */
+      color: #ff4444; /* Slightly darker red on click */
+  }
+
+
+@media screen and (min-width: 800px) {
+.homepage-latest-span{
+    display: flex;
+}
+.homepage-latest-image-logo{
+    padding: 10px;
+    padding-left: 120px;
+   
+}
+.homepage-latest-image-logo:nth-child(1){
+    margin-top: 100px;
+}
+.homepage-latest-image-logo img:nth-child(2){
+    margin-left: 40px;
+}
+.homepage-latest-span{
+    align-items: center;
+}
+
+}
+@media screen and (max-width: 1300px) {
+
+    .homepage-latest-image-logo img{
+        margin-bottom: 10px;
+    }
+}
+@media screen and (max-width: 800px) {
+
+    .homepage-latest-span{
+        align-items: center;
+        justify-content: center;
+    }
+    .homepage-latest-text{
+      top: 50%; 
+      left: 50%; 
+      transform: translate(-50%, -50%);
+
+    }
+  .chatbot{
+    background-color: #fff;
+    color: #03A6DDed;
+  }
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 600px) {
+    
+  .feedback-card {
+      width: 95%; /* Increase width for smaller screens */
+max-width: none; /* Remove max-width for smaller screens */
+margin: 50px 5px;
+  }
+
+  .emoji {
+      font-size: 25px; /* Reduce emoji size on smaller screens */
+  }
+
+  .comment-box {
+      font-size: 16px; /* Increase font size for better readability */
+  }
+
+  .submit-btn {
+      font-size: 16px; /* Adjust button font size */
+  }
+  .button_x{
+    margin-right: 10px;
+  }
+}
+

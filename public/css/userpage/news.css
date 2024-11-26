@@ -1,0 +1,95 @@
+html {
+    box-sizing: border-box;
+  }
+  body{
+     
+      margin: 0;
+      background-color: #F2F2F2;
+  }
+  .homepage-latest{
+    overflow: hidden;
+    position: relative;
+}
+
+a,
+button {
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.swiper-wrapper img {
+  max-width:100%;
+  height: auto;
+  object-fit: cover;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+.swiper-wrapper{
+  height: 450px !important;
+}
+
+.section {
+
+    margin: 0 auto;
+    padding-block: 5rem;
+  }
+  
+  .homepage-latest {
+    margin-top: -28px;
+    max-width: 75rem;
+    height: auto;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+ 
+  }
+  
+  .swiper {
+    &-button-next::after,
+    &-button-prev::after {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 1rem;
+      width: 2rem;
+      height: 2rem;
+      opacity: 0.75;
+      border-radius: 50%;
+      color: var(--white-100);
+      background: var(--black-300);
+    }
+  }
+  .header{
+    position: absolute;
+    top: 18px;
+   
+  }
+  h2{
+    background-color: #03A6DDed;
+    padding: 3px 10px;
+    color: #fff;
+  }
+
+  .slide-number {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    color: #fff; /* Change to your preferred color */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 5px 15px; /* Padding around the number */
+    border-radius: 5px; /* Rounded corners for the background */
+    font-weight: bold; /* Make the number bold */
+    z-index: 10; /* Make sure the number appears above the image */
+}
+#Main-footer{
+  bottom: 0;
+}
+p{
+  text-align: justify;
+  font-size: 23px;
+}

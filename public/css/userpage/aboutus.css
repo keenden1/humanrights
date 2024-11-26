@@ -1,0 +1,98 @@
+html {
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    background-color: #F2F2F2;
+}
+
+.head-goal-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
+.goal-box{
+    margin-top: clamp(20px, 10vw, 150px);
+    border: 2px solid #F2C711;
+    border-radius: 10px;
+    background-color: #03A6DD;
+    height: 250px;
+    width: 300px;
+}
+.goal-box:hover{
+    border: 2px solid #F2C711;
+    box-shadow: 0 2px 4px 0 #F2C711, 0 2px 4px 0 #F2C711;
+}
+
+.goal-box span:nth-child(1){
+    color: #F2C711;
+    text-align: center;
+}
+.goal-box span:nth-child(2){
+    color: #fff;
+    text-align: center;
+}
+.goal-box:nth-child(2) span p{
+    font-size: clamp(0.85rem, 1.3vw, .8rem); 
+    line-height: 1.5;
+    text-align: center;
+}
+.goal-box:nth-child(1) span p{
+    margin: 0 10px;
+}
+.goal-box:nth-child(3) span p{
+    margin: 0 5px;
+}
+.context h1{
+    text-align: center;
+    margin-top: clamp(20px, 10vw, 120px);
+}
+.context p{
+    text-align: justify;
+}
+.context li{
+    margin: 10px 0;
+}
+.context{
+    margin: 0 clamp(20px, 10%, 120px) 0 clamp(20px, 12%, 150px);
+}
+
+.context img {
+    max-width: 100%;  /* Ensures the image does not exceed the width of its container */
+    height: auto;      /* Maintains aspect ratio */
+    margin: 0 auto;    /* Centers the image */
+}
+
+.maps{
+    display: flex;
+    align-items: center;
+    justify-self: center;
+}
+.maps div{
+  
+    width: 100%;
+    display: grid;
+    text-align: center;
+    height: clamp(300px, 50vh, 550px);
+}
+.maps div:nth-child(2){
+   margin-left: 14px !important;
+}
+.maps div:nth-child(1){
+    justify-content: center;
+}
+.maps div p{
+    text-align: left;
+}
+.strong{
+    font-weight: bold;
+    font-size: larger;
+}
+.maps div:nth-child(2){
+    margin-right: 150px;
+}
+.map-width{
+    width: 250px;
+    height: auto;
+}

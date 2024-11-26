@@ -1,0 +1,276 @@
+#Main-logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #02a4db;
+    border-bottom: 10px solid #f1c711;
+    margin-top: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  
+}
+.Main-logo{
+    margin-top: 0;
+    display: flex;
+}
+.Main-logo span p{
+    position: absolute;
+    top: 10px;
+    font-size: .8rem;
+    margin-top: 15x;
+    font-weight: bold;
+}
+.Main-logo span h3{
+    position: absolute;
+    top: 25px;
+}
+.Main-logo img{
+    margin: 0 25px;
+}
+
+
+#Main-logo nav {
+  display: flex;
+  text-align: center;
+  font: bold 1rem sans-serif;
+  margin-right: 50px;
+}
+
+#Main-logo nav a {
+  transition: 0.2s;
+  color: black;
+  text-decoration: none;
+  width: 90px;
+  background: transparent;
+  padding: calc(120px / 10);
+ 
+}
+
+#Main-logo nav a:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+#Main-logo nav a:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* #Main-logo nav:hover a {
+  filter: blur(1px);
+  opacity: 100;
+} */
+
+#Main-logo nav:hover a:hover {
+  filter: blur(0px);
+  opacity: 1;
+  text-decoration: none;
+  color: white;
+}
+
+
+#Main-logo nav #law-book,#Main-logo nav #complaint{
+  color: #000;
+  filter: blur(0px);
+  opacity: 1;
+}
+/* #law-book:hover ~ #complaint{
+  filter: blur(3px); 
+  opacity: 100; 
+}
+
+#complaint:hover ~ #law-book{
+  filter: blur(3px); 
+  opacity: 100; 
+} */
+
+
+
+.dropdown {
+      position: relative;
+      display: inline-block;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      text-align: center;
+    
+  }
+  #dropdrop .dropdown-content{
+    max-width: 120px;
+  }
+  #dropdrop{
+    position: relative;
+  }
+  #dropdrop img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #fff;
+    border-radius: 25px;
+  }
+  #dropdrop #dropbtn{
+    width: 50px;
+  }
+  #dropdrop1 .dropdown-content{
+    padding: 0 5px;
+  }
+  .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: #f9f9f9;
+   
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+  }
+
+  .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none !important;
+      display: block;
+
+  }
+  
+  .dropdown:hover .dropdown-content {
+      display: block;
+      text-align: center;
+      color: #000;
+  }
+
+    .humburger{
+      display: none;
+      color: white;
+     
+    }
+    #menu__toggle {
+      opacity: 0;
+      z-index: -1;
+     
+    }
+
+    #menu__toggle:checked ~ .menu__btn > span {
+      transform: rotate(45deg);
+    }
+    #menu__toggle:checked ~ .menu__btn > span::before {
+      top: 0;
+      transform: rotate(0);
+    }
+    #menu__toggle:checked ~ .menu__btn > span::after {
+      top: 0;
+      transform: rotate(90deg);
+    }
+    #menu__toggle:checked ~ .menu__box {
+      visibility: visible;
+      right: 0;
+    }
+    
+    .menu__btn {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 30px;
+      right: 20px;
+      width: 35px;
+      height: 35px;
+      z-index: 2;
+   
+    }
+    
+    .menu__btn > span,
+    .menu__btn > span::before,
+    .menu__btn > span::after {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background-color: white;
+      transition-duration: .25s;
+      
+    }
+    .menu__btn > span::before {
+      content: '';
+      top: -8px;
+    }
+    .menu__btn > span::after {
+      content: '';
+      top: 8px;
+    }
+    .menu__box {
+      display: block;
+      position: fixed;
+      visibility: hidden;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100%;
+      margin: 0;
+      padding: 80px 0;
+      list-style: none;
+      background-color: #cfd1d2;
+      box-shadow: 1px 0px 6px rgba(0, 0, 0, .2);
+      transition-duration: .25s;
+      z-index: 1;
+    }
+    
+    .menu__item {
+      display: block;
+      padding: 12px 24px;
+      color: #333;
+      font-family: 'Roboto', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      text-decoration: none;
+      transition-duration: .25s;
+    }
+    .menu__item:hover {
+      background-color: #CFD8DC;
+    }
+  
+    .menu__box ul {
+      z-index: 1; 
+  }
+  @media screen and (max-width: 950px) {
+  .humburger{
+  display: block;
+}
+    #Main-logo nav  {
+    display: none; 
+  }
+  }
+  
+@media screen and (max-width: 800px) {
+  
+  #Main-logo {
+    justify-content: space-between;
+    align-items: center;
+}
+.Main-logo span h3{
+  top: 20px;
+  margin-left: 24px;
+  width: 200px;
+}
+
+
+}
+@media screen and (max-width: 1200px) {
+  #Main-logo nav {
+    & a {
+    width: 60px;
+    font-size: 1rem;
+    padding: calc(60px / 10);
+    }
+  }
+  #dropbtn{
+    margin-right: 16px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    gap: 5px;
+  }
+
+}

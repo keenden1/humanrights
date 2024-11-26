@@ -1,0 +1,142 @@
+body{
+    margin: 0;
+}
+#register-panel{
+    height: 96vh;
+    border-bottom: 2vh solid #F2C711;
+    border-top: 2vh solid #03A6DD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.register-panel{
+    position: relative;
+    box-shadow: 0 0 5px rgba(202, 202, 202, 0.75);
+    width: 25rem;
+    background-color: #EBEBEB;
+    padding: 20px 0;
+    
+}
+.register-input-fullname-div{
+    display: flex;
+    margin-left: 10px;
+    margin-right: 22px;
+}
+.register-input-fullname{
+    position: relative;
+    width: 23rem;
+    padding: 10px 0;
+}
+.register-input-fullname:nth-child(2){
+    width: 12rem;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.register-input-fullname label{
+    position: absolute;
+    top: 20px;
+    left: 18px;
+    transition: 0.3s;
+    pointer-events: none;
+   
+}
+.register-input-fullname input:focus + label{
+    top: -10px;
+    left: 15px;
+    padding: 0 5px;
+    background-color: #fff;
+    border: 2px solid #F2C711;
+    border-bottom: 2px solid #fff;;
+}
+.register-input-email,.register-input-contact,.register-input-username,
+.register-input-password,.register-input-repeatpassword{
+    position: relative;
+    padding: 10px;
+    width: 23rem;
+}
+.register-input-email input,.register-input-fullname input,.register-input-contact input,.register-input-username input,
+.register-input-password input,.register-input-repeatpassword input{
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    outline: none;
+    border: 2px solid #F2C711;
+}
+.register-input-email label,.register-input-contact label,.register-input-username label,
+.register-input-password label,.register-input-repeatpassword label{
+    position: absolute;
+    top: 20px;
+    left: 28px;
+    transition: 0.3s;
+    pointer-events: none;
+   
+}
+.register-input-email input:focus + label,.register-input-contact input:focus + label,.register-input-username input:focus + label,
+.register-input-password input:focus + label,.register-input-repeatpassword input:focus + label{
+    top: -10px;
+    left: 23px;
+    padding: 0 5px;
+    background-color: #fff;
+    border: 2px solid #F2C711;
+    border-bottom: 2px solid #fff;;
+}
+
+
+.register-panel-head p{
+    font-size: 24px;
+    margin: 10px;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.register-panel-head p, .login-input-create p{
+    text-align: center;
+}
+.register-panel-head{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+.register-panel-head img{
+    padding-left: 10px;
+}
+
+.register-input-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.register-input-button button{
+    background-color: #03A6DD;
+    border: 1px solid #03A6DD;
+    border-radius: 5px;
+    padding: 8px 35px;
+    color: #fff;
+    margin-left: 10px;
+}
+.register-input-button button:hover{
+    background-color: #05bffd;
+}
+#register-back-icon{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 32px;
+    color: #000;
+}
+#register-link-icon{
+    color: inherit; 
+}
+.handling{
+    background-color: #f8d7da; 
+    color: #721c24; 
+    border: 1px solid #f5c6cb; 
+    border-radius: 5px; 
+    padding: 10px; 
+    margin-bottom: 15px; 
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: bolder;
+}

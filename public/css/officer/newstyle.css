@@ -1,0 +1,387 @@
+body{
+    margin-top: 0 !important;
+}
+.hoy p{
+    margin-top: -76px ;
+    margin-left: 60px;
+    color: #fff;
+    }
+    
+.experiment{
+    color: #000;
+    margin-left: 250px;
+    margin-right: 80px;
+}
+
+.table-container {
+width: 90%;
+margin: 20px auto;
+border-radius: 10px;
+overflow: hidden;
+background-color: #fff;
+
+}
+
+.table-header {
+display: flex;
+align-items: center;
+padding: 10px;
+background-color: #f5f5f5;
+border-bottom: 1px solid #ddd;
+}
+
+.search-wrapper {
+flex: 1;
+display: flex;
+align-items: center;
+}
+
+.search-wrapper input {
+padding: 5px;
+border: 1px solid #ddd;
+border-radius: 5px;
+font-size: 16px;
+margin-right: 10px;
+}
+
+.view-options {
+display: flex;
+align-items: center;
+}
+
+.view-options label {
+margin-right: 10px;
+font-size: 16px;
+
+}
+
+.view-options select {
+padding: 5px;
+border: 1px solid #ddd;
+border-radius: 5px;
+font-size: 16px;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+}
+
+th, td {
+padding: 12px;
+text-align: left;
+border-bottom: 1px solid #ddd;
+}
+
+th {
+background-color: #f0f0f0;
+color: #fff;
+cursor: pointer;
+position: relative;
+background-color: #828282;
+font-size: 16px;
+}
+
+th i {
+margin-left: 5px;
+
+}
+
+td {
+max-width: 300px; 
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+color: #000;
+font-size: 16px;
+}
+
+td img {
+width: 50px; /* Square width */
+height: 50px; /* Square height */
+border-radius: 5px; /* Square corners */
+display: block;
+margin: 0 auto; /* Centering the image */
+}
+.float-float{
+position: absolute;
+top: 0;
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #000;
+font-weight: bold;
+}
+.float-float p{
+font-size: 24px;
+font-weight: bold;
+}
+
+
+.content > th {
+font-size:20px;
+} 
+.content2 > th {
+font-size:20px;
+} 
+.overlay {
+        display: none; /* Hidden by default */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1; /* Sit on top */
+    }
+
+    .popup::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+    
+    .popup::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Track color */
+        border-radius: 8px;
+    }
+    
+    .popup::-webkit-scrollbar-thumb {
+        background-color: #888; /* Scrollbar color */
+        border-radius: 8px;
+        border: 2px solid #f1f1f1; /* Adds padding around the thumb */
+    }
+    
+    .popup::-webkit-scrollbar-thumb:hover {
+        background-color: #555; /* Thumb color on hover */
+    }
+    /* Popup container */
+    .popup {
+        display: none; /* Hidden by default */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        padding-top: 50px !important;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 99999; /* Sit on top of overlay */
+        height: 80vh; /* Set height to 50% of the viewport */
+        overflow-y: auto; 
+    }
+
+    /* Button to trigger popup */
+    .open-popup {
+        margin: 10px;
+        padding: 8px 10px;
+        background-color: #007BFF ; 
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+   .approval{
+    margin: 10px;
+    padding: 8px 10px;
+    background-color: #007BFF ;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   }
+   .messaging{
+    margin: 10px;
+    padding: 8px 10px;
+    background-color: #4CAF50 ;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   }
+    .close-popup {
+        position: absolute; 
+        top: 5px; 
+        right: 20px; 
+        transition: all 200ms;
+        font-size: 38px; 
+        font-weight: bold; 
+        text-decoration: none; color: #333;
+        cursor: pointer;
+    }
+
+    .table_content{
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .content2 td:nth-child(3) {
+        border-left:2px solid #000;
+    }
+    .reported {
+        max-height: 130px; /* Maximum height of the <td> */
+        width: 100%; /* Full width */
+        overflow-y: scroll; /* Enable vertical scrolling */
+        overflow-x: hidden; /* No horizontal scroll */
+        box-sizing: border-box; /* Ensure padding is included in the width/height */
+        padding: 10px; /* Adds padding for readability */
+        color: #000;
+        font-size: 18px;
+        margin: 5px;
+    }
+    .reported p {
+        margin: 0; /* Remove default margin from <p> */
+        white-space: normal; /* Ensure text wraps within the <p> */
+        text-align: justify;
+        color: #000;
+    }
+
+
+
+    #table-body tr td{
+        background-color: #f5f5f5;
+     }
+@media (max-width: 978px) {
+    body{
+    margin-top: 0 !important;
+
+}
+.experiment{ 
+   margin: 0 30px !important;
+}
+.float-float{
+    margin-top: 50px;
+}
+.table-container{
+    margin-top: 100px !important;
+}
+.float-float p{
+font-size: 18px;
+margin-top: 25px;
+}
+.view-options label {
+    display: none;
+    }
+
+ thead tr th:nth-child(2), thead tr th:nth-child(4){
+    display: none;
+  
+ }
+ #table-body tr td:nth-child(2), #table-body tr td:nth-child(4){
+    display: none;
+ }
+
+}
+
+@media screen and (max-width: 767px) {
+
+    .reported p ,.table_content,.table_content_2{
+        font-size: 11px ;
+        transition: font-size 0.3s ease-in-out;
+     }
+     .content th{
+        font-size: 14px ;
+        transition: font-size 0.3s ease-in-out;
+     }
+ 
+    }
+
+    .input-textarea {
+        padding: 15px;       
+        border-radius: 5px;  
+        border: 1px solid #ccc; 
+        font-size: 16px;    
+        line-height: 1.5;   
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        box-sizing: border-box; 
+        min-height: 150px;  
+        max-height: 500px; 
+        resize: both;   
+        min-width: 340px;
+        max-width: 500px; 
+    }
+    
+    
+    .input-textarea::placeholder {
+        color: transparent; 
+    }
+    
+    .input-textarea:focus::placeholder,
+    .input-textarea:not(:placeholder-shown)::placeholder {
+        color: transparent;
+    }
+    
+    .input-textarea:focus + label,
+    .input-textarea:not(:placeholder-shown) + label {
+        top: -10px;       
+        left: 10px;     
+        font-size: 12px;   
+        color: #007BFF;    
+    }
+    
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
+        z-index: 1;
+        transition: opacity 0.3s ease; /* Smooth transition */
+    }
+    
+    .popup-container {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        z-index: 2;
+        transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition */
+        opacity: 0; /* Start as invisible */
+        text-align: center;
+      
+    }
+    .popup-container h2{
+        color: #333;
+    }
+    .popup-container.show {
+        display: block;
+        opacity: 1; /* Fade in effect */
+        transform: translate(-50%, -50%); /* Maintain centered position */
+    }
+    
+    .popup-overlay.show {
+        display: block;
+        opacity: 1; /* Fade in effect for overlay */
+    }
+    
+    button {
+        margin-top: 15px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px; /* Rounded button corners */
+        background-color: #007BFF; /* Primary button color */
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Smooth background change */
+    }
+    
+    button:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+    }
+    
+    input[type="text"] {
+        width: calc(100% - 22px); /* Full width minus padding */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px; /* Rounded input corners */
+        margin-top: 10px;
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+    
+    

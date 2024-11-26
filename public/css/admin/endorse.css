@@ -1,0 +1,236 @@
+body{
+    margin: 0;
+}
+*{
+    font-family: 'Poppins', sans-serif;
+}
+.container {  
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 0.6fr 4fr 1fr;
+    grid-template-rows:   0.4fr 1.6fr 1fr; 
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "navbar Header Header"
+      "navbar Main Main"
+      "navbar Main Main";
+  }
+  
+  .navbar { grid-area: navbar; }
+  
+  .Header { grid-area: Header; }
+  
+  .Main { grid-area: Main; }
+
+.Header div{
+    background-color: #ECECEC;
+    display: flex;
+    padding: 33px 0;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-right: 50px;
+}
+.navbar{
+    background-color: #0390BF;
+    min-height: 10px ;
+}
+
+.navbar-ul li{
+    text-decoration: none;
+    list-style-type: none;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    padding: 15px 15px;
+    margin-left: -20px;
+    text-align: start;
+    margin-right: -20px;
+    
+}
+.navbar-ul li span:hover{
+    color: #000;
+    cursor: pointer;
+}
+.navbar-ul li:nth-child(1){
+    padding-top: 0 !important;
+}
+.fa-icon {
+    font-size: 60px;
+}
+
+.navbar-logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 0;
+    background-color: #C4C4C4;
+}
+
+.navbar-ul{
+    background-color: #0390BF;
+    padding: 20px;
+}
+.Main-head{
+    text-align: center;
+}
+hr{
+    width: 95%;
+    padding: 1px 0;
+    background-color: #000;
+    opacity: 0.9;
+}
+.Main{
+    position: relative;
+}
+.box{
+    max-width: 20px;
+    min-width: 90%;
+    background-color: #fff;
+    height: 60vh;
+    opacity: 0.9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+}
+.Main div:nth-child(2){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+.text:nth-child(1){
+    font-size: 22px;
+    position: relative;
+}
+
+.text:nth-child(1) span{
+    position: absolute;
+    bottom: 0;
+    
+}
+.text:nth-child(2){
+    margin-bottom: 0;
+    position: relative;
+    text-align: center;
+    padding-left: 10px;
+}
+.text span:nth-child(2){
+    opacity: 0.5;
+}
+
+.online-status {
+    width: 10px;
+    height: 10px;
+    background-color: #52FF00;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.navbar-ul li:nth-child(2) span{
+    color: #000;
+}
+button{
+    background-color: #03A6DD;
+    border: 1px solid #03A6DD;
+    border-radius: 5px;
+    padding: 4px 12px;
+    color: #fff;
+    margin-left: 10px;
+}
+.space{
+    text-decoration: none;
+    color: #000;
+}
+.box table {
+    font-weight: 100;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+.box th, td {
+    background-color: #fff;
+    padding: 15px;
+    color: #fff;
+  }
+.box th,td {
+    text-align: left;
+    color: black;
+  }
+.box thead th{
+    background-color: #828282;
+    text-align: left;
+  }
+.box thead th {
+    position: sticky; 
+    top: 0; 
+}
+.box-box span{
+    background-color: #fff;
+    width: 100%;
+    height: 120px;
+    margin: 30px;
+    overflow-y: scroll;
+}
+.box-box span p{
+    text-align: justify;
+    margin: 20px;
+}
+.endorse-box{
+    /******* add display none****/
+    display: none;
+    width: 80%; 
+    max-width: 600px; 
+    min-width: 320px;
+    position: absolute;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #D9D9D9;
+}
+.endorse-box-div td{
+    background-color: #D9D9D9;
+}
+.endorse-box table{
+    font-weight: 100;
+    border-collapse: collapse;
+    width: 100%;  
+}
+.endorse-box tbody td:nth-child(1){
+    padding-left: 40px;
+    font-weight: bold;
+}
+.endorse-close{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.endorse-close a{
+    color: red;
+    font-size: 24px;
+}
+@media screen and (max-width: 767px) {
+    .navbar-ul span{
+        display: none;
+    }
+    .navbar-ul li{
+        text-align: center;
+    }
+
+    .navbar-ul{
+        height: 100vh;
+    }
+    .box div i{
+        margin-bottom: 10px;
+        margin-left: 0px !important;
+    }
+    .navbar-ul li:hover{
+        color: #000;
+        cursor: pointer;
+    }
+    .hide{
+        display: none;
+    }
+    .space{
+        margin: 5px;
+        text-decoration: none;
+    }
+}
