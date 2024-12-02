@@ -2,7 +2,7 @@ html {
   box-sizing: border-box;
 }
 body{
-   
+
     margin: 0;
     background-color: #F2F2F2;
 }
@@ -15,7 +15,7 @@ body{
     align-items: center;
     justify-content: center;
     width: 100%;
-  
+
 }
 
 
@@ -28,19 +28,19 @@ body{
     left: 0;
     background-color: #0390BF;
     padding: 8px 25px;
-    
+
 }
 .homepage-latest-text{
     position: absolute;
     top: 130px;
-    right: 50px; 
+    right: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 380px;
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
 }
 .mantra {
   font-size: clamp(20px, 3vw, 29px); /* Responsive mantra text */
@@ -58,7 +58,7 @@ body{
 }
 .mantra{
     font-size: 29px;
-    background:transparent; 
+    background:transparent;
 }
 
 
@@ -82,8 +82,9 @@ body{
     cursor: pointer; /* Show a pointer cursor on hover */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
     transition: transform 0.3s ease; /* Smooth scale effect on hover */
+    z-index: 999;
   }
-  
+
   .chatbot:hover {
     transform: scale(1.1); /* Slightly enlarge on hover */
   }
@@ -99,20 +100,20 @@ body .card {
     background-color: white;
     box-shadow: 24px 24px 144px 36px #ccc; /* Increased by 1.2x */
   }
-  
+
   body .card #header {
     height: 60px; /* Increased by 1.2x */
     background: #000;
     padding: 0;
   }
-  
+
   body .card #header h1 {
     color: #fff;
     font-size: 24px; /* Increased by 1.2x */
     font-family: "Finger Paint", cursive;
     padding: 12px; /* Increased by 1.2x */
   }
-  
+
   body .card #message-section {
     height: 264px; /* Increased by 1.2x */
     padding: 0 30px; /* Increased by 1.2x */
@@ -120,21 +121,21 @@ body .card {
     scrollbar-width: thin;
     scrollbar-color: var(--thumbBG) var(--scrollbarBG);
   }
-  
+
   body .card #message-section::-webkit-scrollbar {
     width: 12px; /* Increased by 1.2x */
   }
-  
+
   body .card #message-section::-webkit-scrollbar-track {
     background: var(--scrollbarBG);
   }
-  
+
   body .card #message-section::-webkit-scrollbar-thumb {
     background-color: var(--thumbBG);
     border-radius: 7px; /* Increased by 1.2x */
     border: 3.6px solid var(--scrollbarBG); /* Increased by 1.2x */
   }
-  
+
   body .card #message-section #bot,
   body .card #message-section #user {
     position: relative;
@@ -146,18 +147,18 @@ body .card {
     padding: 12px; /* Increased by 1.2x */
     margin: 18px 0; /* Increased by 1.2x */
   }
-  
+
   body .card #message-section #user {
     border: 1.8px solid #000; /* Increased by 1.2x */
     border-radius: 18px 0px 18px 21.6px; /* Increased by 1.2x */
     background-color: #000;
     float: right;
   }
-  
+
   body .card #message-section #user #user-response {
     color: #fff;
   }
-  
+
   body .card #message-section .message {
     color: #000;
     clear: both;
@@ -170,7 +171,7 @@ body .card {
     word-wrap: break-word;
     z-index: 2;
   }
-  
+
   body .card #input-section {
     z-index: 1;
     padding: 0 30px; /* Increased by 1.2x */
@@ -181,7 +182,7 @@ body .card {
     height: 72px; /* Increased by 1.2x */
     width: 240px; /* Increased by 1.2x */
   }
-  
+
   body .card #input-section input {
     color: #000;
     min-width: 204px; /* Increased by 1.2x */
@@ -192,9 +193,9 @@ body .card {
     border-left: none;
     border-right: none;
     border-bottom: solid #000 1.2px; /* Increased by 1.2x */
- 
+
   }
-  
+
   body .card .send {
     background: transparent;
     border: 0;
@@ -206,7 +207,7 @@ body .card {
     position: relative;
     outline: none;
   }
-  
+
   body .card .send .circle {
     position: relative;
     width: 45.6px; /* Increased by 1.2x */
@@ -215,7 +216,7 @@ body .card {
     align-items: center;
     justify-content: center;
   }
-  
+
   body .card .send .circle i {
     font-size: 36px; /* Increased by 1.2x */
     margin-left: -12px; /* Increased by 1.2x */
@@ -236,12 +237,12 @@ body .card {
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Added subtle shadow */
       text-decoration: none;
   }
-  
+
   .button-x:hover {
       transform: scale(1.2); /* Scale the button on hover */
       color: #0390BF; /* Change color to red when hovered */
   }
-  
+
   .button-x:active {
       transform: scale(1); /* Reset scale on click */
       color: #ff4444; /* Slightly darker red on click */
@@ -255,7 +256,7 @@ body .card {
 .homepage-latest-image-logo{
     padding: 10px;
     padding-left: 120px;
-   
+
 }
 .homepage-latest-image-logo:nth-child(1){
     margin-top: 100px;
@@ -281,8 +282,8 @@ body .card {
         justify-content: center;
     }
     .homepage-latest-text{
-      top: 50%; 
-      left: 50%; 
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
 
     }
@@ -293,7 +294,7 @@ body .card {
 }
 /* Media Queries for Responsiveness */
 @media (max-width: 600px) {
-    
+
   .feedback-card {
       width: 95%; /* Increase width for smaller screens */
 max-width: none; /* Remove max-width for smaller screens */
