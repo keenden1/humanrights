@@ -41,7 +41,7 @@ class Chr_User extends Controller
             'email.required' => 'Please provide your email address.',
             'email.email' => 'Please enter a valid email address.',
         ]);
-    
+
         // Continue if email exists
         $email = $request->input('email');
         return view('loginpage.verifyuser')->with('email', $request->get('email'));
@@ -54,7 +54,7 @@ class Chr_User extends Controller
         $request->validate([
             'user_email' => 'required|email'
         ]);
-        $otp = random_int(100000, 999999); 
+        $otp = random_int(100000, 999999);
         EmailVerification::updateOrCreate(
             ['email' => $request->user_email],
             ['otp' => $otp, 'expires_at' => Carbon::now()->addMinutes(10)]
@@ -84,28 +84,28 @@ class Chr_User extends Controller
                                          ->where('otp', $request->otp)
                                          ->first();
         if ($verification) {
-          
+
             return redirect()->route('Change', ['email' => $request->email])->with('message', 'Email verified!');
         } else {
             return back()->withErrors(['otp' => 'Invalid or expired OTP.']);
         }
     }
-    
+
     function Change(){
         return view('loginpage.change');
     }
     public function changePassword(Request $request)
 {
-  
+
     $request->validate([
-        'password' => 'required|min:6', 
-        'repeatpassword' => 'required|same:password', 
+        'password' => 'required|min:6',
+        'repeatpassword' => 'required|same:password',
     ]);
- 
+
     $user = User::where('user_email', $request->email)->first();
 
     if ($user) {
-     
+
         $user->password = Hash::make($request->password);
         $user->save();
         return redirect(route('Login'))->with('success', 'Password changed successfully!');
@@ -127,10 +127,10 @@ class Chr_User extends Controller
         $chat = Chatbot::all();
 
         if (Auth::check()) {
-         
-            $userEmail = session()->get('user_email', Auth::user()->email); 
+
+            $userEmail = session()->get('user_email', Auth::user()->email);
             $user = User::where('user_email', $userEmail)->first();
-    
+
 
                 if ($user->email_status === 'verified') {
                     return view('main.homepage', ['chat' => $chat]);
@@ -142,8 +142,8 @@ class Chr_User extends Controller
             }
         return view('main.homepage', ['chat' => $chat]);
     }
-    
-    
+
+
     function Verifyauth(){
         return view('loginpage.verifyaccount');
     }
@@ -152,7 +152,7 @@ class Chr_User extends Controller
         $request->validate([
             'user_email' => 'required|email'
         ]);
-        $otp = random_int(100000, 999999); 
+        $otp = random_int(100000, 999999);
         EmailVerification::updateOrCreate(
             ['email' => $request->user_email],
             ['otp' => $otp, 'expires_at' => Carbon::now()->addMinutes(10)]
@@ -171,7 +171,7 @@ class Chr_User extends Controller
         return redirect()->route('Verify.email', ['email' => $request->user_email])
         ->with('message', 'OTP has been sent to your email.');
          }
-         
+
          function Verify_Emailauth(){
             return view('loginpage.verifyauth');
         }
@@ -190,7 +190,7 @@ class Chr_User extends Controller
                 Session::flush();
                 $user = User::where('user_email', $request->input('email'))->first();
                 if ($user) {
-                   
+
                     $user->email_status = 'verified';
                     $user->save(); }
 
@@ -203,13 +203,13 @@ class Chr_User extends Controller
     function user_login_post(Request $request){
         $request->validate([
             'user_email' => 'required',
-            'password' => 'required',       
+            'password' => 'required',
         ], [
             'password.required' => 'Required password.',
         ]);
-    
+
         $user = User::where('user_email', $request->input('user_email'))->first();
-      
+
         if ($user && Hash::check($request->input('password'), $user->password)) {
             Auth::login($user);
             $request->session()->put('user_id', $user->id);
@@ -217,7 +217,7 @@ class Chr_User extends Controller
             $request->session()->regenerate();
             return redirect()->intended(route('Homepage'));
         }
-    
+
         return redirect(route('Login'))->with("error", "Invalid login credentials");
     }
 
@@ -241,14 +241,14 @@ class Chr_User extends Controller
     {
         $request->validate([
             'firstname'=>'required',
-            'middlename'=>'required',
+            'middlename'=>'nullable',
             'lastname'=>'required',
             'username'=>'required',
             'user_email'=>'required|email|unique:users',
             'password'=>'required|min:8',
             'repeatpassword' => 'required|same:password',
             'contact'=>'required',
-            
+
         ]);
         $data['firstname'] = $request->firstname;
         $data['middlename'] = $request->middlename;
@@ -294,20 +294,20 @@ class Chr_User extends Controller
             return redirect(route('Login'));
         }
         $userId = session('user_id');
-    
+
         $pendingCases = Cases::where('user_id', $userId)
                                   ->where(function($query) {
                                       $query->where('status', 'pending')
                                             ->orWhere('status', 'message');
                                   })
                                   ->exists();
-    
+
         if ($pendingCases) {
             return redirect(route('List'));
         }
 
         return view('main.complainform');
-        
+
     }
 
     function List() {
@@ -319,7 +319,7 @@ class Chr_User extends Controller
          $caseApproved = Cases::where('user_id', $userId)
                      ->where('status', 'Interview')
                      ->exists();
-            
+
         return view('main.waitinglist', ['case' => $case, 'caseApproved' => $caseApproved]);
     }
 // In your controller, e.g., Chr_User.php
@@ -354,8 +354,8 @@ public function chat_form(Request $request)
                 ->first();
 
     if ($case) {
-        $case->status = 'Completed'; 
-        $case->save(); 
+        $case->status = 'Completed';
+        $case->save();
     }
 
     return redirect()->route('Message');
@@ -365,7 +365,7 @@ public function chat_form(Request $request)
     function Forum(){
         return view('main.forum');
     }
-  
+
     function Law(){
         return view('main.lawbook');
     }
@@ -391,7 +391,7 @@ public function chat_form(Request $request)
             'firstname' => 'required|string|max:50',
             'middlename' => 'nullable|string|max:1',
             'lastname' => 'required|string|max:50',
-                
+
             'relation' => 'nullable',
             'gender' => 'required',
             'birthdate' => 'required|date',
@@ -401,7 +401,7 @@ public function chat_form(Request $request)
             'case' => 'required|string|max:500',
             'email' => 'required|email|max:100',
         ]);
-    
+
         // Generate a unique reference number
         $today = Carbon::now();
         $lastFiveDigits = 1;
@@ -410,12 +410,12 @@ public function chat_form(Request $request)
             $lastReferenceNumber = $lastEntry->reference_number;
             $lastFiveDigits = (int) substr($lastReferenceNumber, -5) + 1;
         }
-    
-        $referenceNumber = $today->year . $today->dayOfYear . 
-                           str_pad($today->day, 2, '0', STR_PAD_LEFT) . 
-                           str_pad($today->month, 2, '0', STR_PAD_LEFT) . 
+
+        $referenceNumber = $today->year . $today->dayOfYear .
+                           str_pad($today->day, 2, '0', STR_PAD_LEFT) .
+                           str_pad($today->month, 2, '0', STR_PAD_LEFT) .
                            str_pad($lastFiveDigits, 5, '0', STR_PAD_LEFT);
-    
+
         // Compute age
         $birthdate = new \DateTime($request->birthdate);
         $today = new \DateTime();
@@ -426,15 +426,15 @@ public function chat_form(Request $request)
         if (!is_null($request->first_name_guardian)) {
             $names[] = $request->first_name_guardian;
         }
-        
+
         if (!is_null($request->middle_name_guardian)) {
             $names[] = $request->middle_name_guardian;
         }
-        
+
         if (!is_null($request->last_name_guardian)) {
             $names[] = $request->last_name_guardian;
         }
-        
+
         // Join the names with a single space
         $guardian_name = implode(' ', $names);
         // Prepare data for saving
@@ -446,7 +446,7 @@ public function chat_form(Request $request)
             'relation' => $request->relation,
             'address' => $request->street . ', ' . $request->city . ', ' . $request->province . ', ' . $request->barangay,
             'gender' => $request->gender,
-            'age' => $age, 
+            'age' => $age,
             'contact' => $request->contact,
             'case' => $request->case,
             'email' => $request->email,
@@ -456,10 +456,10 @@ public function chat_form(Request $request)
             'report' => $request->report,
             'status' => 'Processing'
         ];
-     
+
         // Create the case
         $case = Cases::create($data);
-    
+
         // Check if the case was created successfully
         if (!$case) {
             return redirect()->back()->with("error", "Registration Failed");
@@ -467,7 +467,7 @@ public function chat_form(Request $request)
 
         return redirect(route('List'))->with("success", "Registration Success");
     }
-    
+
     function Newsfeed(){
         $news = news::all();
 
@@ -475,15 +475,15 @@ public function chat_form(Request $request)
     }
     public function show($id)
     {
-     
-        $newsfeed = news::findOrFail($id); 
+
+        $newsfeed = news::findOrFail($id);
 
         return view('main.news', compact('newsfeed'));
     }
 
     public function showprofile($user_id)
     {
-        $user = User::findOrFail($user_id); 
+        $user = User::findOrFail($user_id);
         return view('main.profile', compact('user'));
     }
 
@@ -501,7 +501,7 @@ public function chat_form(Request $request)
                     ->where('receiver_id', 'officer')
                     ->where('room', '123')
                     ->orderBy('created_at', 'desc')->get();
-                    
+
 
         return view('main.message', ['user_email' => $user_email,'messages' => $messages,'messages2' => $messages2]);
     }
@@ -512,15 +512,15 @@ public function chat_form(Request $request)
         $message->sender_id = $request->session()->get('user_email');
         $message->receiver_id = $request->receiver_id;
         $message->message = $request->message;
-        $message->room = $request->room; 
+        $message->room = $request->room;
         $message->save();
         return redirect()->back();
     }
-    
+
     public function fetchMessages()
 {
     $user_email = session()->get('user_email');
-    
+
     // Fetch messages for the specific room
     $messages = Message::where('sender_id', $user_email)
                     ->where('receiver_id', 'user')
@@ -554,12 +554,12 @@ public function chat_form(Request $request)
 }
 public function store(Request $request)
 {
-    
+
     $request->validate([
         'rating' => 'required|integer|min:1|max:5',
         'comment' => 'nullable|string|max:255',
     ]);
-    
+
     Feedback::create([
         'rating' => $request->input('rating'),
         'details' => $request->input('comment'),
