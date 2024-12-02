@@ -15,7 +15,7 @@
                 <img src="{{ asset('logo/logo.png') }}" alt="" height="90px" width="auto">
             </div>
             <div class="reset-panel-head">
-                <p><strong>VERIFY YOUR EMAIL</strong></p>
+                <p><strong>VERIFY YOUR EMAIL 123</strong></p>
             </div>
         </span>
         <span><p>Please Enter Your Email Address</p></span>
@@ -42,7 +42,7 @@
                 </div>
                 <hr>
                 <div class="reset-input-button">
-                    <button type="submit">Send Code</button> 
+                    <button type="submit">Send Code</button>
             </form>
                     <a href="{{ url('logout') }}">Logout</a>
                 </div>
