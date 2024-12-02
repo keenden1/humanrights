@@ -506,21 +506,43 @@ public function chat_form(Request $request)
 
 
 
+    // function Message(){
+    //     $user_email = session()->get('user_email');
+    //     $messages = Message::where('sender_id', $user_email)
+    //                     ->where('receiver_id', 'user')
+    //                     ->where('room', '123')
+    //                     ->orderBy('created_at', 'desc')->get();
+    //     $messages2 = Message::where('sender_id', $user_email)
+    //                 ->where('receiver_id', 'officer')
+    //                 ->where('room', '123')
+    //                 ->orderBy('created_at', 'desc')->get();
+                    
+
+    //     return view('main.message', ['user_email' => $user_email,'messages' => $messages,'messages2' => $messages2]);
+    // }
     function Message(){
-
-
         $user_email = session()->get('user_email');
-        $messages = Message::where('sender_id', $user_email)
-                        ->where('receiver_id', 'user')
+        $messages = Message::where('receiver_id', 'officer')
+        ->where('room', '123')
+        ->orderBy('created_at', 'desc')->get();
+        $messages2 = Message::where('receiver_id', 'user')
+            ->where('room', '123')
+            ->orderBy('created_at', 'desc')->get();
+                            
+        return view('main.message', ['user_email' => $user_email,'messages' => $messages,'messages2' => $messages2]);
+    }
+    function Officer_Message(){
+        $admin_username = session('admin_username');
+
+        $messages = Message::where('receiver_id', 'officer')
                         ->where('room', '123')
                         ->orderBy('created_at', 'desc')->get();
-        $messages2 = Message::where('sender_id', $user_email)
-                    ->where('receiver_id', 'officer')
+        $messages2 = Message::where('receiver_id', 'user')
                     ->where('room', '123')
                     ->orderBy('created_at', 'desc')->get();
 
-
-        return view('main.message', ['user_email' => $user_email,'messages' => $messages,'messages2' => $messages2]);
+        $admin_email = session()->get('admin_email');
+        return view('officer.message', compact('admin_username','admin_email' ,'messages','messages2' ));
     }
 
     public function sendMessage(Request $request)
