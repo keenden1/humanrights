@@ -19,6 +19,8 @@ use App\Models\Room;
 use App\Models\EmailVerification;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+
 class Chr_User extends Controller
 {
 
@@ -516,7 +518,7 @@ public function chat_form(Request $request)
     //                 ->where('receiver_id', 'officer')
     //                 ->where('room', '123')
     //                 ->orderBy('created_at', 'desc')->get();
-                    
+
 
     //     return view('main.message', ['user_email' => $user_email,'messages' => $messages,'messages2' => $messages2]);
     // }
@@ -528,7 +530,7 @@ public function chat_form(Request $request)
         $messages2 = Message::where('receiver_id', 'user')
             ->where('room', '123')
             ->orderBy('created_at', 'desc')->get();
-                            
+
         return view('main.message', ['user_email' => $user_email,'messages' => $messages,'messages2' => $messages2]);
     }
     function Officer_Message(){
@@ -606,4 +608,43 @@ public function store(Request $request)
 
     return redirect()->back()->with('success', 'Feedback submitted successfully!');
 }
+public function downloadReferencePdf(Request $request) {
+    // Ensure the user is authenticated
+    $user = Auth::user();
+
+    // Check if the user is logged in
+    if (!$user) {
+        return redirect()->route('login')->withErrors(['error' => 'You must be logged in to download the reference.']);
+    }
+
+    // Get the reference number from the request
+    $referenceNumber = $request->input('reference_number');
+
+    // Check if reference number is provided
+    if (!$referenceNumber) {
+        return redirect()->back()->withErrors(['error' => 'No reference number provided.']);
+    }
+
+    // Retrieve the case details using the reference number (assuming you have a `Case` model or similar)
+    $case = Cases::where('reference_number', $referenceNumber)->first();
+
+    if (!$case) {
+        return redirect()->back()->withErrors(['error' => 'Case not found for the provided reference number.']);
+    }
+
+    // Prepare the data for the PDF
+    $data = [
+        'referenceNumber' => $referenceNumber,
+        'userName' => $user->firstname . ' ' . $user->lastname, // Use logged-in user's name
+        'caseStatus' => $case->status,  // Assuming the `status` field exists in your case model
+        'dateProcessed' => $case->processed_at ? $case->processed_at->format('F j, Y') : 'Not processed yet', // Assuming a `processed_at` field exists in your case model
+    ];
+
+    // Generate the PDF
+    $pdf = PDF::loadView('pdf.reference_number', $data);
+
+    // Return the PDF file as a download
+    return $pdf->download("reference_number_{$referenceNumber}.pdf");
+    }
+
 }
