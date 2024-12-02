@@ -44,11 +44,11 @@
                 </div>
                 <hr>
                 <div class="reset-input-button">
-                    <button type="submit">Send Code</button> 
+                    <button type="submit">Send Code</button>
             </form>
                     <a href="{{ url('logout') }}">Logout</a>
                 </div>
-         
+
         </span>
     </section>
 </div>

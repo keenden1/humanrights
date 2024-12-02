@@ -94,24 +94,41 @@ class Chr_User extends Controller
     function Change(){
         return view('loginpage.change');
     }
-    public function changePassword(Request $request)
-{
+    public function changePassword(Request $request) {
+        // Validate the password and repeat password fields
+        $request->validate([
+            'password' => 'required|min:6',
+            'repeatpassword' => 'required|same:password',
+        ]);
 
-    $request->validate([
-        'password' => 'required|min:6',
-        'repeatpassword' => 'required|same:password',
-    ]);
+        // Find user by email
+        $user = User::where('user_email', $request->email)->first();
+        // \Log::info('User found: ' . ($user ? 'Yes' : 'No')); // Log user existence
+        // \Log::info('User found: ' . $user); // Log user details
 
-    $user = User::where('user_email', $request->email)->first();
+        if ($user) {
+            // Hash and save the new password
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-    if ($user) {
+            // Clear the OTP session or related flags
+            session()->forget('otp_verified'); // Clear OTP verification flag
 
-        $user->password = Hash::make($request->password);
-        $user->save();
-        return redirect(route('Login'))->with('success', 'Password changed successfully!');
+            // Optionally, you may update the email verification status if needed
+            if ($user->email_status !== 'verified') {
+                $user->email_status = 'verified';
+                $user->save();
+            }
+
+            // Redirect to the login page with a success message
+            return redirect(route('Login'))->with('success', 'Password changed successfully!');
+        }
+
+        // If user not found, return back with an error
+        return redirect()->back()->withErrors(['email' => 'User not found.']);
     }
-    return redirect()->back()->withErrors(['email' => 'User  not found.']);
-}
+
+
     function Login(){
         if(Auth::check()){
             return redirect(route('Homepage'));
