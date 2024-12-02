@@ -8,12 +8,19 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/userpage/waitinglist.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
 </head>
+<style>
+    .download-reference-btn:hover {
+        scale: 1.1;
+        cursor: pointer;
+    }
+</style>
 <body>
 @include('layout.header')
 <div class="layout">
     <section>
         <div class="layout-min">
-            <span><i class="fa-solid fa-download"></i></span>
+            <!-- PDF Download Button -->
+            <span class="download-reference-btn" onclick="downloadReferenceNumberPDF()"><i class="fa-solid fa-download"></i></span>
             <br><br><br>
 
             @if($caseApproved)
@@ -25,7 +32,7 @@
              @endif
             <div class="border-line-logo">
                 <img src="{{ asset('logo/logo.png') }}" alt="Logo" width="300px" height="auto">
-                <aside class="border-line-logo-ref"> 
+                <aside class="border-line-logo-ref">
                     <p>Reference Number </p>
                     @if($case)
                     <h2 id="reference-number">{{ $case->reference_number }}</h2>
@@ -36,10 +43,10 @@
             <div id="case-status">
                 @if($caseApproved)
                     <div class="border-line-greeting">
-                        <p>Thank you for your patience!<br> 
+                        <p>Thank you for your patience!<br>
                         Your case has been approved.</p>
                     </div>
-                    <div class="input-type"> 
+                    <div class="input-type">
                     <form action="{{ route('chat_form') }}" method="post">
                     <input type="hidden" value="{{ session('user_id') }}" name="user_id">
                     <input type="hidden" value="{{ session('user_id') }}" name="reference_number">
@@ -49,11 +56,11 @@
                         @csrf
                         <button type="submit">Chat Now</button>
                     </form>
-                       
+
                     </div>
                 @else
                     <div class="border-line-greeting">
-                        <p>Please Wait for your notification!<br> 
+                        <p>Please Wait for your notification!<br>
                         Your request are currently process and will be over shortly.</p>
                     </div>
                     <br><br><br><br>
@@ -78,21 +85,19 @@
                 if (data.caseApproved) {
                     $('#case-status').html(`
                         <div class="border-line-greeting">
-                            <p>Thank you for your patience!<br> 
+                            <p>Thank you for your patience!<br>
                             Your case has been approved.</p>
                         </div>
-                        <div class="input-type"> 
+                        <div class="input-type">
                             <a href="{{ url('Message') }}"><button>Chat Now</button></a>
                         </div>
                     `);
                     $('#reference-number').text(data.referenceNumber);
-
-                
                     clearInterval(interval);
                 } else {
                     $('#case-status').html(`
                         <div class="border-line-greeting">
-                            <p>Thank you for your patience!<br> 
+                            <p>Thank you for your patience!<br>
                             Your wait time will be over shortly.</p>
                         </div>
                         <br><br><br><br>
@@ -105,6 +110,17 @@
         });
     }, 10000);
 });
+
+function downloadReferenceNumberPDF() {
+    var referenceNumber = document.getElementById('reference-number').innerText;
+
+    if (referenceNumber) {
+        // Trigger the PDF download route
+        window.location.href = "{{ route('downloadReferencePdf') }}?reference_number=" + referenceNumber;
+    } else {
+        alert('Reference number is not available.');
+    }
+}
 </script>
 
 </body>

@@ -155,6 +155,9 @@ Route::middleware([UserEmailMiddleware::class])->group(function () {
     Route::get('/User-Messages', [Chr_User::class,'Message_Messages'])->name('/User-Messages');
 });
 
+// Download reference pdf
+Route::get('download-reference-pdf', [Chr_User::class, 'downloadReferencePdf'])->name('downloadReferencePdf');
+
 
 
 
