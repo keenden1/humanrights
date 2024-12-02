@@ -38,12 +38,11 @@
 <div class="card">
 <a href="#" class="button-x">X</a>
     <div id="header">
-      <h1>Chat Bot </h1>
+      <h1>Chat Me </h1>
     </div>
     <div id="message-section">
       <div class="message" id="bot" style="z-index: 0 !important; "><span id="bot-response" style="z-index: 4 !important;">Please Ask anything!</span></div>
       <button class="feedback-btn" style="margin-bottom:8px;">Feedback</button>
-      <button class="feedback-btn" id="notify-btn" style="margin-bottom:8px;">button</button>
       @foreach($chat as $chats)
       <button class="feedback-btn" onclick="showDetails(this)" style="margin-bottom:8px;">
         <span>{{ ucfirst($chats->title) }}</span>
@@ -57,7 +56,7 @@
     <div id="message-details" style="display:none;position: absolute; top:78px; background-color:#fff; min-height: 290px; 
     max-height:292px;  z-index:0; overflow-y: auto;">
     <p id="message-detailed" style="margin-top: 40px; margin-left:20px; margin-right:20px;"></p>
-    <a href="javascript:void(0);" onclick="closeDetails()" style="position:absolute; top:10px; right:10px; text-decoration:none; font-weight:bold; color:blue;">Close X</a>
+    <a href="javascript:void(0);" onclick="closeDetails()" style="position:absolute; top:10px; right:10px; text-decoration:none; font-weight:bold; color:red;">X</a>
     </div>
     <div id="input-section">
       <input id="input" type="text" placeholder="Type a message" autocomplete="off" autofocus="autofocus" onkeypress="checkEnter(event)"/>
@@ -396,17 +395,78 @@ function closeDetails() {
             sendMessage(); 
         }
     }
+    // function getBotResponse(userMessage) {
+    //     if (userMessage.toLowerCase().includes('hello')) {
+    //         return 'Hello! How can I assist you today?';
+    //     } else if (userMessage.toLowerCase().includes('how are you')) {
+    //         return 'I am just a bot, but thanks for asking!';
+    //     } else if (userMessage.toLowerCase().includes('help')) {
+    //         return 'Sure! What do you need help with?';
+    //     } else {
+    //         return 'I am not sure how to respond to that.';
+    //     }
+    // }
+
     function getBotResponse(userMessage) {
-        if (userMessage.toLowerCase().includes('hello')) {
-            return 'Hello! How can I assist you today?';
-        } else if (userMessage.toLowerCase().includes('how are you')) {
-            return 'I am just a bot, but thanks for asking!';
-        } else if (userMessage.toLowerCase().includes('help')) {
-            return 'Sure! What do you need help with?';
-        } else {
-            return 'I am not sure how to respond to that.';
-        }
+    userMessage = userMessage.toLowerCase();
+
+    if (userMessage.includes('hello') || userMessage.includes('hi') || userMessage.includes('hey')) {
+        return 'Hello! How can I assist you today?';
+    } else if (userMessage.includes('how are you') || userMessage.includes('how are you doing')) {
+        return 'I am just a bot, but thanks for asking! How can I assist you today?';
+    } else if (userMessage.includes('help') || userMessage.includes('assist') || userMessage.includes('support')) {
+        return 'Sure! What do you need help with? Feel free to ask your question.';
+    } else if (userMessage.includes('what is your name')) {
+        return 'I am your friendly chatbot, here to assist you with any inquiries!';
+    } else if (userMessage.includes('thank you') || userMessage.includes('thanks')) {
+        return 'You are welcome! Let me know if you need anything else.';
+    } else if (userMessage.includes('human rights') || userMessage.includes('rights')) {
+        return 'Human rights are the basic rights and freedoms that belong to every person. Would you like to know more about specific rights or violations?';
+    } else if (userMessage.includes('how to file a complaint') || userMessage.includes('file complaint') || userMessage.includes('complaint process')) {
+        return 'You can file a complaint by visiting the "File a Complaint" section on our website. Would you like a direct link to the page?';
+    } else if (userMessage.includes('contact') || userMessage.includes('reach out') || userMessage.includes('get in touch')) {
+        return 'You can contact us via email, phone, or through our contact form on the website. Which method would you prefer?';
+    } else if (userMessage.includes('what is the commission on human rights') || userMessage.includes('about commission') || userMessage.includes('commission purpose')) {
+        return 'The Commission on Human Rights is an independent body created to promote and protect human rights. Would you like to know more about its specific duties?';
+    } else if (userMessage.includes('goodbye') || userMessage.includes('bye') || userMessage.includes('see you')) {
+        return 'Goodbye! Feel free to reach out if you have more questions later. Stay safe!';
+    } else if (userMessage.includes('what are my rights')) {
+        return 'Your rights include basic freedoms such as the right to life, freedom of expression, and equality before the law. Would you like to learn more about any specific right?';
+    } else if (userMessage.includes('how can I protect my rights')) {
+        return 'You can protect your rights by staying informed, standing up against violations, and contacting authorities or organizations like the Commission on Human Rights. Need further guidance?';
+    } else if (userMessage.includes('how does the commission investigate') || userMessage.includes('investigation process')) {
+        return 'The Commission investigates complaints through a structured process, including fact-finding, interviews, and legal analysis to confirm human rights violations. Would you like to know more about the process?';
+    } else if (userMessage.includes('what actions can the commission take') || userMessage.includes('commission actions')) {
+        return 'The Commission can take various actions such as recommending policy changes, providing legal assistance, or advocating for victims of human rights violations. Need help with a specific case?';
+    } else if (userMessage.includes('what is discrimination') || userMessage.includes('discrimination meaning')) {
+        return 'Discrimination refers to treating people unfairly based on characteristics such as race, gender, religion, or nationality. Do you need advice on a particular case?';
+    } else if (userMessage.includes('is my complaint anonymous')) {
+        return 'Yes, your complaint can be anonymous if you prefer, though providing your contact information may help us assist you better. Would you like to proceed anonymously?';
+    } else if (userMessage.includes('what happens after I file a complaint') || userMessage.includes('complaint response')) {
+        return 'After filing a complaint, the Commission reviews your case, investigates the allegations, and takes appropriate action based on the findings. Would you like to know more about the follow-up process?';
+    } else if (userMessage.includes('what is the law on human rights') || userMessage.includes('human rights law')) {
+        return 'Human rights laws vary by country, but they generally guarantee fundamental freedoms such as the right to life, equality, and freedom of expression. Would you like more information on your local laws?';
+    } else if (userMessage.includes('how do I get legal assistance') || userMessage.includes('legal help')) {
+        return 'The Commission provides legal assistance in cases of human rights violations. You can contact us to find out more about how we can help in your case.';
+    } else if (userMessage.includes('what is equality') || userMessage.includes('equality definition')) {
+        return 'Equality means treating everyone with fairness and without bias, regardless of their race, gender, religion, or background. Do you have any specific concerns about inequality?';
+    } else if (userMessage.includes('what is freedom of expression') || userMessage.includes('freedom of speech')) {
+        return 'Freedom of expression is the right to freely express your opinions, thoughts, and ideas without government interference. Would you like to know about its limitations?';
+    } else if (userMessage.includes('what is the right to life')) {
+        return 'The right to life is the fundamental right that guarantees every individual’s right to live and be free from unlawful killing. It’s one of the most essential human rights. Do you need more details?';
+    } else if (userMessage.includes('where can I get human rights resources') || userMessage.includes('resources for human rights')) {
+        return 'You can find human rights resources on our website, including guidelines, publications, and reports. Would you like a link to the resources page?';
+    } else if (userMessage.includes('what is torture') || userMessage.includes('torture definition')) {
+        return 'Torture refers to the intentional infliction of severe pain or suffering, often for the purpose of punishment or coercion. It is strictly prohibited under human rights law. Do you have a related concern?';
+    } else if (userMessage.includes('what is child labor') || userMessage.includes('child labor definition')) {
+        return 'Child labor is the exploitation of children through work that deprives them of their childhood and education. It is a serious violation of human rights. Would you like more information on this?';
+    } else if (userMessage.includes('how can I report child labor') || userMessage.includes('report child labor')) {
+        return 'You can report child labor to the Commission on Human Rights through our complaints section. We take these cases very seriously and work to protect children’s rights. Would you like to proceed?';
+    } else {
+        return 'I am not sure how to respond to that. Could you please clarify or ask something else?';
     }
+}
+
 </script>
 <script>
     // Get the elements
