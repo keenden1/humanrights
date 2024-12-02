@@ -20,7 +20,7 @@
                 <p><strong>Register</strong></p>
             </div>
         </span>
-        
+
         <span>
             <form action="{{ route('register_post') }}" method="POST">
                 @csrf
@@ -30,21 +30,21 @@
                     </span>
                 @endif
                 <div class="register-input-fullname-div">
-                    <div class="register-input-fullname"> 
+                    <div class="register-input-fullname">
                         <input type="text" name="firstname" value="{{ old('firstname') }}" required>
                         <label>First name</label>
                         @error('firstname')
                             <div class="error-message">*{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="register-input-fullname"> 
-                        <input type="text" name="middlename" value="{{ old('middlename') }}" required>
+                    <div class="register-input-fullname">
+                        <input type="text" name="middlename" value="{{ old('middlename') }}">
                         <label>M.I.</label>
                         @error('middlename')
                             <div class="error-message">*{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="register-input-fullname"> 
+                    <div class="register-input-fullname">
                         <input type="text" name="lastname" value="{{ old('lastname') }}" required>
                         <label>Last name</label>
                         @error('lastname')
@@ -66,7 +66,7 @@
                         <div class="error-message">*{{ $message }}</div>
                     @enderror
                 </div>
-                
+
                 <div class="register-input-contact">
                     <input type="text" name="contact" value="{{ old('contact') }}" pattern="^09\d{0,9}$" maxlength="11" minlength="11" required>
                     <label>Contact Number</label>
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="register-input-button">
-                    <button type="submit">Register</button> 
+                    <button type="submit">Register</button>
                 </div>
             </form>
         </span>
