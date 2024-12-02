@@ -167,10 +167,14 @@ class Chr_Admin extends Controller
 
         $messages = Message::where('receiver_id', 'officer')
                         ->where('room', '123')
-                        ->orderBy('created_at', 'desc')->get();
+                        ->orderBy('created_at', 'desc')
+                        ->with('sender')
+                        ->get();
         $messages2 = Message::where('receiver_id', 'user')
                     ->where('room', '123')
-                    ->orderBy('created_at', 'desc')->get();
+                    ->orderBy('created_at', 'desc')
+                    ->with('sender')
+                    ->get();
 
         $admin_email = session()->get('admin_email');
         return view('officer.message', compact('admin_username','admin_email' ,'messages','messages2' ));
@@ -179,7 +183,6 @@ class Chr_Admin extends Controller
     public function sendMessage(Request $request)
     {
         $message = new Message();
-        // $message->sender_id = $request->session()->get('admin_email');
         $message->sender_id = "admin@gmail.com";
         $message->receiver_id = $request->receiver_id;
         $message->message = $request->message;

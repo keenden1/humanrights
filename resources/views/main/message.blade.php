@@ -72,25 +72,26 @@ $lastMessage = $sortedMessages->where('type', 'message')->last();
 <div id="messages-container">
     @foreach ($sortedMessages as $message)
         @if ($message->type === 'message2')
-            <div class="message">
+          <div class="message text-only">
+                <div class="response">
+                    <p class="text">{{ $message->message }}</p>
+                </div>
+            </div>
+        @else
+        <div class="message">
             <div class="photo"style="background-image: url('{{ asset('logo/logo.png') }}');">
                     <div class="online"></div>
                 </div>
                 <p class="text">{{ $message->message }}</p>
             </div>
             <p class="time">{{ $message->created_at->format('H:i') }}</p>
-        @else
-            <div class="message text-only">
-                <div class="response">
-                    <p class="text">{{ $message->message }}</p>
-                </div>
-            </div>
             @if ($message === $lastMessage)
                 <p class="response-time time">{{ $message->created_at->format('H:i') }}</p>
             @endif
         @endif
     @endforeach
-</div>
+
+  </div>
 </div>
 
 <!-- This is an HTML comment -->

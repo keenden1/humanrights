@@ -101,7 +101,8 @@ $lastMessage = $sortedMessages->where('type', 'message')->last();
         @endif
     @endforeach
 
-    </div>
+  </div>
+  
     </div>
 <!-- This is an HTML comment -->
 
@@ -127,7 +128,6 @@ $lastMessage = $sortedMessages->where('type', 'message')->last();
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
-    // Scroll to the bottom of the messages container on load
     document.addEventListener("DOMContentLoaded", function() {
         var messagesContainer = document.getElementById("message_ref");
         messagesContainer.scrollTop = messagesContainer.scrollHeight;

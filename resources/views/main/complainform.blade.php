@@ -58,7 +58,8 @@
   </div>
     <input type="text" id="input-relation"  name="relation" placeholder="Relation with the Victim" >
     <p id="description" class="description">Contact Information</p>
-    <input type="email" name="email" id="input-email" placeholder="Email address" required>
+    <!-- <input type="email" name="email" id="input-email" placeholder="Email address" required> -->
+    <input type="email" name="email" id="input-email" placeholder="Email address" value="{{ auth()->user()->user_email }}" required>
     <input type="text"  name="contact" id="input-contact"  placeholder="Phone number" required maxlength="11" oninput="validateContact(this)">
     <select id="province" name="province" place required>
     </select>
@@ -78,7 +79,7 @@
   <p id="description" class="description">Victim Information</p>
   <div class="name-group">
     <input type="text" id="first-name" name="firstname" placeholder="First Name" required>
-    <input type="text" id="middle-name" name="middlename" placeholder="M" maxlength="1" required>
+    <input type="text" id="middle-name" name="middlename" placeholder="M" maxlength="1">
     <input type="text" id="last-name" name="lastname" placeholder="Last Name" required>
   </div> 
   </div>
