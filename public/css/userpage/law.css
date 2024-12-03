@@ -68,17 +68,19 @@ button:hover {
 }
 .box-box,
 .box-box-2 {
-    background-color: #D79B25;
+    background-color: #0390BF;
     width: calc(50% - 20px); /* Two items per row */
     max-width: 350px; /* Limit box size */
     border-radius: 5px;
     box-sizing: border-box;
     flex: 1 1 300px; /* Flexible boxes with minimum width */
+    text-decoration: none;
+
 }
 
 /* Images and Text */
 .picture, .picture-2 {
-    background-color: #492810;
+    background-color: #0390BF;
     display: flex;
     align-items: center;
     justify-content: center;
