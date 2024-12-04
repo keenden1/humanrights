@@ -57,16 +57,22 @@
                     </div>
                     </a>
                     <a href="{{ url('Officer-Content') }}"  class="colors">
-                   
-                    <!-- <div class="box_1">
+                    <div class="box_1">
                         <span>
-                            <h2>Reports</h2>
-                            <p>123</p>
-                        </span>
+                            <h2>Legal Age Report</h2>
+                            <h3> Male: {{$maleLegalCount}}</h3>
+                            <h3> Female: {{$femaleLegalCount}} </h3>
+                        </span> 
+                    </div>
+                    </a>
+                    <a href="{{ url('Officer-Content') }}"  class="colors">
+                    <div class="box_1">
                         <span>
-                        <i class="fa-solid fa-file-circle-exclamation"></i>
-                        </span>
-                    </div> -->
+                            <h2>Minor Age Report</h2>
+                            <h3> Male: {{$maleMinorCount}}</h3>
+                            <h3> Female: {{$femaleMinorCount}} </h3>
+                        </span> 
+                    </div>
                     </a>
         </div>
 
