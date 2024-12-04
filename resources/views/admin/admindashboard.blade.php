@@ -11,12 +11,12 @@
 </div>
 <div class="experiment">
     <br>
-<div class="table-container">
+          <div class="table-container">
                     <a href="" class="colors">
                     <div class="box_1">
                         <span>
-                            <h2>Reports</h2>
-                            <p>123</p>
+                            <h2>Users</h2>
+                            <p>{{$totalUsers}}</p>
                         </span>
                         <span>
                             <i class="fa fa-edit"></i> 
@@ -27,7 +27,7 @@
                     <div class="box_1">
                         <span>
                             <h2>Feedback</h2>
-                            <p>123</p>
+                            <p>{{$totalFeedBack}}</p>
                         </span>
                         <span>
                             <i class="fa-solid fa-chalkboard-user"></i>
@@ -38,7 +38,7 @@
                     <div class="box_1">
                         <span>
                             <h2>Cases</h2>
-                            <p>123</p>
+                            <p>{{ $totalCases }}</p>
                         </span>
                         <span>
                             <i class="fa-solid fa-list-check"></i>
@@ -50,7 +50,7 @@
 
     <div class="container_2">
       <div class="container-left">
-        <div class="title title-left">Rating</div>
+        <div class="title title-left">Feedback Rating</div>
         <div class="circle">
           <div class="circle-score">{{ number_format($averageRating, 1) }}</div>
           <div class="circle-out-of">total of {{ $sumRating }} rating</div>
@@ -68,7 +68,7 @@
       </div>
 
       <div class="container-right-box"></div>
-      <div class="container-right">
+      <!-- <div class="container-right">
         <div class="title title-right">Summary  &nbsp; &nbsp; &nbsp; &nbsp; Total : 300</div>
         <div class="stat-box">
           <div class="stat stat-reaction">
@@ -117,20 +117,22 @@
 
         </div>
         <button class="btn">Feedback</button>
-      </div>
+      </div> -->
 
 
-     <div>
+     <!-- <div>
         <button>update</button>
      <div style="width:300px; margin:auto;" class="dates">
-    
-</div>
+     -->
 
 
-     <div class="pie">
+    </div>
+
+
+     <!-- <div class="pie">
                     <h2>Top Ratings</h2>
                     <canvas id="pieChart"></canvas>
-        </div>
+        </div> -->
      </div>
       
     </div>
