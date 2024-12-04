@@ -12,6 +12,24 @@
 <div class="experiment">
     <br>
           <div class="table-container">
+              <a href=""  class="colors">
+                    <div class="box_1">
+                        <span>
+                            <h2>Legal Age Report</h2>
+                            <h3> Male: {{$maleLegalCount}}</h3>
+                            <h3> Female: {{$femaleLegalCount}} </h3>
+                        </span> 
+                    </div>
+                    </a>
+                    <a href=""  class="colors">
+                    <div class="box_1">
+                        <span>
+                            <h2>Minor Age Report</h2>
+                            <h3> Male: {{$maleMinorCount}}</h3>
+                            <h3> Female: {{$femaleMinorCount}} </h3>
+                        </span> 
+                    </div>
+                    </a>
                     <a href="" class="colors">
                     <div class="box_1">
                         <span>
