@@ -47,30 +47,21 @@
                     </a>
   
         </div>
-        <!-- <div class="container">
-        <h1 class="text-center">Graphs Example</h1>
-        <div class="bottom">
-            <div class="graph-container">
-                <canvas id="graph1"></canvas>
-            </div>
-            <div class="graph-container">
-                <canvas id="graph2"></canvas>
-            </div>
-        </div>
-    </div> -->
 
     <div class="container_2">
       <div class="container-left">
         <div class="title title-left">Rating</div>
         <div class="circle">
-          <div class="circle-score">2.8</div>
-          <div class="circle-out-of">of 5</div>
+          <div class="circle-score">{{ number_format($averageRating, 1) }}</div>
+          <div class="circle-out-of">total of {{ $sumRating }} rating</div>
         </div>
         <div class="container-left-bottom">
-          <div class="container-left-bottom-compliment">Great</div>
+          <div class="container-left-bottom-compliment">
+          <p>Rating Percentage: {{ number_format($percentage, 2) }}%</p>
+          </div>
           <div class="container-left-bottom-description">
             <p>
-            Your input is valuable! Together, we can tackle challenges and enhance overall performance!
+            Your feedback is invaluable! Together, we can overcome challenges and continuously improve our performance!
             </p>
           </div>
         </div>

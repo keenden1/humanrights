@@ -508,18 +508,28 @@ public function adminapproveCase(Request $request)
     
         return redirect()->back()->with('error', 'Case not found.');
     }
+
+    public function calculateRatings() {
+        $sumRating = Feedback::sum('rating');
+        $averageRating = Feedback::avg('rating'); 
+        $percentage = ($averageRating / $sumRating) * 100;
+        return ['averageRating' => $averageRating, 'percentage' => $percentage,'sumRating' => $sumRating];
+    }
+
    // Admin
+   public function Admin_Dashboard()
+{
+    $admin_username = session('admin_username');
+    $id = session('id'); 
+    $role = session('role');
+    $calculations = $this->calculateRatings();
+    ['averageRating' => $averageRating, 'percentage' => $percentage, 'sumRating' => $sumRating] = $calculations;
 
-
-    function Admin_Dashboard(){
-        $admin_username = session('admin_username');
-        $id = session('id'); 
-        $role = session('role');
-        if (!session('admin_username') || !session('id') || session('role') !== 'admin') {
-            return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
-        }
-        return view('admin.admindashboard', compact('admin_username'));
-   }
+    if (!session('admin_username') || !session('id') || session('role') !== 'admin') {
+        return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
+    }
+    return view('admin.admindashboard', compact('admin_username', 'averageRating', 'percentage', 'sumRating'));
+}
 
             function Admin_Endorse(){
                 $admin_username = session('admin_username');
