@@ -59,7 +59,7 @@
     <input type="text" id="input-relation"  name="relation" placeholder="Relation with the Victim" >
     <p id="description" class="description">Contact Information</p>
     <!-- <input type="email" name="email" id="input-email" placeholder="Email address" required> -->
-    <input type="email" name="email" id="input-email" placeholder="Email address" value="{{ auth()->user()->user_email }}" required>
+    <input type="email" name="email" id="input-email" placeholder="Email address" required>
     <input type="text"  name="contact" id="input-contact"  placeholder="Phone number" required maxlength="11" oninput="validateContact(this)">
     <select id="province" name="province" place required>
     </select>
@@ -71,8 +71,8 @@
    <input type="text" id="street" name="street" placeholder="Street" required>
     </select>
     <input type="text" id="zipcode" name="zipcode" placeholder="Zip code" maxlength="4" required>
- 
-  
+
+
   </div>
   <div class="half right cf">
   <div id="unhide">
@@ -81,15 +81,15 @@
     <input type="text" id="first-name" name="firstname" placeholder="First Name" required>
     <input type="text" id="middle-name" name="middlename" placeholder="M" maxlength="1">
     <input type="text" id="last-name" name="lastname" placeholder="Last Name" required>
-  </div> 
+  </div>
   </div>
   <select id="gender" name="gender">
     <option value="" disabled selected>Sex</option>
     <option value="Male">Male</option>
     <option value="Female">Female</option>
   </select>
- 
- 
+
+
   <!-- <label for="date" class="styled-label">Birthdate.</label> -->
   <input type="text" id="input-date" name="birthdate" placeholder="Birthdate" onfocus="setDate(this)" onblur="this.type='text';" required>
 <select id="sector" name="sector" onchange="toggleOtherInput()">
@@ -115,7 +115,7 @@
     <input type="text" id="other-case-input" name="othercase" placeholder="Please specify your Case">
   </div>
     <textarea  name="report" type="text" id="input-message" placeholder="Report" required></textarea>
-  </div>  
+  </div>
   <input type="hidden" name="user_id" value="{{session('user_id')}}">
  <input type="submit" value="Submit" id="input-submit">
 </form>
@@ -191,31 +191,64 @@ function validateContact(input) {
     const head_ = document.getElementById('header_');
     const text = document.getElementById('input-message');
 
+    // Blade variables injected into JavaScript
+    const authFirstName = @json(auth()->user()->firstname);
+    const authMiddleName = @json(auth()->user()->middlename);
+    const authLastName = @json(auth()->user()->lastname);
+    const authContact = @json(auth()->user()->contact);
+    const authEmail = @json(auth()->user()->user_email);
+
+    const inputContact = document.getElementById('input-contact');
+    const inputEmail = document.getElementById('input-email');
+    const firstNameGuardian = document.getElementById('first-name-guardian');
+    const middleNameGuardian = document.getElementById('middle-name-guardian');
+    const lastNameGuardian = document.getElementById('last-name-guardian');
+
+    const firstNameVictim = document.getElementById('first-name');
+    const middleNameVictim = document.getElementById('middle-name');
+    const lastNameVictim = document.getElementById('last-name');
+
+    if(select.value === 'Informant') {
+        firstNameGuardian.value = authFirstName;
+        middleNameGuardian.value = authMiddleName;
+        lastNameGuardian.value = authFirstName;
+        inputContact.value = authContact;
+        inputEmail.value = authEmail;
+        firstNameVictim.value = '';
+        middleNameVictim.value = '';
+        lastNameVictim.value = '';
+    } else if(select.value === 'Victim') {
+        firstNameGuardian.value = '';
+        middleNameGuardian.value = '';
+        lastNameGuardian.value = '';
+        inputEmail.value = authEmail;
+        inputContact.value = authContact;
+        firstNameVictim.value = authFirstName;
+        middleNameVictim.value = authMiddleName;
+        lastNameVictim.value = authLastName;
+    } else {
+        firstNameGuardian.value = '';
+        middleNameGuardian.value = '';
+        lastNameGuardian.value = '';
+        inputContact.value = '';
+        firstNameVictim.value = '';
+        middleNameVictim.value = '';
+        lastNameVictim.value = '';
+    }
+
     if (select.value === 'Victim') {
-      guardian.style.display = 'none'; 
+      guardian.style.display = 'none';
       guardian_.style.display = 'none';
       guardian__.style.display = 'none';
       text.style.height = '193px';
-      // hide.style.display = 'block';
-      // unhide.style.display = 'none';
-      // head.style.display = 'block';
-      // head_.style.display = 'none';
     } else {
-      guardian.style.display = 'flex'; 
-      guardian_.style.display = 'block'; 
-      guardian__.style.display = 'block'; 
-      // hide.style.display = 'none';
-      // unhide.style.display = 'block';
-      // head.style.display = 'none';
-      // head_.style.display = 'block';
+      guardian.style.display = 'flex';
+      guardian_.style.display = 'block';
+      guardian__.style.display = 'block';
       guardian__.style.display = 'block';
       text.style.height = '290px';
-      document.getElementById('first-name-guardian').value = '';
-      document.getElementById('middle-name-guardian').value = '';
-      document.getElementById('last-name-guardian').value = '';
-      document.getElementById('input-relation').value = '';
     }
-   
+
   }
   function toggleOtherInput() {
     const sectorSelect = document.getElementById('sector');
@@ -249,10 +282,10 @@ function validateContact(input) {
         document.querySelector("#province").onchange = function() {
             var selectedProvince = this.value;
             cityHandler.showCities(selectedProvince, "#city");
-            
+
             // Reset barangay dropdown when province changes
             document.querySelector("#barangay").innerHTML = "<option selected disabled>Barangay</option>";
-            
+
             // Attach listener to update barangay dropdown after selecting a city
             cityHandler.showBarangays(selectedProvince, "#city", "#barangay");
         };
