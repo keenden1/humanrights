@@ -513,7 +513,16 @@ public function adminapproveCase(Request $request)
         $sumRating = Feedback::sum('rating');
         $averageRating = Feedback::avg('rating'); 
         $percentage = ($averageRating / $sumRating) * 100;
-        return ['averageRating' => $averageRating, 'percentage' => $percentage,'sumRating' => $sumRating];
+        $totalFeedBack = Feedback::count();
+
+        //complains
+        $totalCases = Cases::count();
+
+        //users
+        $totalUsers = User::count();
+        return ['averageRating' => $averageRating, 'percentage' => $percentage,
+        'sumRating' => $sumRating,'totalCases' => $totalCases,
+        'totalFeedBack' => $totalFeedBack, 'totalUsers' => $totalUsers];
     }
 
    // Admin
@@ -523,12 +532,15 @@ public function adminapproveCase(Request $request)
     $id = session('id'); 
     $role = session('role');
     $calculations = $this->calculateRatings();
-    ['averageRating' => $averageRating, 'percentage' => $percentage, 'sumRating' => $sumRating] = $calculations;
+    ['averageRating' => $averageRating, 'percentage' => $percentage, 'sumRating' => $sumRating,
+    'totalCases' => $totalCases, 'totalFeedBack' => $totalFeedBack, 'totalUsers' => $totalUsers
+    ] = $calculations;
 
     if (!session('admin_username') || !session('id') || session('role') !== 'admin') {
         return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
     }
-    return view('admin.admindashboard', compact('admin_username', 'averageRating', 'percentage', 'sumRating'));
+    return view('admin.admindashboard', compact('admin_username', 'averageRating', 'percentage', 'sumRating',
+     'totalCases', 'totalFeedBack', 'totalUsers'));
 }
 
             function Admin_Endorse(){
