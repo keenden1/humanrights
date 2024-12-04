@@ -33,7 +33,7 @@ form {
    max-width: 600px;
    text-align: center;
    margin: 20px  auto;
-   
+
 }
 
 form input, form textarea, form select {
@@ -49,7 +49,7 @@ form input, form textarea, form select {
    resize: none;
    /* appearance: none; */
    background-color: white;
-   text-transform: capitalize; 
+   text-transform: capitalize;
 }
 
 form input:focus, form textarea:focus, form select:focus {
@@ -80,12 +80,12 @@ textarea {
 
 .right {
    width: 50%;
- 
+
 }
 
 .left {
    margin-right: 2%;
- 
+
 }
 
 
@@ -142,9 +142,9 @@ input[type="date"]:focus {
 
 
 #other-case-input,#other-sector-input {
-  border: none !important;               
-  border-bottom: 2px solid #000 !important; 
-  width: 100%;               
+  border: none !important;
+  border-bottom: 2px solid #000 !important;
+  width: 100%;
   padding: 1em !important;
   border-radius: 0 !important;
   width: 100%;
@@ -153,11 +153,11 @@ input[type="date"]:focus {
   resize: none;
   /* appearance: none; */
   background-color: transparent !important;
-  text-transform: capitalize; 
+  text-transform: capitalize;
 }
 
 #other-case-input:focus ,#other-sector-input:focus{
-  border-bottom: none; 
+  border-bottom: none;
   box-shadow: none !important;
   background-color: white !important;
 }
@@ -192,7 +192,7 @@ input[type="date"]:focus {
 
 
 /* mobile friendly alternative to using background-attachment: fixed */
-/* 
+/*
 #survey-form{
     margin-bottom: 20PX;
     color: #000;
@@ -213,7 +213,7 @@ p {
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
-/* 
+/*
 label , p {
   display: flex;
   align-items: center;
@@ -260,6 +260,7 @@ button {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
   color: #000;
   margin-bottom: 0;
+  font-size: 0.8rem;
 }
 .clue {
   background-color: #ffe6e6;
@@ -293,7 +294,7 @@ select.error {
   margin-bottom: 1em; /* Space below the error message */
 }
 
-/* 
+/*
 
 
 .text-center {
@@ -301,13 +302,13 @@ select.error {
 } */
 
 /* form */
-/* 
+/*
 form {
   background: #1fb8eb;
   padding: 2.5rem 0.625rem;
   border-radius: 0.25rem;
 } */
-/* 
+/*
 @media (min-width: 480px) {
   form {
     padding: 2.5rem;
@@ -395,11 +396,11 @@ button:hover{
 }
 .info-head-section span:nth-child(1){
     text-align: center;
-   
+
 }
 .info-head-section span:nth-child(1) h1{
     padding-top: 20px;
-    
+
 }
 .info-head-section p{
     text-align: center;
@@ -427,7 +428,7 @@ button:hover{
     display: grid;
     align-items: center;
     justify-content: center;
-    
+
 }
 .input-type input, .input-type select {
     background-color: #E9E9E9;
@@ -442,7 +443,7 @@ button:hover{
 .case-report{
     height: 150px;
     width: 500px;
-    text-align: left; 
+    text-align: left;
     resize: none;
 }
 .input-center{
@@ -481,7 +482,7 @@ p{
     .case-report{
         height: 250px;
         width: 350px;
-        text-align: left; 
+        text-align: left;
         resize: none;
     }
     .input-center:nth-child(2){
