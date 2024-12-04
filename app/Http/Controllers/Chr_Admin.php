@@ -537,13 +537,42 @@ public function adminapproveCase(Request $request)
         $totalFeedBack = Feedback::count();
 
         //complains
-        $totalCases = Cases::count();
+        $totalCases = Cases::all(); 
+       
+        
+       // Get all cases
+
+        $maleLegalCount = $totalCases->where('gender', 'Male')->filter(function($case) {
+            return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
+        })->count();
+
+        $maleMinorCount = $totalCases->where('gender', 'Male')->filter(function($case) {
+            return \Carbon\Carbon::parse($case->birthdate)->age < 18;
+        })->count();
+
+        $femaleLegalCount = $totalCases->where('gender', 'Female')->filter(function($case) {
+            return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
+        })->count();
+
+        $femaleMinorCount = $totalCases->where('gender', 'Female')->filter(function($case) {
+            return \Carbon\Carbon::parse($case->birthdate)->age < 18;
+        })->count();
 
         //users
         $totalUsers = User::count();
-        return ['averageRating' => $averageRating, 'percentage' => $percentage,
-        'sumRating' => $sumRating,'totalCases' => $totalCases,
-        'totalFeedBack' => $totalFeedBack, 'totalUsers' => $totalUsers];
+        return [
+            'averageRating' => $averageRating,
+            'percentage' => $percentage,
+            'sumRating' => $sumRating,
+            'totalCases' => $totalCases->count(),
+            'totalFeedBack' => $totalFeedBack,
+            'totalUsers' => $totalUsers,
+            'maleLegalCount' => $maleLegalCount,
+            'maleMinorCount' => $maleMinorCount,
+            'femaleLegalCount' => $femaleLegalCount,
+            'femaleMinorCount' => $femaleMinorCount
+        ];
+        
     }
 
    // Admin
@@ -553,15 +582,24 @@ public function adminapproveCase(Request $request)
     $id = session('id'); 
     $role = session('role');
     $calculations = $this->calculateRatings();
-    ['averageRating' => $averageRating, 'percentage' => $percentage, 'sumRating' => $sumRating,
-    'totalCases' => $totalCases, 'totalFeedBack' => $totalFeedBack, 'totalUsers' => $totalUsers
-    ] = $calculations;
+    [
+            'averageRating' => $averageRating,
+            'percentage' => $percentage,
+            'sumRating' => $sumRating,
+            'totalCases' => $totalCases,
+            'totalFeedBack' => $totalFeedBack,
+            'totalUsers' => $totalUsers,
+            'maleLegalCount' => $maleLegalCount,
+            'maleMinorCount' => $maleMinorCount,
+            'femaleLegalCount' => $femaleLegalCount,
+            'femaleMinorCount' => $femaleMinorCount
+        ]= $calculations;
 
     if (!session('admin_username') || !session('id') || session('role') !== 'admin') {
         return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
     }
     return view('admin.admindashboard', compact('admin_username', 'averageRating', 'percentage', 'sumRating',
-     'totalCases', 'totalFeedBack', 'totalUsers'));
+     'totalCases', 'totalFeedBack', 'totalUsers', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
 }
 
             function Admin_Endorse(){
