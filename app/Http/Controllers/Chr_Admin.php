@@ -112,12 +112,32 @@ class Chr_Admin extends Controller
         $message = $messages->count();
         $forums = Content_Forum::count();
         $role = session('role');
+
+                     
+        $maleLegalCount = $complains->where('gender', 'Male')->filter(function($case) {
+            return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
+        })->count();
+        
+        $maleMinorCount = $complains->where('gender', 'Male')->filter(function($case) {
+            return \Carbon\Carbon::parse($case->birthdate)->age < 18;
+        })->count();
+        
+        $femaleLegalCount = $complains->where('gender', 'Female')->filter(function($case) {
+            return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
+        })->count();
+        
+        $femaleMinorCount = $complains->where('gender', 'Female')->filter(function($case) {
+            return \Carbon\Carbon::parse($case->birthdate)->age < 18;
+        })->count();
+        
+
+
         if (!session('admin_username') || !session('id') || session('role') !== 'officer') {
             return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
         }
 
         return view('officer.dashboard', compact('admin_username','userCount','complain',
-    'message', 'forums'));
+    'message', 'forums', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
    }
    function Officer_Form_9(){
         $admin_username = session('admin_username');
