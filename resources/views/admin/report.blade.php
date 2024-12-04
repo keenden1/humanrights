@@ -27,7 +27,7 @@
             <tr>
               <td style="text-align:right;">Set Period</td>
               <td style="text-align:left;">
-                <select id="setdate" name="setdate">
+                <select id="setperiod" name="setperiod">
                   <option value="none" selected>Select Period</option>
                   {{-- <option value="monthly">Monthly</option>
                   <option value="weekly">Weekly</option> --}}
@@ -93,15 +93,16 @@
             </tr>
         </table>
         <div style="width:100%; align-items: center; text-align:center;">
-          <button type="submit" class="btn"
-            style="margin-top: 10px; margin-bottom: 10px; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Generate
+          <button id="generate-btn" type="submit" class="btn"
+            style="margin: 1rem auto; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Generate
             Report</button>
           <div id="printButtonDiv" style="display: none; margin-bottom: 10px; text-align: center;">
             <button id="printButton" onclick="printPDF()" class="btn"
               style="background-color: #28a745; color: white; padding: 10px 15px; border-radius: 4px;">Print
               Report</button>
           </div>
-          <div style="color: gray; padding: 0.5rem">Note: Before printing the report, please always click 'Generate Report' to ensure the graph is updated according to the selected filters.</div>
+          <div style="color: gray; padding: 0.5rem">Note: Before printing the report, please always click 'Generate
+            Report' to ensure the graph is updated according to the selected filters.</div>
         </div>
         </form>
       </div>
@@ -211,13 +212,24 @@
   <script>
     // Function to enable/disable the select based on date validation
     function toggleSelectField() {
+      // Get values from the form
       const setdataSelect = document.getElementById('setdata');
-      const setDateValue = document.getElementById('setdate').value;
+      const setTypeValue = document.getElementById('setperiod').value; // Assuming this value might be empty or undefined
       const startDate = document.getElementById('datePicker1').value;
       const endDate = document.getElementById('datePicker2').value;
+      const generateBtn = document.getElementById('generate-btn');
+
+      console.log(setdataSelect.value);
+
+      // Check if any required field is missing or invalid
+      if (setdataSelect.value === 'none' || setTypeValue === 'none' || !startDate || !endDate) {
+        generateBtn.style.display = 'none'; // Hide the button if any field is missing a value
+      } else {
+        generateBtn.style.display = 'block'; // Show the button when all fields have values
+      }
 
       // Check if any of the required fields (period, start date, end date) are empty
-      if (setDateValue === 'none' || !startDate || !endDate) {
+      if (setTypeValue === 'none' || !startDate || !endDate) {
         setdataSelect.disabled = true; // Disable the select field if conditions are met
       } else {
         setdataSelect.disabled = false; // Enable the select field otherwise
@@ -225,9 +237,10 @@
     }
 
     // Call this function whenever the form values change
-    document.getElementById('setdate').addEventListener('change', toggleSelectField);
+    document.getElementById('setperiod').addEventListener('change', toggleSelectField);
     document.getElementById('datePicker1').addEventListener('change', toggleSelectField);
     document.getElementById('datePicker2').addEventListener('change', toggleSelectField);
+    document.getElementById('setdata').addEventListener('change', toggleSelectField);
 
     // Initial check on page load
     window.onload = toggleSelectField;
@@ -240,7 +253,7 @@
       const reportAuthor = document.getElementById('reportAuthor');
 
       // Get date picker values
-      const setDateValue = document.getElementById('setdate').value;
+      const setDateValue = document.getElementById('setperiod').value;
       const startDate = document.getElementById('datePicker1').value;
       const endDate = document.getElementById('datePicker2').value;
 
@@ -248,8 +261,8 @@
       const authMiddleName = @json(auth()->user()->middlename);
       const authLastName = @json(auth()->user()->lastname);
 
-    //   console.log("Start Date:", startDate); // Debugging
-    //   console.log("End Date:", endDate); // Debugging
+      //   console.log("Start Date:", startDate); // Debugging
+      //   console.log("End Date:", endDate); // Debugging
 
       // Check if the dates are valid before formatting
       if (isValidDate(startDate) && isValidDate(endDate)) {
@@ -288,12 +301,12 @@
           break;
       }
 
-    //   console.log('Changing to ' + dataType.value);
+      //   console.log('Changing to ' + dataType.value);
     }
 
     function isValidDate(dateString) {
       // Check if the date string is in valid format (YYYY-MM-DD)
-    //   console.log("Validating Date:", dateString); // Debugging
+      //   console.log("Validating Date:", dateString); // Debugging
       const date = new Date(dateString);
       return !isNaN(date.getTime()); // Returns true if valid, false otherwise
     }
@@ -399,7 +412,7 @@
     function printPDF() {
       document.getElementById('reportForm').submit();
       // Use the formatted date range for the report title
-      const setDateValue = document.getElementById('setdate').value;
+      const setDateValue = document.getElementById('setperiod').value;
       const startDate = document.getElementById('datePicker1').value;
       const endDate = document.getElementById('datePicker2').value;
       const graphTitle = document.getElementById('graph-title');
@@ -429,7 +442,7 @@
       html2pdf().from(element).set(opt).save();
     }
 
-    document.getElementById('setdate').addEventListener('change', function() {
+    document.getElementById('setperiod').addEventListener('change', function() {
       const selectedValue = this.value;
 
       // Select relevant elements
