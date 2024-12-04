@@ -219,7 +219,7 @@
       const endDate = document.getElementById('datePicker2').value;
       const generateBtn = document.getElementById('generate-btn');
 
-      console.log(setdataSelect.value);
+    //   console.log(setdataSelect.value);
 
       // Check if any required field is missing or invalid
       if (setdataSelect.value === 'none' || setTypeValue === 'none' || !startDate || !endDate) {
@@ -410,7 +410,6 @@
     });
 
     function printPDF() {
-      document.getElementById('reportForm').submit();
       // Use the formatted date range for the report title
       const setDateValue = document.getElementById('setperiod').value;
       const startDate = document.getElementById('datePicker1').value;
