@@ -505,6 +505,7 @@ public function chat_form(Request $request)
         $user = User::findOrFail($user_id);
         return view('main.profile', compact('user'));
     }
+    
 
 
 

@@ -345,20 +345,7 @@ class Chr_Admin extends Controller
         $case = Content_Forum::findOrFail($id);
         $case->delete();
         return redirect()->back()->with('success', 'Case deleted successfully!');
-    }
-
-
-
-
-
-
-
-
-
-
-
-  
-    
+    }  
     function Officer_Forum(){
         $admin_username = session('admin_username');
         return view('officer.forum', compact('admin_username'));
@@ -369,6 +356,34 @@ class Chr_Admin extends Controller
         $admin = Admin::findOrFail($admin_id); 
         return view('officer.setting', compact('admin_username','admin'));
     }
+    public function update(Request $request)
+    {
+        $admin_id = session('id');
+        $admin = Admin::findOrFail($admin_id);
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'middlename' => 'nullable|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'motto' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        ]);
+        $admin->fname = $request->input('firstname');
+        $admin->mname = $request->input('middlename');
+        $admin->lname = $request->input('lastname');
+        $admin->motto = $request->input('motto');
+    
+        if ($request->hasFile('profile_image')) {
+            if ($admin->profile_image && Storage::exists($admin->profile_image)) {
+                Storage::delete($admin->profile_image);
+            }
+            $imagePath = $request->file('profile_image')->store('profile_images', 'public');
+            $admin->profile_image = $imagePath;
+        }
+        $admin->save();
+        return redirect()->route('officer.setting')->with('success', 'Profile updated successfully.');
+    }
+    
+    
     public function showprofile($user_id)
     {
         return view('main.profile', compact('user'));
@@ -400,6 +415,8 @@ class Chr_Admin extends Controller
 
     
    // officer
+ 
+
 
 
     // Legal Head

@@ -39,8 +39,10 @@ Route::delete('/Content-News/{id}', [Chr_Admin::class, 'content_news_destroy'])-
 
 Route::get('/Officer-Reports', [Chr_Admin::class,'Officer_Reports'])->name('/Officer-Reports');
 Route::get('/Officer-Forum', [Chr_Admin::class,'Officer_Forum'])->name('/Officer-Forum');
-Route::get('/Officer-Setting', [Chr_Admin::class,'Officer_Setting'])->name('/Officer-Setting');
 Route::post('/Officer-Summary', [Chr_Admin::class, 'Officer_Summary'])->name('Officer-Summary');
+Route::get('/Officer-Setting', [Chr_Admin::class,'Officer_Setting'])->name('officer.setting');
+//updating officer info
+Route::put('/Officer-Setting', [Chr_Admin::class, 'update'])->name('officer.update');
 
 
 

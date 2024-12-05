@@ -16,6 +16,11 @@ class Admin extends Authenticatable
         'admin_email',
         'employee_id',
         'role',
+        'fname',
+        'mname',
+        'lname',
+        'motto',
+        'profile_image'
     ];
 
     public function setPasswordAttribute($value)
