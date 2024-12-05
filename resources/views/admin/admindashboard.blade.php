@@ -12,7 +12,7 @@
 <div class="experiment">
     <br>
           <div class="table-container">
-              <a href=""  class="colors">
+               <a href=""  class="colors">
                     <div class="box_1">
                         <span>
                             <h2>Legal Age Report</h2>
