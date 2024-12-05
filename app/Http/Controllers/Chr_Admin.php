@@ -648,11 +648,34 @@ public function adminapproveCase(Request $request)
             $admin_username = session('admin_username');
             $id = session('id'); 
             $role = session('role');
+            $complains = Cases::all();
+            $complain = $complains->count();
+            $messages = Message::all();
+            $message = $messages->count();
+
+            $maleLegalCount = $complains->where('gender', 'Male')->filter(function($case) {
+                return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
+            })->count();
+            
+            $maleMinorCount = $complains->where('gender', 'Male')->filter(function($case) {
+                return \Carbon\Carbon::parse($case->birthdate)->age < 18;
+            })->count();
+            
+            $femaleLegalCount = $complains->where('gender', 'Female')->filter(function($case) {
+                return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
+            })->count();
+            
+            $femaleMinorCount = $complains->where('gender', 'Female')->filter(function($case) {
+                return \Carbon\Carbon::parse($case->birthdate)->age < 18;
+            })->count();
+
             if (!session('admin_username') || !session('id') || session('role') !== 'lawyer') {
                 return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
             }
-            return view('lawyer.lawyer_dashboard', compact('admin_username'));
+            return view('lawyer.lawyer_dashboard', compact('admin_username','complain',
+            'message', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
         }
+      
 
 
         function Lawyer_Complain(){

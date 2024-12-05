@@ -31,7 +31,7 @@
           </div>
           <div class="profile_info">
             <span>Welcome,</span>
-            <h2>John Doe</h2>
+            <h2>{{ session('admin_username') }}</h2>
           </div>
         </div>
         <!-- /menu profile quick info -->
@@ -86,7 +86,7 @@
             <li class="profile_side apple">
               <a href="#" class="user-profile" >
                 <img src="logo/logo.png" alt="">
-                 John Does  &nbsp;
+                {{ session('admin_username') }} &nbsp;
                 <span class=" fa fa-angle-down"></span>
               </a>
               <ul class="dropdown-menu dropdown-usermenu pull-right">

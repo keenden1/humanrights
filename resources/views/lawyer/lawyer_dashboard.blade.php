@@ -12,22 +12,29 @@
     <br><br><br>
 <div class="table-container">
 
-                    <a href="" class="colors">
+<a href=""  class="colors">
                     <div class="box_1">
                         <span>
-                            <h2>Reports</h2>
-                            <p>123</p>
-                        </span>
+                            <h2>Legal Age Report</h2>
+                            <h3> Male: {{$maleLegalCount}}</h3>
+                            <h3> Female: {{$femaleLegalCount}} </h3>
+                        </span> 
+                    </div>
+                    </a>
+                    <a href=""  class="colors">
+                    <div class="box_1">
                         <span>
-                            <i class="fa fa-edit"></i> 
-                        </span>
+                            <h2>Minor Age Report</h2>
+                            <h3> Male: {{$maleMinorCount}}</h3>
+                            <h3> Female: {{$femaleMinorCount}} </h3>
+                        </span> 
                     </div>
                     </a>
                     <a href=""  class="colors">
                     <div class="box_1">
                         <span>
                             <h2>Message</h2>
-                            <p>123</p>
+                            <p>{{$message}}</p>
                         </span>
                         <span>
                             <i class="fa-solid fa-chalkboard-user"></i>
@@ -38,7 +45,7 @@
                     <div class="box_1">
                         <span>
                             <h2>Case</h2>
-                            <p>123</p>
+                            <p>{{$complain}}</p>
                         </span>
                         <span>
                             <i class="fa-solid fa-list-check"></i>
