@@ -51,8 +51,12 @@ Route::get('/Admin-Dashboard', [Chr_Admin::class,'Admin_Dashboard'])->name('Admi
 Route::get('/Admin-Endorse', [Chr_Admin::class,'Admin_Endorse'])->name('Admin-Endorse');
 Route::get('/Admin-Case', [Chr_Admin::class,'Admin_Case'])->name('Admin-Case');
 Route::get('/Admin-Reports', [Chr_Admin::class,'Admin_Reports'])->name('/Admin-Reports');
-Route::get('/Admin-Setting', [Chr_Admin::class,'Admin_Setting'])->name('/Admin-Setting');
+
 Route::get('/Admin-Employee', [Chr_Admin::class,'Admin_Employee'])->name('/Admin-Employee');
+Route::get('/Admin-Setting', [Chr_Admin::class,'Admin_Setting'])->name('admin.setting');
+
+//update admin
+Route::put('/Admin-Setting', [Chr_Admin::class,'updateAdmin'])->name('admin.update');
 
 Route::post('/generate-report', [Chr_Admin::class, 'generateReport'])->name('generateReport');
 Route::post('/admincases/approve', [Chr_Admin::class, 'adminapproveCase'])->name('admincases.approve');

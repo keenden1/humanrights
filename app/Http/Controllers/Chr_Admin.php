@@ -658,7 +658,35 @@ public function adminapproveCase(Request $request)
             }
             function Admin_Setting(){
                 $admin_username = session('admin_username');
-                return view('admin.setting', compact('admin_username'));
+                $admin_id = session('id');
+                $admin = Admin::findOrFail($admin_id); 
+                return view('admin.setting', compact('admin_username', 'admin'));
+            }
+            public function updateAdmin(Request $request)
+            {
+                $admin_id = session('id');
+                $admin = Admin::findOrFail($admin_id);
+                $request->validate([
+                    'firstname' => 'required|string|max:255',
+                    'middlename' => 'nullable|string|max:255',
+                    'lastname' => 'required|string|max:255',
+                    'motto' => 'nullable|string|max:255',
+                    'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+                ]);
+                $admin->fname = $request->input('firstname');
+                $admin->mname = $request->input('middlename');
+                $admin->lname = $request->input('lastname');
+                $admin->motto = $request->input('motto');
+            
+                if ($request->hasFile('profile_image')) {
+                    if ($admin->profile_image && Storage::exists($admin->profile_image)) {
+                        Storage::delete($admin->profile_image);
+                    }
+                    $imagePath = $request->file('profile_image')->store('profile_images', 'public');
+                    $admin->profile_image = $imagePath;
+                }
+                $admin->save();
+                return redirect()->route('admin.setting')->with('success', 'Profile updated successfully.');
             }
 
 
