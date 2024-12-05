@@ -110,8 +110,8 @@ class Chr_Admin extends Controller
         $complain = $complains->count();
         $messages = Message::all();
         $message = $messages->count();
-        $forums = Content_Forum::count();
         $role = session('role');
+        $forums = Content_Forum::count();
 
                      
         $maleLegalCount = $complains->where('gender', 'Male')->filter(function($case) {
@@ -407,15 +407,32 @@ class Chr_Admin extends Controller
    function Legal_Head_Dashboard(){
     $admin_username = session('admin_username');
     $id = session('id'); 
-
-    
     $complains = Cases::all();
     $complain = $complains->count();
     $role = session('role');
+    $forums = Content_Forum::count();
+
+                     
+    $maleLegalCount = $complains->where('gender', 'Male')->filter(function($case) {
+        return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
+    })->count();
+    
+    $maleMinorCount = $complains->where('gender', 'Male')->filter(function($case) {
+        return \Carbon\Carbon::parse($case->birthdate)->age < 18;
+    })->count();
+    
+    $femaleLegalCount = $complains->where('gender', 'Female')->filter(function($case) {
+        return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
+    })->count();
+    
+    $femaleMinorCount = $complains->where('gender', 'Female')->filter(function($case) {
+        return \Carbon\Carbon::parse($case->birthdate)->age < 18;
+    })->count();
     if (!session('admin_username') || !session('id') || session('role') !== 'legal') {
         return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
     }
-    return view('legalhead.dashboard', compact('admin_username','complain'));
+    return view('legalhead.dashboard', compact('admin_username','complain','forums', 'maleLegalCount', 
+    'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
 }
 function Legal_Head_Case(){
     $admin_username = session('admin_username');
@@ -648,10 +665,10 @@ public function adminapproveCase(Request $request)
             $admin_username = session('admin_username');
             $id = session('id'); 
             $role = session('role');
-            $complains = Cases::all();
-            $complain = $complains->count();
             $messages = Message::all();
             $message = $messages->count();
+            $complains = Cases::all();
+            $complain = $complains->count();
 
             $maleLegalCount = $complains->where('gender', 'Male')->filter(function($case) {
                 return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
