@@ -16,7 +16,10 @@
 <div class="center">
 <div class="container3">
    <div class="sidebar3">
-    <img alt="Profile picture of a person standing by the sea during sunset" height="100" src="https://storage.googleapis.com/a1aa/image/Sw3yUi2YSAJwBNmWjRv2Tscch8ed2BEOBFBWR52sjhfyiLyTA.jpg" width="100"/>
+   <!-- <img src="{{ asset('storage/' . $admin->profile_image) }}" alt="Profile Image" width="100" /> -->
+
+ 
+   <img alt="Profile picture of a person standing by the sea during sunset" height="100" src="https://storage.googleapis.com/a1aa/image/Sw3yUi2YSAJwBNmWjRv2Tscch8ed2BEOBFBWR52sjhfyiLyTA.jpg" width="100"/>
     <h2>
     {{ $admin->admin_username }} 
     </h2>
@@ -24,7 +27,7 @@
     {{ $admin->admin_email ?? "N/A"}}
     </p>
     <p>
-    {{ $user->Role ?? "N/A"}}
+    {{ $admin->role ?? "N/A"}}
     </p>
     <a class="active" href="#" onclick="showModal()">
      Update Information
@@ -33,7 +36,7 @@
       <strong>Motto:</strong>
     </a>
     <a href="#" style=" pointer-events: none;cursor: not-allowed;">
-    {{ $user->motto ?? "N/A" }}
+    {{ $admin->motto ?? "N/A" }}
     </a>
    </div>
    <div class="content">
@@ -42,15 +45,46 @@
     </h3>
     <p>
      <strong>
-      Name:
+      Admin Username:
      </strong>
-     {{ $admin->firstname }} {{ $admin->middlename }} {{ $admin->lastname }}
+     {{ $admin->admin_username }} 
     </p>
     <p>
      <strong>
       Email Address:
      </strong>
-     {{ $admin->email ?? "N/A"}}
+     {{ $admin->admin_email ?? "N/A"}}
+    </p>
+    </p>
+    <p>
+     <strong>
+      Role:
+     </strong>
+     {{ $admin->role ?? "N/A"}}
+    </p>
+    <p>
+     <strong>
+      First Name:
+     </strong>
+     {{ $admin->fname ?? "N/A"}}
+    </p>
+    <p>
+     <strong>
+      Midle Name:
+     </strong>
+     {{ $admin->mname ?? "N/A"}}
+    </p>
+    <p>
+     <strong>
+      Lastname:
+     </strong>
+     {{ $admin->lname ?? "N/A"}}
+    </p>
+    <p>
+     <strong>
+      Motto:
+     </strong>
+     {{ $admin->motto ?? "N/A"}}
     </p>
    
    </div>
@@ -65,23 +99,48 @@
 </div>
 
 <div id="updateModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-content" style="color: black;">
+        <span class="close" style="color: red;"  onclick="closeModal()">&times;</span>
         <h2>Update Profile</h2>
-        <form action="" method="POST">
+
+        @if(session('success'))
+            <div class="alert alert-success" style="color: green;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Display validation errors if available -->
+        @if($errors->any())
+            <div class="alert alert-danger" style="color: red;">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form action="{{ route('officer.update') }}" method="POST">
             @csrf
             @method('PUT') 
             <div class="form-group">
-                <label for="firstname">First Name:</label>
-                <input type="text" name="firstname" id="firstname" value="{{ $admin->firstname }}" required>
+                <label for="fname">First Name:</label>
+                <input type="text" name="firstname" id="firstname" value="{{ $admin->fname }}" required>
             </div>
             <div class="form-group">
-                <label for="lastname">Middle Name:</label>
-                <input type="text" name="middlename" id="middlename" placeholder="optional"  value="{{ $admin->Middlename }}" >
+                <label for="mname">Middle Name:</label>
+                <input type="text" name="middlename" id="middlename"  value="{{ $admin->mname }}" >
             </div>
             <div class="form-group">
-                <label for="lastname">Last Name:</label>
-                <input type="text" name="lastname" id="lastname" value="{{ $admin->lastname }}" required>
+                <label for="lname">Last Name:</label>
+                <input type="text" name="lastname" id="lastname" value="{{ $admin->lname }}" required>
+            </div>
+            <div class="form-group">
+                <label for="motto">Motto:</label>
+                <input type="text" name="motto" id="motto" value="{{ $admin->motto }}" >
+            </div>
+            <div class="form-group">
+                <label for="profile_image">Profile Image:</label>
+                <input type="file" name="profile_image" id="profile_image" accept="image/*">
             </div>
            
             <div class="form-group">

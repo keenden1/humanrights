@@ -23,6 +23,9 @@
 .colors:nth-child(5) .box_1{
     border-left:25px solid #BD03FF;
 }
+.colors:nth-child(6) .box_1{
+    border-left:25px solid #0f6c91;
+}
 .table-container div{
     background: #FFFFFF;
     padding: 10px;
