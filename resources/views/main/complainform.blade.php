@@ -45,11 +45,11 @@
   <div class="half left cf">
   <p id="header_" class="description">Fill-up Carefully</p>
   <div class="error-message" style="display: none;">error</div>
-  <select id="guardian-info" name="identity" onclick="toggleGuardianInfo(this)" required >
+  <select id="guardian-info" name="identity" onchange="toggleGuardianInfo(this)" required>
     <option value="" disabled selected>Select Your Role</option>
-    <option value="Informant" >Informant</option>
-    <option value="Victim" >Victim</option>
-  </select>
+    <option value="Informant">Informant</option>
+    <option value="Victim">Victim</option>
+</select>
   <p id="description-Guardian-info" class="description">Informant Information</p>
   <div class="name-group" id="guardian">
     <input type="text" id="first-name-guardian" name="first_name_guardian" placeholder="First Name" >
@@ -181,16 +181,14 @@ function validateContact(input) {
     }
   }
   function toggleGuardianInfo(select) {
+    const value = select.value;
+    
     const guardianInfo = document.getElementById('guardian-info');
     const guardian = document.getElementById('guardian');
     const guardian_ = document.getElementById('description-Guardian-info');
     const guardian__ = document.getElementById('input-relation');
-    const hide = document.getElementById('hide');
-    const unhide = document.getElementById('unhide');
-    const head = document.getElementById('header');
-    const head_ = document.getElementById('header_');
     const text = document.getElementById('input-message');
-
+    
     // Blade variables injected into JavaScript
     const authFirstName = @json(auth()->user()->firstname);
     const authMiddleName = @json(auth()->user()->middlename);
@@ -207,49 +205,57 @@ function validateContact(input) {
     const firstNameVictim = document.getElementById('first-name');
     const middleNameVictim = document.getElementById('middle-name');
     const lastNameVictim = document.getElementById('last-name');
-
-    if(select.value === 'Informant') {
-        firstNameGuardian.value = authFirstName;
-        middleNameGuardian.value = authMiddleName;
-        lastNameGuardian.value = authFirstName;
-        inputContact.value = authContact;
-        inputEmail.value = authEmail;
-        firstNameVictim.value = '';
-        middleNameVictim.value = '';
-        lastNameVictim.value = '';
-    } else if(select.value === 'Victim') {
-        firstNameGuardian.value = '';
-        middleNameGuardian.value = '';
-        lastNameGuardian.value = '';
-        inputEmail.value = authEmail;
-        inputContact.value = authContact;
-        firstNameVictim.value = authFirstName;
-        middleNameVictim.value = authMiddleName;
-        lastNameVictim.value = authLastName;
-    } else {
+    
+    // Clear all fields first
+    function clearFields() {
         firstNameGuardian.value = '';
         middleNameGuardian.value = '';
         lastNameGuardian.value = '';
         inputContact.value = '';
+        inputEmail.value = '';
         firstNameVictim.value = '';
         middleNameVictim.value = '';
         lastNameVictim.value = '';
     }
 
-    if (select.value === 'Victim') {
-      guardian.style.display = 'none';
-      guardian_.style.display = 'none';
-      guardian__.style.display = 'none';
-      text.style.height = '193px';
+    // Prefill values based on role selection
+    if (value === 'Informant') {
+        firstNameGuardian.value = authFirstName;
+        middleNameGuardian.value = authMiddleName;
+        lastNameGuardian.value = authLastName;
+        inputContact.value = authContact;
+        inputEmail.value = authEmail;
+        // Clear victim fields
+        firstNameVictim.value = '';
+        middleNameVictim.value = '';
+        lastNameVictim.value = '';
+    } else if (value === 'Victim') {
+        firstNameGuardian.value = '';
+        middleNameGuardian.value = '';
+        lastNameGuardian.value = '';
+        inputContact.value = authContact;
+        inputEmail.value = authEmail;
+        firstNameVictim.value = authFirstName;
+        middleNameVictim.value = authMiddleName;
+        lastNameVictim.value = authLastName;
     } else {
-      guardian.style.display = 'flex';
-      guardian_.style.display = 'block';
-      guardian__.style.display = 'block';
-      guardian__.style.display = 'block';
-      text.style.height = '290px';
+        clearFields();
     }
 
-  }
+    // Toggle visibility based on role
+    if (value === 'Victim') {
+        guardian.style.display = 'none';
+        guardian_.style.display = 'none';
+        guardian__.style.display = 'none';
+        text.style.height = '193px';
+    } else {
+        guardian.style.display = 'flex';
+        guardian_.style.display = 'block';
+        guardian__.style.display = 'block';
+        text.style.height = '290px';
+    }
+}
+
   function toggleOtherInput() {
     const sectorSelect = document.getElementById('sector');
     const otherSectorInput = document.getElementById('other-sector');
