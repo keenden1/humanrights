@@ -67,7 +67,7 @@ body{
     margin-top: 100px;
 }
 .chatbot{
-    position: absolute;
+    position: fixed;
     right: 20px;
     bottom: 50px;
     font-size: 32px;
@@ -92,8 +92,8 @@ body{
 
 body .card {
     display: none;
-    position: absolute;
-    bottom: 60px;
+    position: fixed;
+    bottom: 100px;
     right: 30px;
     height: 420px; /* Increased by 1.2x */
     width: 300px;  /* Increased by 1.2x */
