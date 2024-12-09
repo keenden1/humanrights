@@ -30,7 +30,7 @@
                 </div>
             </span>
 </div>
-<br><br>
+<br><br><br><br><br><br><br>
 <div class="chatbot">
 <i class="fa-solid fa-message"></i>
 </div>
@@ -43,14 +43,38 @@
     <div id="message-section">
       <div class="message" id="bot" style="z-index: 0 !important; "><span id="bot-response" style="z-index: 4 !important;">Please Ask anything!</span></div>
       <button class="feedback-btn" style="margin-bottom:8px;">Feedback</button>
-      @foreach($chat as $chats)
+      <!-- @foreach($chat as $chats)
       <button class="feedback-btn" onclick="showDetails(this)" style="margin-bottom:8px;">
         <span>{{ ucfirst($chats->title) }}</span>
         <input type="hidden" name="details" value="{{ $chats->details }}">
         <input type="hidden" name="chatbot_id" id="{{ $chats->id }}">
       </button>
-      @endforeach
-      
+      @endforeach -->
+      @if (!auth()->check())
+    <!-- Show these buttons only if the user is not logged in -->
+      <a href="{{ route('Reset') }}">
+        <button class="feedback-btn" style="margin-bottom:8px;">
+            <span>Forgot Password</span>
+        </button>
+    </a>
+    
+    <a href="{{ route('Register') }}">
+        <button class="feedback-btn" style="margin-bottom:8px;">
+            <span>Create Account</span>
+        </button>
+    </a>
+    @endif
+
+    @if (auth()->check())
+    <!-- Show these buttons only if the user is not logged in -->
+      <a href="{{ route('Ask') }}">
+        <button class="feedback-btn" style="margin-bottom:8px;">
+            <span>Ask Question</span>
+        </button>
+    </a>
+    
+   
+    @endif
     </div>
 
     <div id="message-details" style="display:none;position: absolute; top:78px; background-color:#fff; min-height: 290px; 

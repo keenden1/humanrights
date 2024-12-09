@@ -65,6 +65,7 @@
 </div>
 <span class="space">&nbsp;</span>
 <br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
 @include('layout.footer')
 </body>
 </html>

@@ -17,6 +17,7 @@ use App\Models\Content_Forum;
 use App\Models\Content_Sector;
 use App\Models\news;
 use App\Models\Room;
+use App\Models\Ask;
 use TCPDF;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -212,10 +213,9 @@ class Chr_Admin extends Controller
         return redirect()->back();
     }
 
-    
     function Officer_Content(){
         $admin_username = session('admin_username');
-        $book = Content_Book::all()->sortByDesc('id');
+        $book = Ask::all()->sortByDesc('id');
         $case = Content_Case::all()->sortByDesc('id');
         $forum = Content_Forum::all()->sortByDesc('id');
         $sector = Content_Sector::all()->sortByDesc('id');
@@ -346,6 +346,11 @@ class Chr_Admin extends Controller
         $case->delete();
         return redirect()->back()->with('success', 'Case deleted successfully!');
     }  
+    
+    function Officerchatbot(){
+        $admin_username = session('admin_username');
+        return view('officer.chatbot', compact('admin_username'));
+    }
     function Officer_Forum(){
         $admin_username = session('admin_username');
         return view('officer.forum', compact('admin_username'));
@@ -800,6 +805,8 @@ public function adminapproveCase(Request $request)
            $request->session()->put('admin_email', $admin->admin_email);
            $request->session()->put('id', $admin->id);
            $request->session()->put('role', $admin->role);
+           $request->session()->put('fname', $admin->fname);
+           $request->session()->put('lname', $admin->lname);
            $request->session()->regenerate();
    
       

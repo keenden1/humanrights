@@ -115,8 +115,8 @@ function downloadReferenceNumberPDF() {
     var referenceNumber = document.getElementById('reference-number').innerText;
 
     if (referenceNumber) {
-        // Trigger the PDF download route
-        window.location.href = "{{ route('downloadReferencePdf') }}?reference_number=" + referenceNumber;
+        // Open the PDF download route in a new tab
+        window.open("{{ route('downloadReferencePdf') }}?reference_number=" + referenceNumber, '_blank');
     } else {
         alert('Reference number is not available.');
     }

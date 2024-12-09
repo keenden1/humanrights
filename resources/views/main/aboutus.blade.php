@@ -163,6 +163,7 @@
     </p></div>
 </div>
 <br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
 @include('layout.footer')
 </body>
 <style>

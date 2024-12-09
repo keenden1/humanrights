@@ -56,7 +56,7 @@
                         </span>
                     </div>
                     </a>
-                    <a href="{{ url('Officer-Content') }}"  class="colors">
+                    <a href="{{ url('Officer-Form-9') }}"  class="colors">
                     <div class="box_1">
                         <span>
                             <h2>Legal Age Report</h2>
@@ -65,7 +65,7 @@
                         </span> 
                     </div>
                     </a>
-                    <a href="{{ url('Officer-Content') }}"  class="colors">
+                    <a href="{{ url('Officer-Form-10') }}"  class="colors">
                     <div class="box_1">
                         <span>
                             <h2>Minor Age Report</h2>
