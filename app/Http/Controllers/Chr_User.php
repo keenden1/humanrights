@@ -61,16 +61,15 @@ class Chr_User extends Controller
             ['email' => $request->user_email],
             ['otp' => $otp, 'expires_at' => Carbon::now()->addMinutes(10)]
         );
-        $users = User::all();
-        // Loop through each user and send the email if user_email is not empty
-        foreach ($users as $user) {
-            if (!empty($user->user_email)) {
-                Mail::to($user->user_email)->send(new VerifyEmailOtp($otp));
+
+
+        $users = $request->user_email;
+            if (!empty($users)) {
+                Mail::to($users)->send(new VerifyEmailOtp($otp));
             } else {
                 // Log or handle the case where the user does not have an email address
-                return back()->with("User with ID {$user->id} does not have a valid email address.");
+                return back()->with("User with ID {$users} does not have a valid email address.");
             }
-        }
 
         return redirect()->route('Verify.email', ['email' => $request->user_email])
         ->with('message', 'OTP has been sent to your email.');
@@ -144,21 +143,6 @@ class Chr_User extends Controller
     public function Homepage(Request $request)
     {
         $chat = Chatbot::all();
-
-        if (Auth::check()) {
-
-            $userEmail = session()->get('user_email', Auth::user()->email);
-            $user = User::where('user_email', $userEmail)->first();
-
-
-                if ($user->email_status === 'verified') {
-                    return view('main.homepage', ['chat' => $chat]);
-                } else {
-                    return redirect()->intended(route('verify.auth', [
-                        'message' => 'Please verify your email to access the homepage.',
-                    ]));
-                }
-            }
         return view('main.homepage', ['chat' => $chat]);
     }
 
@@ -262,17 +246,16 @@ class Chr_User extends Controller
             'firstname'=>'required',
             'middlename'=>'nullable',
             'lastname'=>'required',
-            'username'=>'required',
+            'suffix'=>'nullable',
             'user_email'=>'required|email|unique:users',
             'password'=>'required|min:8',
-            'repeatpassword' => 'required|same:password',
+            'confirmpassword' => 'required|same:password',
             'contact'=>'required',
-
         ]);
         $data['firstname'] = $request->firstname;
         $data['middlename'] = $request->middlename;
         $data['lastname'] = $request->lastname;
-        $data['username'] = $request->username;
+        $data['username'] = $request->user_email;
         $data['contact'] = $request->contact;
         $data['user_email'] = $request->user_email;
         $data['password'] = Hash::make($request->password);
@@ -281,7 +264,8 @@ class Chr_User extends Controller
         if(!$user){
             return redirect()->back()->with("error", "Registration Failed");
         }
-        return redirect(route('Login'))->with("success", "Registration Success");
+        return redirect(route('verify.auth'))->with("success", "Registration Success");
+        
     }
 
     function logout() {

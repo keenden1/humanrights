@@ -49,7 +49,7 @@ form input, form textarea, form select {
    resize: none;
    /* appearance: none; */
    background-color: white;
-   text-transform: capitalize;
+ 
 }
 
 form input:focus, form textarea:focus, form select:focus {
@@ -153,7 +153,7 @@ input[type="date"]:focus {
   resize: none;
   /* appearance: none; */
   background-color: transparent !important;
-  text-transform: capitalize;
+ 
 }
 
 #other-case-input:focus ,#other-sector-input:focus{
@@ -275,7 +275,7 @@ button {
   border: 1px solid #e74c3c; /* Red border */
   padding: 5px;
   font-size: 16px;
-  text-transform: capitalize;
+
   border-radius: 5px;
   margin-top: 5px; /* Space above the message */
   /* Hidden by default */

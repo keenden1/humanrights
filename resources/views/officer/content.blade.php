@@ -297,7 +297,7 @@
 
 
 
-        <div id="updateModalone" class="modal">
+   <div id="updateModalone" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModalone()">&times;</span>
         <h2 id="centered">Add Sector</h2>

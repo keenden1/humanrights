@@ -410,6 +410,9 @@ function closeDetails() {
     function getBotResponse(userMessage) {
     userMessage = userMessage.toLowerCase();
 
+     const words = userMessage.split(/\s+/); // Split by whitespace
+
+
     if (userMessage.includes('hello') || userMessage.includes('hi') || userMessage.includes('hey')) {
         return 'Hello! How can I assist you today?';
     } else if (userMessage.includes('how are you') || userMessage.includes('how are you doing')) {

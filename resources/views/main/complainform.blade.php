@@ -147,19 +147,18 @@
 
 
 
-
-
-
     var today = new Date().toISOString().split('T')[0];
     document.getElementById('dateInput').setAttribute('max', today);
 
     document.querySelectorAll('textarea').forEach(function(textarea) {
     textarea.addEventListener('input', function() {
-        this.value = this.value.replace(/\b\w/g, function(char) {
-            return char.toUpperCase();
-        });
+        let text = this.value;
+        // Capitalize the first letter of the first word and make the rest lowercase
+        this.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
     });
 });
+
+
 
 function validateContact(input) {
     const errorMessage = document.getElementById('error-message');

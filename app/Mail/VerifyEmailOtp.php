@@ -27,12 +27,11 @@ class VerifyEmailOtp extends Mailable
 
     public function build()
     {
-        // Encode the logo as base64
-        $data = base64_encode(file_get_contents(public_path('logo/logo.png')));
-        $src = 'data:image/png;base64,' . $data;
+        // Use a public URL for the logo
+        $logoUrl = public_path('logo/logo.png');
 
-        // Return the view with the OTP and logo
         return $this->view('layout.email')
-                    ->with(['otp' => $this->otp, 'logo' => $src]);
+                    ->with(['otp' => $this->otp, 'logoUrl' => $logoUrl]);
     }
+    
 }

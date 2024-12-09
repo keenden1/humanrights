@@ -20,13 +20,15 @@ body {
 .search-container {
     display: flex;
     align-items: center;
-    background-color: #fff;
+    background-color: #03A6DDed;
     border-radius: 4px;
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 8px;
+
     width: 390px;
     margin: 25px 0;
     position: relative;
+    text-align: center;
+  
 }
 input[type="text"] {
     border: none;
@@ -95,8 +97,16 @@ button:hover {
     padding: 20px;
 }
 .text h1 {
+ 
     color: #3C1A9E;
     font-size: 18px;
+    text-align: center;
+}
+h1{
+    border: 2px solid transparent;
+    width: 100%;
+    text-align: center;
+    color: #fff;
 }
 .text p {
     margin: 0 10px;
