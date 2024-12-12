@@ -837,45 +837,46 @@ public function adminapproveCase(Request $request)
     
 
     public function printpdf($reference_number)
-    {
-        $timezone = 'Asia/Manila';
-        $currentDateTime = now()->timezone($timezone);
-        $formattedDateTime = $currentDateTime->format('F j, Y g:i A');
-        
-        // Fetch the data from the case table based on the reference number
-        $case = DB::table('case')->where('reference_number', $reference_number)->first();
-        
-        if (!$case) {
-            // Handle case when no data is found
-            return redirect()->back()->with('error', 'Case not found.');
-        }
+{
+    $timezone = 'Asia/Manila';
+    $currentDateTime = now()->timezone($timezone);
+    $formattedDateTime = $currentDateTime->format('F j, Y g:i A');
     
-        // Pass the case data to the view
-        $html = view('layout.print', ['case' => $case])->render();
-        
-        // Create a new TCPDF instance
-        $pdf = new TCPDF();
+    // Fetch the data from the case table based on the reference number
+    $case = DB::table('case')->where('reference_number', $reference_number)->first();
     
-        // Set document information
-        $pdf->SetCreator('Your Application Name');
-        $pdf->SetAuthor('Your Name');
-        $pdf->SetTitle('Case Report');
-        $pdf->SetSubject('Generated Case Report');
-    
-        // Add a page
-        $pdf->AddPage();
-    
-        // Set the font
-        $pdf->SetFont('helvetica', '', 12);
-    
-        // Write HTML content to the PDF
-        $pdf->writeHTML($html, true, false, true, false, '');
-    
-        // Set the file name and download the PDF
-        $filename = "Report_generation_{$formattedDateTime}.pdf";
-        return $pdf->Output($filename, 'D'); // 'D' for download, 'I' for inline display
+    if (!$case) {
+        // Handle case when no data is found
+        return redirect()->back()->with('error', 'Case not found.');
     }
 
+    // Pass the case data to the view
+    $html = view('layout.print', ['case' => $case])->render();
+    
+    // Create a new TCPDF instance
+    $pdf = new TCPDF();
+
+    // Set document information
+    $pdf->SetCreator('Your Application Name');
+    $pdf->SetAuthor('Your Name');
+    $pdf->SetTitle('Case Report');
+    $pdf->SetSubject('Generated Case Report');
+
+    // Add a page
+    $pdf->AddPage();
+
+    // Set the font
+    $pdf->SetFont('helvetica', '', 12);
+
+    // Write HTML content to the PDF
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    // Set the file name for the PDF
+    $filename = "Report_generation_{$formattedDateTime}.pdf";
+
+    // Output the PDF as inline
+    return $pdf->Output($filename, 'I'); // 'I' for inline display
+}
 
     // public function printpdf($reference_number)
     // {

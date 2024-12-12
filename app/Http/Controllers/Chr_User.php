@@ -270,8 +270,8 @@ class Chr_User extends Controller
         if(!$user){
             return redirect()->back()->with("error", "Registration Failed");
         }
-        return redirect(route('verify.auth'))->with("success", "Registration Success");
-        
+        // return redirect(route('verify.auth'))->with("success", "Registration Success");
+           return redirect(route('Login'))->with("success", "Registration Success");
     }
 
     function logout() {
