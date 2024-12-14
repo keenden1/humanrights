@@ -404,7 +404,7 @@ class Chr_Admin extends Controller
             'middlename' => 'nullable|string|max:255',
             'lastname' => 'required|string|max:255',
             'motto' => 'nullable|string|max:255',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $admin->fname = $request->input('firstname');
         $admin->mname = $request->input('middlename');
@@ -463,6 +463,8 @@ class Chr_Admin extends Controller
    function Legal_Head_Dashboard(){
     $admin_username = session('admin_username');
     $id = session('id');
+    $admin_id = session('id');
+    $admin = Admin::findOrFail($admin_id);
     $complains = Cases::all();
     $complain = $complains->count();
     $role = session('role');
@@ -488,33 +490,41 @@ class Chr_Admin extends Controller
         return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
     }
     return view('legalhead.dashboard', compact('admin_username','complain','forums', 'maleLegalCount',
-    'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
+    'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount', 'admin'));
 }
 function Legal_Head_Case(){
     $admin_username = session('admin_username');
+    $admin_id = session('id');
+    $admin = Admin::findOrFail($admin_id);
     $cases = Cases::all()->sortByDesc('created_at');
 
-    return view('legalhead.case', compact('admin_username', 'cases'));
+    return view('legalhead.case', compact('admin_username', 'cases', 'admin'));
 }
 
 function Legal_Head_Form(){
     $admin_username = session('admin_username');
+    $admin_id = session('id');
+    $admin = Admin::findOrFail($admin_id);
     $cases = Cases::where(function ($query) {
         $query->where('status', 'On Going Endorse');
     })
     ->get();
-    return view('legalhead.form', compact('admin_username', 'cases'));
+    return view('legalhead.form', compact('admin_username', 'cases', 'admin'));
 }
 
 function Legal_Head_Report(){
     $admin_username = session('admin_username');
-    return view('legalhead.report', compact('admin_username'));
+    $admin_id = session('id');
+    $admin = Admin::findOrFail($admin_id);
+    return view('legalhead.report', compact('admin_username', 'admin'));
 }
 
 
 function Legal_Head_Setting(){
     $admin_username = session('admin_username');
-    return view('legalhead.setting', compact('admin_username'));
+    $admin_id = session('id');
+    $admin = Admin::findOrFail($admin_id);
+    return view('legalhead.setting', compact('admin_username', 'admin'));
 }
 
 
