@@ -102,7 +102,10 @@ class Chr_Admin extends Controller
 
     function Officer_Reports(){
         $feedback = Feedback::all()->sortByDesc('id');
-        return view('officer.report',compact('feedback'));
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
+        return view('officer.report',compact('feedback', 'admin'));
 }
     function Admin(){
               return view('admin.login');
@@ -112,6 +115,9 @@ class Chr_Admin extends Controller
     // officer
     function Officer_Dashboard(){
         $admin_username = session('admin_username');
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
         $id = session('id');
 
         $users = User::all();
@@ -147,17 +153,20 @@ class Chr_Admin extends Controller
         }
 
         return view('officer.dashboard', compact('admin_username','userCount','complain',
-    'message', 'forums', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
+    'message', 'forums', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount', 'admin'));
    }
    function Officer_Form_9(){
         $admin_username = session('admin_username');
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
         $cases = Cases::where('age', '>', 17)
         ->where(function ($query) {
             $query->where('status', 'Processing')
                   ->orWhere('status', 'Interview');
         })
         ->get();
-        return view('officer.form-9', compact('admin_username', 'cases'));
+        return view('officer.form-9', compact('admin_username', 'cases', 'admin'));
     }
     function Officer_Form_10(){
         $admin_username = session('admin_username');
@@ -167,18 +176,24 @@ class Chr_Admin extends Controller
                   ->orWhere('status', 'Interview');
         })
         ->get();
-        return view('officer.form-10', compact('admin_username', 'cases'));
+        return view('officer.form-10', compact('admin_username', 'cases', 'admin'));
     }
     function Officer_User_Account(){
         $admin_username = session('admin_username');
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
         $user = User::all()->sortByDesc('id');
-        return view('officer.user-account', compact('admin_username','user'));
+        return view('officer.user-account', compact('admin_username','user', 'admin'));
     }
     function Officer_Endorse(){
         $admin_username = session('admin_username');
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
         $cases = Cases::all()->sortByDesc('created_at');
 
-        return view('officer.endorse', compact('admin_username', 'cases'));
+        return view('officer.endorse', compact('admin_username', 'cases', 'admin'));
     }
 
 
@@ -186,15 +201,21 @@ class Chr_Admin extends Controller
 
     function Officer_Messages(){
         $admin_email = session('admin_email');
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
         $room = Room::where('person_2', $admin_email) ->get();
         $roomcount = $room->count();
-        return view('officer.entrymessage',compact('room'));
+        return view('officer.entrymessage',compact('room', 'admin'));
     }
 
 
 
     function Officer_Message(){
         $admin_username = session('admin_username');
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
 
         $messages = Message::where('receiver_id', 'officer')
                         ->where('room', '123')
@@ -208,7 +229,7 @@ class Chr_Admin extends Controller
                     ->get();
 
         $admin_email = session()->get('admin_email');
-        return view('officer.message', compact('admin_username','admin_email' ,'messages','messages2' ));
+        return view('officer.message', compact('admin_username','admin_email' ,'messages','messages2', 'admin'));
     }
 
     public function sendMessage(Request $request)
@@ -223,6 +244,9 @@ class Chr_Admin extends Controller
     }
 
     function Officer_Content(){
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
         $admin_username = session('admin_username');
         $book = Ask::all()->sortByDesc('id');
         $case = Content_Case::all()->sortByDesc('id');
@@ -245,7 +269,8 @@ class Chr_Admin extends Controller
                 'casecount',
                 'forumcount',
                 'sectorcount',
-                'newscount',));
+                'newscount',
+                'admin'));
     }
 
     public function contentcase(Request $request)

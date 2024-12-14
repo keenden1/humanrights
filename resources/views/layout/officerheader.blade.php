@@ -9,8 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/officer/newstyle.css') }}">
     <link href="fontawesome-free-6.4.2-web/css/all.min.css" rel="stylesheet">
     <link href="fontawesome-free-6.4.2-web/css/fontawesome.min.css" rel="stylesheet">
-    <script src="{{ asset('js/admin/officer.js') }}"></script> 
-    <script src="{{ asset('js/admin/admin.js') }}"></script> 
+    <script src="{{ asset('js/admin/officer.js') }}"></script>
+    <script src="{{ asset('js/admin/admin.js') }}"></script>
 </head>
 <body class="nav-md">
 
@@ -27,14 +27,15 @@
         <!-- menu profile quick info -->
         <div class="profile clearfix">
           <div class="profile_pic">
-            <img src="logo/logo.png" alt="..." class="img-circle profile_img">
+            <img class="avatar"
+                src="{{ $admin->profile_image ? asset('storage/' . $admin->profile_image) : asset('logo/logo.png') }}">
           </div>
           <div class="profile_info">
             <span>Welcome,</span>
             <h2> @if(session('admin_username'))
                 {{ session('admin_username') }}
                    @endif
-               
+
                   </h2>
           </div>
         </div>
@@ -94,15 +95,16 @@
 
 
           <ul class="nav navbar-nav navbar-right">
-            
+
             <li class="profile_side apple">
               <a href="#" class="user-profile" >
-                <img src="logo/logo.png" alt="">
-                 
+                <img
+                src="{{ $admin->profile_image ? asset('storage/' . $admin->profile_image) : asset('logo/logo.png') }}">
+
                 @if(session('admin_username'))
                {{ session('admin_username') }}
                    @endif
-                
+
                 &nbsp;
                 <span class=" fa fa-angle-down"></span>
               </a>
@@ -253,7 +255,7 @@
 }
 
 .profile_side:hover #menu1 {
-  display: block; 
+  display: block;
 }
 
 #menu1 {
@@ -264,9 +266,9 @@
   border-radius: 4px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   width: 210px;
-  z-index: 1000; 
-  max-height: 300px; 
-  overflow-y: auto; 
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -275,7 +277,7 @@
   align-items: center;
   cursor: pointer;
   transition: background-color 0.3s, padding 0.3s ease-in-out;
-  border-radius: 6px; 
+  border-radius: 6px;
   margin: 0 20px;
 }
 
