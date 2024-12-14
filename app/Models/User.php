@@ -33,6 +33,7 @@ class User extends Authenticatable
         'motto',
         'gender',
         'address',
+        'profile_image',
     ];
 
     /**

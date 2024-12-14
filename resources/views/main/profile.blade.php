@@ -12,10 +12,16 @@
 <body>
 @include('layout.header')
 
+
 <div class="center">
 <div class="container">
+    
    <div class="sidebar">
-    <img alt="Profile picture of a person standing by the sea during sunset" height="100" src="https://storage.googleapis.com/a1aa/image/Sw3yUi2YSAJwBNmWjRv2Tscch8ed2BEOBFBWR52sjhfyiLyTA.jpg" width="100"/>
+   
+    <img 
+      src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('logo/logo.png') }}">
+   
+   <!-- <img alt="Profile picture of a person standing by the sea during sunset" height="100" src="https://storage.googleapis.com/a1aa/image/Sw3yUi2YSAJwBNmWjRv2Tscch8ed2BEOBFBWR52sjhfyiLyTA.jpg" width="100"/> -->
     <h2>
     {{ $user->firstname }} {{ $user->middlename }} {{ $user->lastname }}
     </h2>
@@ -107,9 +113,21 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>Update Profile</h2>
-        <form action="{{ route('profile.update', session('user_id')) }}) }}" method="POST">
+        <form action="{{ route('profile.update', session('user_id')) }}" method="POST"  enctype="multipart/form-data">
+        <!-- <form action="{{ route('profile.update', $user->id) }}" method="POST" enctype="multipart/form-data"> -->
             @csrf
             @method('PUT') 
+            <div class="form-group">
+            <label for="firstname">Profile Image:</label>
+                <input
+                  type="file"
+                  id="profile_image"
+                  name="profile_image"
+                  class="file"
+                  accept="image/*"
+                  
+                />
+              </div>
             <div class="form-group">
                 <label for="firstname">First Name:</label>
                 <input type="text" name="firstname" id="firstname" value="{{ $user->firstname }}" required>
@@ -174,6 +192,17 @@
 </div>
 @include('layout.footer')
 <style>
+ /* .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow: hidden;
+    display: block;
+    margin: auto;
+    transform: translateY(23px);
+} */
+    
      .modal {
         display: none; 
         position: fixed; 
@@ -295,8 +324,7 @@
             border-right: 1px solid #e0e0e0;
             padding-right: 20px;
             text-align: center;
-        }
-        .sidebar img {
+        } .sidebar img {
             border-radius: 50%;
             border: 4px solid #007bff;
             width: 100px;
@@ -306,6 +334,7 @@
             border: 4px solid #0056b3; /* Darker blue on hover */
             box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Blue glow effect */
         }
+       
         .sidebar h2 {
             font-size: 24px;
             margin: 10px 0;
@@ -359,11 +388,11 @@
     }
 
     @media (max-width: 480px) {
+       
         .sidebar img {
             width: 80px;
             height: 80px;
         }
-
         .sidebar h2 {
             font-size: 20px;
         }
@@ -447,6 +476,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 3000);
         }
     });
+   
+  </script>
 </script>
 </body>
 </html>

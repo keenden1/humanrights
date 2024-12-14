@@ -6,6 +6,7 @@
     <div class="Main-logo">
         <span>
         <img src="{{ asset('logo/logo.png') }}" alt="" height="80px" width="auto">
+        
         </span>
         <span class="Main-logo-title">
         <p style="color: #000;">REPUBLIC OF THE PHILIPPINES</p>
@@ -26,9 +27,13 @@
                 </div>
         </div>
         <a href="{{ url('AboutUs') }}">About&#160;Us</a>
-        @if(Auth::check())
+            @if(Auth::check())
+        
         <div class="dropdown" id="dropdrop">
-                <a href="" id="dropbtn"><i class="fa-solid fa-user"></i> <img src="{{ asset('logo/logo.png') }}" alt="logo" width="40px" height="auto"></a>
+        <a href="" id="dropbtn">
+            <i class="fa-solid fa-user"></i>
+            <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('logo/logo.png') }}" alt="logo" class="avatar">
+        </a>
                 <div class="dropdown-content">
                 <a href="{{ route('profile.show', session('user_id')) }}" id="complaint">Profile</a>
                     <a href="{{ url('Message') }}" id="law-book">Message</a>
@@ -63,3 +68,16 @@
       </div>
     </section>
 </div>
+
+<style>
+    .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow: hidden;
+    display: block;
+    margin: auto;
+    transform: translateY(23px);
+}
+</style>
