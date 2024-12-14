@@ -230,21 +230,29 @@ class Chr_User extends Controller
         return redirect(route('Login'))->with("error", "Invalid login credentials");
     }
 
-    public function updateprofile(Request $request, $user_id)
-    {
-        // Validation
-        $validatedData = $request->validate([
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'middlename' => 'max:255',
-        ]);
+    public function updateProfile(Request $request, $user_id)
+{
+    // Validation
+    $validatedData = $request->validate([
+        'firstname' => 'required|max:255',
+        'middlename' => 'nullable|max:255',
+        'lastname' => 'required|max:255',
+        'user_email' => 'required|email|max:255',
+        'birthdate' => 'nullable|date',
+        'age' => 'nullable|integer|min:0|max:150',
+        'address' => 'required|max:500',
+        'gender' => 'required|in:Male,Female,Other',
+        'contact' => 'nullable|regex:/^\d{10,15}$/',
+        'motto' => 'nullable|max:255',
+    ]);
 
-        // Update the profile
-        $profile = User::findOrFail($user_id);
-        $profile->update($validatedData);
+    // Update the profile
+    $profile = User::findOrFail($user_id);
+    $profile->update($validatedData);
 
-        return redirect()->route('profile.show', $user_id)->with('success', 'Profile updated successfully.');
-    }
+    return redirect()->route('profile.show', $user_id)->with('success', 'Profile updated successfully.');
+}
+
 
     public function user_register_post(Request $request)
     {

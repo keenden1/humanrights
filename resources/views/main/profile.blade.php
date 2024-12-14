@@ -17,7 +17,7 @@
    <div class="sidebar">
     <img alt="Profile picture of a person standing by the sea during sunset" height="100" src="https://storage.googleapis.com/a1aa/image/Sw3yUi2YSAJwBNmWjRv2Tscch8ed2BEOBFBWR52sjhfyiLyTA.jpg" width="100"/>
     <h2>
-    {{ $user->username }} 
+    {{ $user->firstname }} {{ $user->middlename }} {{ $user->lastname }}
     </h2>
     <p>
     {{ $user->user_email }}
@@ -41,15 +41,27 @@
     </h3>
     <p>
      <strong>
-      Name:
+      First Name:
      </strong>
-     {{ $user->firstname }} {{ $user->middlename }} {{ $user->lastname }}
+     {{ $user->firstname }} 
+    </p>
+    <p>
+     <strong>
+      Midle Name:
+     </strong>
+     {{ $user->middlename }} 
+    </p>
+    <p>
+     <strong>
+      Last Name:
+     </strong>
+      {{ $user->lastname }}
     </p>
     <p>
      <strong>
       Email Address:
      </strong>
-     {{ $user->email ?? "N/A"}}
+     {{ $user->user_email ?? "N/A"}}
     </p>
     <p>
      <strong>
@@ -59,33 +71,21 @@
     </p>
     <p>
      <strong>
-      Gender:
-     </strong>
-     {{ $user->gender ?? "N/A"}}
-    </p>
-    <p>
-     <strong>
       Age:
      </strong>
      {{ $user->age ?? "N/A"}}
     </p>
     <p>
      <strong>
-      Height:
+      Gender:
      </strong>
-     {{ $user->height ?? "N/A"}}
-    </p>
-    <p>
-     <strong>
-      Weight:
-     </strong>
-     {{ $user->weight ?? "N/A"}}
+     {{ $user->gender ?? "N/A"}}
     </p>
     <p>
      <strong>
       Address:
      </strong>
-     {{ $user->weight ?? "N/A"}}
+     {{ $user->address ?? "N/A"}}
     </p>
     <p>
      <strong>
@@ -97,6 +97,11 @@
    </div>
   </div>
 </div>
+@if (session('success'))
+    <div class="alert alert-success" id="successMessage">
+        {{ session('success') }}
+    </div>
+@endif
  
 <div id="updateModal" class="modal">
     <div class="modal-content">
@@ -117,9 +122,47 @@
                 <label for="lastname">Last Name:</label>
                 <input type="text" name="lastname" id="lastname" value="{{ $user->lastname }}" required>
             </div>
+            <div class="form-group">
+                <label for="user_email">Email Address:</label>
+                <input type="text" name="user_email" id="user_email" value="{{ $user->user_email }}" required>
+                <div class="error-message" id="error-email"></div>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">Date of Birth:</label>
+                <input type="date" name="birthdate" id="birthdate"  value="{{ $user->birthdate }}" >
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="text" name="age" id="age" value="{{ $user->age }}" required>
+            </div>
+          
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" name="address" id="address" value="{{ $user->address }}" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Number:</label>
+                <input type="text" name="contact" id="contact" value="{{ $user->contact }}" required>
+                <div class="error-message" id="error-contact"></div>
+            </div>
            
             <div class="form-group">
-                <button type="submit">Update</button>
+                <label for="motto">Motto:</label>
+                <input type="text" name="motto" id="motto" value="{{ $user->motto }}" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select name="gender" id="gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="Male" {{ $user->gender == 'Male' ? 'selected' : '' }}>Male</option>
+                    <option value="Female" {{ $user->gender == 'Female' ? 'selected' : '' }}>Female</option>
+                    <option value="Other" {{ $user->gender == 'Other' ? 'selected' : '' }}>Other</option>
+                </select>
+            </div>
+           
+           
+            <div class="form-group">
+                <button  id="updateButton" type="submit">Update</button>
             </div>
         </form>
          <!-- <div class="form-group">
@@ -134,25 +177,57 @@
      .modal {
         display: none; 
         position: fixed; 
-        z-index: 1; 
+        z-index: 100; 
         left: 0;
         top: 0;
         width: 100%; 
         height: 100%;
         background-color: rgba(0, 0, 0, 0.4); 
-        padding-top: 60px;
     }
 
     /* Modal Content */
     .modal-content {
         background-color: #fefefe;
         margin: 5% auto;
-        padding: 20px;
+        padding: 10px;
         border: 1px solid #888;
         width: 80%; 
         max-width: 600px;
         border-radius: 8px;
     }
+    .modal-content h2 {
+    text-align: center;
+    margin: 10px 0; 
+    }
+    .error-message {
+    color: red;
+    font-size: 0.85em;
+    display: none;
+    width: 100%;
+    padding: 6px;
+    margin: 2px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 15px auto;
+    font-size: 1em;
+    max-width: 600px;
+    text-align: center;
+    opacity: 1; /* Default visible state */
+    transition: opacity 0.5s ease; /* Smooth fade-out */
+    position: fixed;
+    top: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999; /* Ensure it stays above other elements */
+}
+
+
 
     /* The Close Button */
     .close {
@@ -164,22 +239,26 @@
 
     .close:hover,
     .close:focus {
-        color: black;
+        color: red;
         text-decoration: none;
         cursor: pointer;
     }
 
     /* Form Styling */
     .form-group {
-        margin: 15px;
+        margin: 10px;
     }
 
-    .form-group input {
+    .form-group input, select{
         width: 100%;
-        padding: 8px;
-        margin: 5px 0;
+        padding: 6px;
+        margin: 2px;
         border: 1px solid #ccc;
         border-radius: 4px;
+    }
+    .form-group label {
+        width: 100%;
+        padding: 5px;
     }
 
     .form-group button {
@@ -314,6 +393,60 @@ window.onclick = function(event) {
         closeModal();
     }
 }
+
+// for input validations
+document.addEventListener("DOMContentLoaded", function () {
+        const fields = {
+            contact: document.getElementById("contact"),
+            email: document.getElementById("user_email"),
+        };
+
+        const errorMessages = {
+            contact: document.getElementById("error-contact"),
+            email: document.getElementById("error-email")
+        };
+
+        const updateButton = document.getElementById("updateButton");
+
+        // Validation rules
+        const validate = {
+            contact: value => /^\d{11}$/.test(value) ? '' : 'Contact number must be exactly 11 digits.',
+            email: value => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value) ? '' : 'Please enter a valid email address.'
+        };
+
+        // General validation function
+        function validateField(field, value) {
+            const errorMessage = validate[field](value);
+            errorMessages[field].textContent = errorMessage;
+            errorMessages[field].style.display = errorMessage ? "block" : "none";
+            updateButton.disabled = !!(errorMessages.contact.textContent || errorMessages.email.textContent);
+        }
+
+        // Add event listeners for real-time validation
+        fields.contact.addEventListener("input", () => validateField("contact", fields.contact.value.trim()));
+        fields.email.addEventListener("input", () => validateField("email", fields.email.value.trim()));
+
+        // Initial validation check on page load
+        validateField("contact", fields.contact.value.trim());
+        validateField("email", fields.email.value.trim());
+    });
+
+    // for susccess messsage
+    document.addEventListener("DOMContentLoaded", function () {
+        const successMessage = document.getElementById("successMessage");
+
+        if (successMessage) {
+            // Automatically hide the success message after 3 seconds
+            setTimeout(() => {
+                successMessage.style.transition = "opacity 0.5s ease"; // Optional fade-out effect
+                successMessage.style.opacity = "0";
+
+                setTimeout(() => {
+                    successMessage.remove(); // Remove from DOM after fade-out
+                }, 500); // Allow fade-out effect to complete before removal
+            }, 3000);
+        }
+    });
 </script>
 </body>
 </html>
