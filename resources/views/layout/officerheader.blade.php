@@ -32,11 +32,7 @@
           </div>
           <div class="profile_info">
             <span>Welcome,</span>
-            <h2> @if(session('admin_username'))
-                {{ session('admin_username') }}
-                   @endif
-
-                  </h2>
+            <h2>{{ $admin->fname }} {{ $admin->lname }}</h2>
           </div>
         </div>
         <!-- /menu profile quick info -->
