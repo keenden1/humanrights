@@ -35,7 +35,7 @@
                     <a href="{{ route('logout') }}" id="complaint">Log-out</a>
                 </div>
         </div>
-                    
+
                 @else
                     <a href="{{ url('Login') }}">Login</a>
                 @endif

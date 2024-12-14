@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Cases;
 use App\Models\Feedback;
 use Barryvdh\DomPDF\Facade\PDF;
@@ -23,7 +24,15 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 class Chr_Admin extends Controller
 {
-    
+
+    /**
+     * Update admin profile with profile image.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+
 
     public function generateReport(Request $request)
     {
@@ -34,21 +43,21 @@ class Chr_Admin extends Controller
         $year = $request->input('year');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-    
+
         // Initialize query
         $query = DB::table('case');
-    
+
         // Filter by date range if 'daily' is selected
         if ($setdate === 'daily' && $startDate && $endDate) {
             $query->whereBetween('created_at', [$startDate, $endDate]);
         }
-    
+
         // Filter by year and month if 'monthly' is selected
         if ($setdate === 'monthly' && $year && $month) {
             $query->whereYear('created_at', $year)
                   ->whereMonth('created_at', date('m', strtotime($month)));
         }
-    
+
         // Filter by week if 'weekly' is selected
         if ($setdate === 'weekly' && $year && $month && $week) {
             $weekRanges = [
@@ -57,14 +66,14 @@ class Chr_Admin extends Controller
                 'week3' => [15, 21],
                 'week4' => [22, 31],
             ];
-    
+
             if (isset($weekRanges[$week])) {
                 $start = "$year-" . date('m', strtotime($month)) . "-" . $weekRanges[$week][0];
                 $end = "$year-" . date('m', strtotime($month)) . "-" . $weekRanges[$week][1];
                 $query->whereBetween('created_at', [$start, $end]);
             }
         }
-    
+
         $data = [];
         if ($setdata === 'gender') {
             $data = $query->selectRaw('gender, COUNT(*) as count')
@@ -74,23 +83,23 @@ class Chr_Admin extends Controller
                 return [$item->gender => $item->count]; // Format the data as key-value pairs
             });
         } elseif ($setdata === 'age') {
-            $data = $query->selectRaw("CASE 
-                                        WHEN age < 18 THEN 'Minor' 
-                                        WHEN age >= 18 THEN 'Legal' 
-                                        ELSE 'Unknown' 
+            $data = $query->selectRaw("CASE
+                                        WHEN age < 18 THEN 'Minor'
+                                        WHEN age >= 18 THEN 'Legal'
+                                        ELSE 'Unknown'
                                       END as age_group, gender, COUNT(*) as count")
                           ->groupBy('age_group', 'gender')
                           ->get();
             $data = $data->mapWithKeys(function ($item) {
-                return [$item->age_group . ' - ' . $item->gender => $item->count]; 
+                return [$item->age_group . ' - ' . $item->gender => $item->count];
             });
         }
         return response()->json($data);
     }
-    
-    
 
-    
+
+
+
     function Officer_Reports(){
         $feedback = Feedback::all()->sortByDesc('id');
         return view('officer.report',compact('feedback'));
@@ -103,7 +112,7 @@ class Chr_Admin extends Controller
     // officer
     function Officer_Dashboard(){
         $admin_username = session('admin_username');
-        $id = session('id'); 
+        $id = session('id');
 
         $users = User::all();
         $userCount = $users->count();
@@ -114,23 +123,23 @@ class Chr_Admin extends Controller
         $role = session('role');
         $forums = Content_Forum::count();
 
-                     
+
         $maleLegalCount = $complains->where('gender', 'Male')->filter(function($case) {
             return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
         })->count();
-        
+
         $maleMinorCount = $complains->where('gender', 'Male')->filter(function($case) {
             return \Carbon\Carbon::parse($case->birthdate)->age < 18;
         })->count();
-        
+
         $femaleLegalCount = $complains->where('gender', 'Female')->filter(function($case) {
             return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
         })->count();
-        
+
         $femaleMinorCount = $complains->where('gender', 'Female')->filter(function($case) {
             return \Carbon\Carbon::parse($case->birthdate)->age < 18;
         })->count();
-        
+
 
 
         if (!session('admin_username') || !session('id') || session('role') !== 'officer') {
@@ -168,7 +177,7 @@ class Chr_Admin extends Controller
     function Officer_Endorse(){
         $admin_username = session('admin_username');
         $cases = Cases::all()->sortByDesc('created_at');
-    
+
         return view('officer.endorse', compact('admin_username', 'cases'));
     }
 
@@ -201,14 +210,14 @@ class Chr_Admin extends Controller
         $admin_email = session()->get('admin_email');
         return view('officer.message', compact('admin_username','admin_email' ,'messages','messages2' ));
     }
-    
+
     public function sendMessage(Request $request)
     {
         $message = new Message();
         $message->sender_id = "admin@gmail.com";
         $message->receiver_id = $request->receiver_id;
         $message->message = $request->message;
-        $message->room = $request->room; 
+        $message->room = $request->room;
         $message->save();
         return redirect()->back();
     }
@@ -256,7 +265,7 @@ class Chr_Admin extends Controller
         return redirect()->back()->with('success', 'Case deleted successfully!');
     }
 
-    
+
     public function contentbook(Request $request)
     {
         $validatedData = $request->validate([
@@ -312,7 +321,7 @@ class Chr_Admin extends Controller
         return redirect()->back()->with('success', 'Case deleted successfully!');
     }
 
- 
+
     public function contentsector(Request $request)
     {
         $validatedData = $request->validate([
@@ -345,8 +354,8 @@ class Chr_Admin extends Controller
         $case = Content_Forum::findOrFail($id);
         $case->delete();
         return redirect()->back()->with('success', 'Case deleted successfully!');
-    }  
-    
+    }
+
     function Officerchatbot(){
         $admin_username = session('admin_username');
         return view('officer.chatbot', compact('admin_username'));
@@ -358,7 +367,7 @@ class Chr_Admin extends Controller
     function Officer_Setting(){
         $admin_username = session('admin_username');
         $admin_id = session('id');
-        $admin = Admin::findOrFail($admin_id); 
+        $admin = Admin::findOrFail($admin_id);
         return view('officer.setting', compact('admin_username','admin'));
     }
     public function update(Request $request)
@@ -370,13 +379,13 @@ class Chr_Admin extends Controller
             'middlename' => 'nullable|string|max:255',
             'lastname' => 'required|string|max:255',
             'motto' => 'nullable|string|max:255',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $admin->fname = $request->input('firstname');
         $admin->mname = $request->input('middlename');
         $admin->lname = $request->input('lastname');
         $admin->motto = $request->input('motto');
-    
+
         if ($request->hasFile('profile_image')) {
             if ($admin->profile_image && Storage::exists($admin->profile_image)) {
                 Storage::delete($admin->profile_image);
@@ -387,8 +396,8 @@ class Chr_Admin extends Controller
         $admin->save();
         return redirect()->route('officer.setting')->with('success', 'Profile updated successfully.');
     }
-    
-    
+
+
     public function showprofile($user_id)
     {
         return view('main.profile', compact('user'));
@@ -399,61 +408,61 @@ class Chr_Admin extends Controller
             'report' => 'required|string',
             'admin_username' => 'required|string',
         ]);
-    
+
         // Find the case by reference number and update the summary field
         $case = Cases::where('reference_number', $request->input('reference_number'))->first();
-    
+
         if ($case) {
             $case->summary = $request->input('report'); // Update the summary with the report value
             $case->in_charge = $request->input('admin_username');
             $case->status = 'Endorse';
             $case->save(); // Save changes to the database
-    
+
             return redirect()->back()->with('success', 'Case summary updated successfully.');
         }
-    
+
         return redirect()->back()->with('error', 'Case not found.');
 
 
     }
 
 
-    
+
    // officer
- 
+
 
 
 
     // Legal Head
-   
+
    function Legal_Head_Dashboard(){
     $admin_username = session('admin_username');
-    $id = session('id'); 
+    $id = session('id');
     $complains = Cases::all();
     $complain = $complains->count();
     $role = session('role');
     $forums = Content_Forum::count();
 
-                     
+
     $maleLegalCount = $complains->where('gender', 'Male')->filter(function($case) {
         return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
     })->count();
-    
+
     $maleMinorCount = $complains->where('gender', 'Male')->filter(function($case) {
         return \Carbon\Carbon::parse($case->birthdate)->age < 18;
     })->count();
-    
+
     $femaleLegalCount = $complains->where('gender', 'Female')->filter(function($case) {
         return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
     })->count();
-    
+
     $femaleMinorCount = $complains->where('gender', 'Female')->filter(function($case) {
         return \Carbon\Carbon::parse($case->birthdate)->age < 18;
     })->count();
     if (!session('admin_username') || !session('id') || session('role') !== 'legal') {
         return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
     }
-    return view('legalhead.dashboard', compact('admin_username','complain','forums', 'maleLegalCount', 
+    return view('legalhead.dashboard', compact('admin_username','complain','forums', 'maleLegalCount',
     'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
 }
 function Legal_Head_Case(){
@@ -492,7 +501,7 @@ public function adminapproveCase(Request $request)
     $assign = $request->input('assign_to');
     $referenceNumber = $request->input('reference_number');
     $case = Cases::where('reference_number', $referenceNumber)->first();
-    
+
     if ($case) {
         $case->status = 'Endorse to Lawyer';
         $case->assign = $assign;
@@ -535,50 +544,50 @@ public function adminapproveCase(Request $request)
 
             return redirect()->back()->with('success', 'Case approved successfully!');
         }
-    
+
         return redirect()->back()->with('error', 'Case not found.');
     }
-    
+
 
     public function endorseCase(Request $request)
     {
         $referenceNumber = $request->input('reference_number');
-    
+
         $case = Cases::where('reference_number', $referenceNumber)->first();
-        
+
         if ($case) {
             $case->status = 'On Going Endorse';
             $case->save();
             return redirect()->back()->with('success', 'Case Endorse successfully!');
         }
-    
+
         return redirect()->back()->with('error', 'Case not found.');
     }
     public function approveendorseCase(Request $request)
     {
         $referenceNumber = $request->input('reference_number');
-    
+
         $case = Cases::where('reference_number', $referenceNumber)->first();
-        
+
         if ($case) {
             $case->status = 'Approved Endorse';
             $case->save();
             return redirect()->back()->with('success', 'Case Approved successfully!');
         }
-    
+
         return redirect()->back()->with('error', 'Case not found.');
     }
 
     public function calculateRatings() {
         $sumRating = Feedback::sum('rating');
-        $averageRating = Feedback::avg('rating'); 
+        $averageRating = Feedback::avg('rating');
         $percentage = ($averageRating / $sumRating) * 100;
         $totalFeedBack = Feedback::count();
 
         //complains
-        $totalCases = Cases::all(); 
-       
-        
+        $totalCases = Cases::all();
+
+
        // Get all cases
 
         $maleLegalCount = $totalCases->where('gender', 'Male')->filter(function($case) {
@@ -611,14 +620,17 @@ public function adminapproveCase(Request $request)
             'femaleLegalCount' => $femaleLegalCount,
             'femaleMinorCount' => $femaleMinorCount
         ];
-        
+
     }
 
    // Admin
    public function Admin_Dashboard()
 {
     $admin_username = session('admin_username');
-    $id = session('id'); 
+    // Fetch the currently authenticated admin
+    $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+    $admin = Admin::findOrFail($admin_id);
+    $id = session('id');
     $role = session('role');
     $calculations = $this->calculateRatings();
     [
@@ -638,66 +650,146 @@ public function adminapproveCase(Request $request)
         return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
     }
     return view('admin.admindashboard', compact('admin_username', 'averageRating', 'percentage', 'sumRating',
-     'totalCases', 'totalFeedBack', 'totalUsers', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
+     'totalCases', 'totalFeedBack', 'totalUsers', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount', 'admin'));
 }
 
             function Admin_Endorse(){
                 $admin_username = session('admin_username');
+                // Fetch the currently authenticated admin
+                $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+                $admin = Admin::findOrFail($admin_id);
                 $cases = Cases::where(function ($query) {
                     $query->where('status', 'Approved Endorse');
                 })
                 ->get();
                 $staffMembers = Admin::where('role', 'lawyer')->pluck('admin_username');
-                return view('admin.endorse', compact('admin_username', 'cases','staffMembers'));
+                return view('admin.endorse', compact('admin_username', 'cases','staffMembers', 'admin'));
             }
 
             function Admin_Case(){
                 $admin_username = session('admin_username');
+                // Fetch the currently authenticated admin
+                $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+                $admin = Admin::findOrFail($admin_id);
                 $cases = Cases::all()->sortByDesc('created_at');
-            
-                return view('admin.case', compact('admin_username', 'cases'));
+
+                return view('admin.case', compact('admin_username', 'cases', 'admin'));
             }
             function Admin_Reports(){
                 $admin_username = session('admin_username');
-                return view('admin.report', compact('admin_username'));
+                // Fetch the currently authenticated admin
+                $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+                $admin = Admin::findOrFail($admin_id);
+                return view('admin.report', compact('admin_username', 'admin'));
             }
             function Admin_Setting(){
                 $admin_username = session('admin_username');
                 $admin_id = session('id');
-                $admin = Admin::findOrFail($admin_id); 
+                $admin = Admin::findOrFail($admin_id);
                 return view('admin.setting', compact('admin_username', 'admin'));
             }
-            public function updateAdmin(Request $request)
-            {
+            public function updateAdmin(Request $request) {
+                // Get the currently authenticated admin ID
                 $admin_id = session('id');
                 $admin = Admin::findOrFail($admin_id);
+
+                // Validate incoming request
                 $request->validate([
                     'firstname' => 'required|string|max:255',
                     'middlename' => 'nullable|string|max:255',
                     'lastname' => 'required|string|max:255',
                     'motto' => 'nullable|string|max:255',
-                    'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+                    'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image validation
                 ]);
+
+                // Update admin fields
                 $admin->fname = $request->input('firstname');
                 $admin->mname = $request->input('middlename');
                 $admin->lname = $request->input('lastname');
                 $admin->motto = $request->input('motto');
-            
+
+                // Handle the profile image upload
                 if ($request->hasFile('profile_image')) {
-                    if ($admin->profile_image && Storage::exists($admin->profile_image)) {
-                        Storage::delete($admin->profile_image);
+                    $file = $request->file('profile_image');
+                    \Log::debug('File Details:', [
+                        'Original Name' => $file->getClientOriginalName(),
+                        'Extension' => $file->getClientOriginalExtension(),
+                        'Mime Type' => $file->getMimeType(),
+                    ]);
+
+                    // Delete the old image if it exists
+                    if ($admin->profile_image && Storage::disk('public')->exists($admin->profile_image)) {
+                        Storage::disk('public')->delete($admin->profile_image);
                     }
-                    $imagePath = $request->file('profile_image')->store('profile_images', 'public');
-                    $admin->profile_image = $imagePath;
+
+                    // Store the new profile image
+                    $imagePath = $file->store('profile_images', 'public');
+                    \Log::debug('Image Path:', [$imagePath]);
+
+                    $admin->profile_image = $imagePath; // Save the new image path in the database
                 }
+
+                \Log::debug('Before Save:', [$admin->profile_image]);
+
+                // Save the admin record
                 $admin->save();
+
+                \Log::debug('After Save:', [$admin->profile_image]);
+
+                // Return success response
                 return redirect()->route('admin.setting')->with('success', 'Profile updated successfully.');
             }
 
 
-            
+
+        //    public function updateProfile(Request $request, $id) {
+        //         // Validate incoming request
+        //         $request->validate([
+        //             'fname' => 'nullable|string|max:255',
+        //             'mname' => 'nullable|string|max:255',
+        //             'lname' => 'nullable|string|max:255',
+        //             'motto' => 'nullable|string',
+        //             'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Validate the uploaded image
+        //         ]);
+
+        //         // Find the admin record
+        //         $admin = Admin::findOrFail($id);
+
+        //         // Update admin fields
+        //         $admin->fname = $request->input('fname');
+        //         $admin->mname = $request->input('mname');
+        //         $admin->lname = $request->input('lname');
+        //         $admin->motto = $request->input('motto');
+
+        //         // Handle the profile image upload
+        //         if ($request->hasFile('profile_image')) {
+        //             // Delete the old image if it exists
+        //             if ($admin->profile_image) {
+        //                 Storage::disk('public')->delete($admin->profile_image);
+        //             }
+
+        //             // Store the new profile image
+        //             $path = $request->file('profile_image')->store('profile_images', 'public');
+        //             $admin->profile_image = $path; // Save the file path in the database
+        //         }
+
+        //         // Save the admin record
+        //         $admin->save();
+
+        //         // Return success response
+        //         return response()->json([
+        //             'message' => 'Profile updated successfully.',
+        //             'admin' => $admin,
+        //         ]);
+        //     }
+
+
+
     function Admin_Employee(){
         $admin_username = session('admin_username');
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
 
         $user = Admin::where(function ($query) {
             $query->where('role', 'lawyer')
@@ -705,7 +797,7 @@ public function adminapproveCase(Request $request)
                   ->orWhere('role', 'legal');
              })->get()->sortByDesc('id');
 
-        return view('admin.employee', compact('admin_username','user'));
+        return view('admin.employee', compact('admin_username','user', 'admin'));
     }
       // Admin
 
@@ -713,7 +805,7 @@ public function adminapproveCase(Request $request)
          // lawyer
         function Lawyer_Dashboard(){
             $admin_username = session('admin_username');
-            $id = session('id'); 
+            $id = session('id');
             $role = session('role');
             $messages = Message::all();
             $message = $messages->count();
@@ -723,15 +815,15 @@ public function adminapproveCase(Request $request)
             $maleLegalCount = $complains->where('gender', 'Male')->filter(function($case) {
                 return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
             })->count();
-            
+
             $maleMinorCount = $complains->where('gender', 'Male')->filter(function($case) {
                 return \Carbon\Carbon::parse($case->birthdate)->age < 18;
             })->count();
-            
+
             $femaleLegalCount = $complains->where('gender', 'Female')->filter(function($case) {
                 return \Carbon\Carbon::parse($case->birthdate)->age >= 18;
             })->count();
-            
+
             $femaleMinorCount = $complains->where('gender', 'Female')->filter(function($case) {
                 return \Carbon\Carbon::parse($case->birthdate)->age < 18;
             })->count();
@@ -742,7 +834,7 @@ public function adminapproveCase(Request $request)
             return view('lawyer.lawyer_dashboard', compact('admin_username','complain',
             'message', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
         }
-      
+
 
 
         function Lawyer_Complain(){
@@ -796,9 +888,9 @@ public function adminapproveCase(Request $request)
        ], [
            'admin_password.required' => 'Required admin password.',
        ]);
-   
+
        $admin = Admin::where('admin_username', $request->input('admin_username'))->first();
-   
+
        if ($admin && Hash::check($request->input('admin_password'), $admin->admin_password)) {
            Auth::login($admin);
            $request->session()->put('admin_username', $admin->admin_username);
@@ -808,8 +900,8 @@ public function adminapproveCase(Request $request)
            $request->session()->put('fname', $admin->fname);
            $request->session()->put('lname', $admin->lname);
            $request->session()->regenerate();
-   
-      
+
+
            switch ($admin->role) {
                case 'admin':
                    return redirect()->intended(route('Admin-Dashboard'));
@@ -823,28 +915,28 @@ public function adminapproveCase(Request $request)
                    return redirect()->intended(route('Admin'));
            }
        }
-   
+
        return redirect(route('Admin'))->with("error", "Invalid login credentials");
    }
-   
+
     public function admin_logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('Admin'); 
+        return redirect()->route('Admin');
     }
-    
+
 
     public function printpdf($reference_number)
 {
     $timezone = 'Asia/Manila';
     $currentDateTime = now()->timezone($timezone);
     $formattedDateTime = $currentDateTime->format('F j, Y g:i A');
-    
+
     // Fetch the data from the case table based on the reference number
     $case = DB::table('case')->where('reference_number', $reference_number)->first();
-    
+
     if (!$case) {
         // Handle case when no data is found
         return redirect()->back()->with('error', 'Case not found.');
@@ -852,7 +944,7 @@ public function adminapproveCase(Request $request)
 
     // Pass the case data to the view
     $html = view('layout.print', ['case' => $case])->render();
-    
+
     // Create a new TCPDF instance
     $pdf = new TCPDF();
 
@@ -883,23 +975,23 @@ public function adminapproveCase(Request $request)
     //     $timezone = 'Asia/Manila';
     //     $currentDateTime = now()->timezone($timezone);
     //     $formattedDateTime = $currentDateTime->format('F j, Y g:i A');
-    
+
     //     // Fetch the data from the case table based on the reference number
     //     $case = DB::table('case')->where('reference_number', $reference_number)->first();
-    
+
     //     if (!$case) {
     //         // Handle case when no data is found
     //         return redirect()->back()->with('error', 'Case not found.');
     //     }
-    
+
     //     // Pass the case data to the view
     //     $html = view('layout.print', ['case' => $case])->render();
-    
+
     //     // Generate and download the PDF
     //     $pdf = PDF::loadHTML($html);
     //     return $pdf->download("Report_generation_{$formattedDateTime}.pdf");
     // }
-    
+
     // public function fetchMessages(Request $request)
     // {
     //     $messages = Message::where(function ($query) use ($request) {
@@ -925,6 +1017,6 @@ public function adminapproveCase(Request $request)
     //     return response()->json($message);
     // }
 
- 
+
 
 }
