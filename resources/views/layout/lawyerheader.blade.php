@@ -9,8 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/officer/newstyle.css') }}">
     <link href="fontawesome-free-6.4.2-web/css/all.min.css" rel="stylesheet">
     <link href="fontawesome-free-6.4.2-web/css/fontawesome.min.css" rel="stylesheet">
-    <script src="{{ asset('js/admin/officer.js') }}"></script> 
-    <script src="{{ asset('js/admin/admin.js') }}"></script> 
+    <script src="{{ asset('js/admin/officer.js') }}"></script>
+    <script src="{{ asset('js/admin/admin.js') }}"></script>
 </head>
 <body class="nav-md">
 
@@ -27,7 +27,8 @@
         <!-- menu profile quick info -->
         <div class="profile clearfix">
           <div class="profile_pic">
-            <img src="logo/logo.png" alt="..." class="img-circle profile_img">
+            <img class="avatar"
+                src="{{ $admin->profile_image ? asset('storage/' . $admin->profile_image) : asset('logo/logo.png') }}">
           </div>
           <div class="profile_info">
             <span>Welcome,</span>
@@ -52,7 +53,7 @@
               </li>
               <li><a href="{{ url('Lawyer-Message') }}"><i class="fa-solid fa-users"></i> Message </a></li>
               <li><a href="{{ url('Lawyer-Reports') }}"><i class="fa-solid fa-file-circle-exclamation"></i> Report </a></li>
-           
+
               <li><a href="{{ url('Lawyer-Setting') }}"><i class="fa-solid fa-gear"></i> Settings </a></li>
             </ul>
           </div>
@@ -85,7 +86,8 @@
           <ul class="nav navbar-nav navbar-right">
             <li class="profile_side apple">
               <a href="#" class="user-profile" >
-                <img src="logo/logo.png" alt="">
+                <img
+                src="{{ $admin->profile_image ? asset('storage/' . $admin->profile_image) : asset('logo/logo.png') }}">
                 {{ session('admin_username') }} &nbsp;
                 <span class=" fa fa-angle-down"></span>
               </a>
@@ -110,7 +112,7 @@
     <div class="right_col" role="main">
     @yield('content')
     </div>
-    
+
 </body>
 
 

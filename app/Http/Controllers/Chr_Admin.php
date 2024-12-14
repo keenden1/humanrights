@@ -805,6 +805,9 @@ public function adminapproveCase(Request $request)
          // lawyer
         function Lawyer_Dashboard(){
             $admin_username = session('admin_username');
+            // Fetch the currently authenticated admin
+            $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+            $admin = Admin::findOrFail($admin_id);
             $id = session('id');
             $role = session('role');
             $messages = Message::all();
@@ -832,23 +835,29 @@ public function adminapproveCase(Request $request)
                 return redirect()->route('Admin')->with('error', 'Please log in to access the dashboard.');
             }
             return view('lawyer.lawyer_dashboard', compact('admin_username','complain',
-            'message', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount'));
+            'message', 'maleLegalCount', 'maleMinorCount', 'femaleLegalCount', 'femaleMinorCount', 'admin'));
         }
 
 
 
         function Lawyer_Complain(){
             $admin_username = session('admin_username');
+            // Fetch the currently authenticated admin
+            $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+            $admin = Admin::findOrFail($admin_id);
             $cases = Cases::where('age', '>', 17)
             ->where(function ($query) {
                 $query->where('status', 'Endorse');
             })
             ->get();
-            return view('lawyer.complain', compact('admin_username', 'cases'));
+            return view('lawyer.complain', compact('admin_username', 'cases', 'admin'));
         }
 
         function Lawyer_Cases(){
             $admin_username = session('admin_username');
+            // Fetch the currently authenticated admin
+            $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+            $admin = Admin::findOrFail($admin_id);
             $cases = Cases::where(function ($query) {
                 $query->where('status', 'Endorse')
                       ->orWhere('status', 'On Going Endorse')
@@ -857,25 +866,31 @@ public function adminapproveCase(Request $request)
             })
             ->get();
 
-             return view('lawyer.cases', compact('admin_username', 'cases'));
+             return view('lawyer.cases', compact('admin_username', 'cases', 'admin'));
         }
 
 
         function Lawyer_Message(){
             $admin_username = session('admin_username');
-            return view('lawyer.message', compact('admin_username'));
+            // Fetch the currently authenticated admin
+            $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+            $admin = Admin::findOrFail($admin_id);
+            return view('lawyer.message', compact('admin_username', 'admin'));
         }
         function Lawyer_Reports(){
             $admin_username = session('admin_username');
-            return view('lawyer.report', compact('admin_username'));
+            // Fetch the currently authenticated admin
+            $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+            $admin = Admin::findOrFail($admin_id);
+            return view('lawyer.report', compact('admin_username', 'admin'));
         }
         function Lawyer_Setting(){
             $admin_username = session('admin_username');
-            return view('lawyer.setting', compact('admin_username'));
+            // Fetch the currently authenticated admin
+            $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+            $admin = Admin::findOrFail($admin_id);
+            return view('lawyer.setting', compact('admin_username', 'admin'));
         }
-
-
-
     // lawyer
 
 
