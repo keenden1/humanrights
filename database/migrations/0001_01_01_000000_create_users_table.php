@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('firstname')->nullable();
             $table->string('middlename')->nullable();
             $table->string('lastname')->nullable();
+            $table->string('suffix')->nullable();
             $table->date('birthdate')->nullable();
             $table->integer('age')->nullable();
             $table->string('username')->unique();
@@ -58,10 +59,11 @@ return new class extends Migration
     private function insertDefaultUser(): void
     {
         DB::table('users')->insert([
-            'username' => 'useradmin',
+            'username' => 'admin@gmail.com',
             'firstname' => 'Kim',
             'middlename' => 'S',
             'lastname' => 'Carls',
+            'contact' => '09274415182',
             'user_email' => 'admin@gmail.com',
             'password' => Hash::make('useradmin'),
         ]);

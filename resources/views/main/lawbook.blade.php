@@ -15,9 +15,7 @@
 </div>
 <div class="Main">
 <div class="search-container">
-<i class="fa-solid fa-magnifying-glass" id="change"></i>
-  <input type="text" placeholder="Search about the law...">
-  <button type="submit">Search</button>
+<h1>Reference Book</h1>
 </div>
 </div>
 <div id="Box">
@@ -57,7 +55,7 @@
             </a>
     </div>
 </div>
-
+<br><br><br><br><br><br><br><br><br>
 @include('layout.footer')
 </body>
 </html>

@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('admin_password');
             $table->string('admin_email')->nullable();
             $table->string('employee_id')->nullable();
+            $table->string('fname')->nullable();
+            $table->string('mname')->nullable();
+            $table->string('lname')->nullable();
+            $table->text('motto')->nullable();
+            $table->string('profile_image')->nullable();
             $table->string('role');
         });
         $this->insertDefaultAdmin();

@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Content_Forum extends Model
+class Ask extends Model
 {
     use HasFactory;
-    protected $table = "content_forum";
 
+    protected $table = "asks";
     protected $fillable = [
-        'case',
-        'title',
-        'fname',
-        'lname',
-        'story',
+        'question',
         'email',
+        'text',
+        'image',
+        'officer',
+        'reply',
     ];
-
 }

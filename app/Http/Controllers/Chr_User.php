@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\news;
+use App\Models\Ask;
+use App\Models\Content_Forum;
+use App\Models\Content_Case;
 use App\Mail\VerifyEmailOtp;
 use App\Models\Cases;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +18,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Message;
 use App\Models\Feedback;
 use App\Models\Chatbot;
+use App\Models\Content_Sector;
 use App\Models\Room;
 use App\Models\EmailVerification;
 use Illuminate\Contracts\Validation\Rule;
@@ -61,16 +65,15 @@ class Chr_User extends Controller
             ['email' => $request->user_email],
             ['otp' => $otp, 'expires_at' => Carbon::now()->addMinutes(10)]
         );
-        $users = User::all();
-        // Loop through each user and send the email if user_email is not empty
-        foreach ($users as $user) {
-            if (!empty($user->user_email)) {
-                Mail::to($user->user_email)->send(new VerifyEmailOtp($otp));
+
+
+        $users = $request->user_email;
+            if (!empty($users)) {
+                Mail::to($users)->send(new VerifyEmailOtp($otp));
             } else {
                 // Log or handle the case where the user does not have an email address
-                return back()->with("User with ID {$user->id} does not have a valid email address.");
+                return back()->with("User with ID {$users} does not have a valid email address.");
             }
-        }
 
         return redirect()->route('Verify.email', ['email' => $request->user_email])
         ->with('message', 'OTP has been sent to your email.');
@@ -144,21 +147,6 @@ class Chr_User extends Controller
     public function Homepage(Request $request)
     {
         $chat = Chatbot::all();
-
-        if (Auth::check()) {
-
-            $userEmail = session()->get('user_email', Auth::user()->email);
-            $user = User::where('user_email', $userEmail)->first();
-
-
-                if ($user->email_status === 'verified') {
-                    return view('main.homepage', ['chat' => $chat]);
-                } else {
-                    return redirect()->intended(route('verify.auth', [
-                        'message' => 'Please verify your email to access the homepage.',
-                    ]));
-                }
-            }
         return view('main.homepage', ['chat' => $chat]);
     }
 
@@ -232,6 +220,8 @@ class Chr_User extends Controller
         if ($user && Hash::check($request->input('password'), $user->password)) {
             Auth::login($user);
             $request->session()->put('user_id', $user->id);
+            $request->session()->put('firstname', $user->firstname);
+            $request->session()->put('lastname', $user->lastname);
             $request->session()->put('user_email', $user->user_email);
             $request->session()->regenerate();
             return redirect()->intended(route('Homepage'));
@@ -262,17 +252,16 @@ class Chr_User extends Controller
             'firstname'=>'required',
             'middlename'=>'nullable',
             'lastname'=>'required',
-            'username'=>'required',
+            'suffix'=>'nullable',
             'user_email'=>'required|email|unique:users',
             'password'=>'required|min:8',
-            'repeatpassword' => 'required|same:password',
+            'confirmpassword' => 'required|same:password',
             'contact'=>'required',
-
         ]);
         $data['firstname'] = $request->firstname;
         $data['middlename'] = $request->middlename;
         $data['lastname'] = $request->lastname;
-        $data['username'] = $request->username;
+        $data['username'] = $request->user_email;
         $data['contact'] = $request->contact;
         $data['user_email'] = $request->user_email;
         $data['password'] = Hash::make($request->password);
@@ -281,7 +270,8 @@ class Chr_User extends Controller
         if(!$user){
             return redirect()->back()->with("error", "Registration Failed");
         }
-        return redirect(route('Login'))->with("success", "Registration Success");
+        // return redirect(route('verify.auth'))->with("success", "Registration Success");
+           return redirect(route('Login'))->with("success", "Registration Success");
     }
 
     function logout() {
@@ -325,13 +315,16 @@ class Chr_User extends Controller
             return redirect(route('List'));
         }
 
-        return view('main.complainform');
+        $contentsector = Content_Sector::all();
+        $contentcase = Content_Case::all();
+
+        return view('main.complainform',compact('contentsector','contentcase'));
 
     }
 
     function List() {
         $userId = session('user_id');
-
+      
         $case = Cases::where('user_id', $userId)
                      ->orderBy('created_at', 'desc')
                      ->first();
@@ -339,8 +332,11 @@ class Chr_User extends Controller
                      ->where('status', 'Interview')
                      ->exists();
 
-        return view('main.waitinglist', ['case' => $case, 'caseApproved' => $caseApproved]);
+        return view('main.waitinglist', ['case' => $case, 'caseApproved'=> $caseApproved]);
     }
+
+
+
 // In your controller, e.g., Chr_User.php
 public function checkCaseStatus() {
     $userId = session('user_id');
@@ -382,7 +378,70 @@ public function chat_form(Request $request)
 
 
     function Forum(){
-        return view('main.forum');
+
+        $forum = Content_Forum::all();
+   
+        return view('main.forum', compact('forum'));
+    }
+    function Ask(){
+        $email = session('user_email') ;
+        $ask = Ask::where('email', $email)->get();
+        return view('main.ask', compact('ask'));
+    }
+
+
+    public function Askquestions(Request $request)
+{
+    // Validate inputs
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'question' => 'required|string',
+        'email' => 'required|email',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $fileName = null;
+
+    // Handle file upload if present
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $fileName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('bot_image'), $fileName);
+        $fileName = 'bot_image/' . $fileName; // Relative path
+    }
+
+    // Save to database (ensure Ask model exists and table is set up correctly)
+    Ask::create([
+        'text' => $request->input('title'),
+        'question' => $request->input('question'),
+        'email' => $request->input('email'),
+        'image' => $fileName, // Optional
+    ]);
+
+    return redirect()->back()->with("success", "Your question has been submitted successfully!");
+}
+
+    
+    function forum_post(Request $request){
+        $request->validate([
+            'case' => 'required',
+            'title' => 'required',
+            'story' => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
+            'email' => 'required',
+        ]);
+   
+        Content_Forum::create([
+            'case' => $request->input('case'),
+            'title' => $request->input('title'),
+            'story' => $request->input('story'),
+            'fname' => $request->input('fname'),
+            'lname' => $request->input('lname'),
+            'email' => $request->input('email'),
+        ]);
+        
+        return redirect()->back()->with("success", "Post created Successfully");
     }
 
     function Law(){
@@ -645,7 +704,7 @@ public function downloadReferencePdf(Request $request) {
     $pdf = PDF::loadView('pdf.reference_number', $data);
 
     // Return the PDF file as a download
-    return $pdf->download("reference_number_{$referenceNumber}.pdf");
+    return $pdf->stream("reference_number_{$referenceNumber}.pdf");
     }
 
 }

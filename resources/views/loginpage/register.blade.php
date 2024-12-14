@@ -51,13 +51,13 @@
                             <div class="error-message">*{{ $message }}</div>
                         @enderror
                     </div>
-                </div>
-                <div class="register-input-username">
-                    <input type="text" name="username" value="{{ old('username') }}" required minlength="5">
-                    <label>Username</label>
-                    @error('username')
-                        <div class="error-message">*{{ $message }}</div>
-                    @enderror
+                    <div class="register-input-fullname">
+                        <input type="text" name="suffix" value="{{ old('suffix') }}">
+                        <label>Suffix</label>
+                        @error('suffix')
+                            <div class="error-message">*{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
                 <div class="register-input-email">
                     <input type="email" name="user_email" value="{{ old('user_email') }}" required title="Please enter a valid email address">
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="register-input-contact">
-                    <input type="text" name="contact" value="{{ old('contact') }}" pattern="^09\d{0,9}$" maxlength="11" minlength="11" required>
+                    <input type="text" id="contact" name="contact" value="{{ old('contact') }}" pattern="^09\d{0,9}$" maxlength="11" minlength="11" required>
                     <label>Contact Number</label>
                     @error('contact')
                         <div class="error-message">*{{ $message }}</div>
@@ -76,17 +76,21 @@
                 </div>
 
                 <div class="register-input-password">
-                    <input type="password" name="password" required minlength="8" title="Password must be at least 8 characters long">
+                    <input type="password" id="myInput" name="password" required minlength="8" title="Password must be at least 8 characters long">
                     <label>Password</label>
+                    <i class="fas fa-eye-slash" id="showPasswordIcon" onclick="togglePasswordVisibility()"></i>
+                    <i class="fa-solid fa-eye" id="hidePasswordIcon" style="display: none;" onclick="togglePasswordVisibility()"></i>
                     @error('password')
                         <div class="error-message">*{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="register-input-repeatpassword">
-                    <input type="password" name="repeatpassword" required>
-                    <label>Repeat Password</label>
-                    @error('repeatpassword')
+                    <input type="password"  id="myInput2" name="confirmpassword" required>
+                    <label>Confirm Password</label>
+                    <i class="fas fa-eye-slash" id="showPasswordIcon" onclick="togglePasswordVisibility2()"></i>
+                    <i class="fa-solid fa-eye" id="hidePasswordIcon" style="display: none;" onclick="togglePasswordVisibility2()"></i>
+                    @error('confirmpassword')
                         <div class="error-message">*{{ $message }}</div>
                     @enderror
                 </div>
@@ -106,5 +110,50 @@
     padding: 5px;
 }
 </style>
+<script>
+    // Select the contact input field
+    const contactInput = document.getElementById('contact');
+
+    // Add an event listener for the input event to restrict non-numeric characters
+    contactInput.addEventListener('input', function(e) {
+        // Allow only numbers and reassign the input value
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+
+
+    function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("myInput");
+    var showIcon = document.getElementById("showPasswordIcon");
+    var hideIcon = document.getElementById("hidePasswordIcon");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        showIcon.style.display = "none";
+        hideIcon.style.display = "inline-block";
+    } else {
+        passwordInput.type = "password";
+        showIcon.style.display = "inline-block";
+        hideIcon.style.display = "none";
+    }
+}
+
+function togglePasswordVisibility2() {
+    var passwordInput = document.getElementById("myInput2");
+    var showIcon = document.getElementById("showPasswordIcon2");
+    var hideIcon = document.getElementById("hidePasswordIcon2");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        showIcon.style.display = "none";
+        hideIcon.style.display = "inline-block";
+    } else {
+        passwordInput.type = "password";
+        showIcon.style.display = "inline-block";
+        hideIcon.style.display = "none";
+    }
+}
+
+</script>
 </body>
 </html>

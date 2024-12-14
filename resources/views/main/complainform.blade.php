@@ -43,7 +43,7 @@
   @csrf
   <p id="header" class="description" style="display: none;">Fill-up Carefully</p>
   <div class="half left cf">
-  <p id="header_" class="description">Fill-up Carefully</p>
+  <p id="header_" class="description"  style="font-size:10px !important; font-style: italic !important;">Fill-up Carefully</p>
   <div class="error-message" style="display: none;">error</div>
   <select id="guardian-info" name="identity" onchange="toggleGuardianInfo(this)" required>
     <option value="" disabled selected>Select Your Role</option>
@@ -94,10 +94,9 @@
   <input type="text" id="input-date" name="birthdate" placeholder="Birthdate" onfocus="setDate(this)" onblur="this.type='text';" required>
 <select id="sector" name="sector" onchange="toggleOtherInput()">
     <option value="" disabled selected>Sector</option>
-    <option value="Person with Disability (Pwd)">Person with Disability (Pwd)</option>
-    <option value="Overseas Filipino Worker (OFW)">Overseas Filipino Worker (OFW)</option>
-    <option value="Solo Parent">Solo Parent</option>
-    <option value="Senior Citizen">Senior Citizen</option>
+    @foreach($contentsector as $items)
+    <option value="{{ $items->sector }}">{{ $items->sector }}</option>
+    @endforeach
     <option value="Other">Other</option>
 </select>
 <div id="other-sector" style="display: none;" required>
@@ -105,11 +104,11 @@
 </div>
 <select id="case" name="case" required onchange="toggleOtherInput()">
     <option value="" disabled selected >Case</option>
-    <option value="Bullying">Bullying</option>
-    <option value="Rape">Rape</option>
-    <option value="Rape">Sexual Abuse</option>
-    <option value="Rape">Sexual Harrassment</option>
+    @foreach($contentcase as $item)
+    <option value="{{ $item->case }}">{{ $item->case }}</option>
+    @endforeach
     <option value="Other">Other</option>
+    
   </select>
   <div id="other-case" style="display: none;">
     <input type="text" id="other-case-input" name="othercase" placeholder="Please specify your Case">
@@ -124,7 +123,7 @@
 
   </div>
 </div>
-
+<br><br><br><br><br><br><br><br>
 <br>
 
 @include('layout.footer')
@@ -147,19 +146,18 @@
 
 
 
-
-
-
     var today = new Date().toISOString().split('T')[0];
     document.getElementById('dateInput').setAttribute('max', today);
 
     document.querySelectorAll('textarea').forEach(function(textarea) {
     textarea.addEventListener('input', function() {
-        this.value = this.value.replace(/\b\w/g, function(char) {
-            return char.toUpperCase();
-        });
+        let text = this.value;
+        // Capitalize the first letter of the first word and make the rest lowercase
+        this.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
     });
 });
+
+
 
 function validateContact(input) {
     const errorMessage = document.getElementById('error-message');

@@ -17,6 +17,7 @@ use App\Models\Content_Forum;
 use App\Models\Content_Sector;
 use App\Models\news;
 use App\Models\Room;
+use App\Models\Ask;
 use TCPDF;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -212,10 +213,9 @@ class Chr_Admin extends Controller
         return redirect()->back();
     }
 
-    
     function Officer_Content(){
         $admin_username = session('admin_username');
-        $book = Content_Book::all()->sortByDesc('id');
+        $book = Ask::all()->sortByDesc('id');
         $case = Content_Case::all()->sortByDesc('id');
         $forum = Content_Forum::all()->sortByDesc('id');
         $sector = Content_Sector::all()->sortByDesc('id');
@@ -346,6 +346,11 @@ class Chr_Admin extends Controller
         $case->delete();
         return redirect()->back()->with('success', 'Case deleted successfully!');
     }  
+    
+    function Officerchatbot(){
+        $admin_username = session('admin_username');
+        return view('officer.chatbot', compact('admin_username'));
+    }
     function Officer_Forum(){
         $admin_username = session('admin_username');
         return view('officer.forum', compact('admin_username'));
@@ -800,6 +805,8 @@ public function adminapproveCase(Request $request)
            $request->session()->put('admin_email', $admin->admin_email);
            $request->session()->put('id', $admin->id);
            $request->session()->put('role', $admin->role);
+           $request->session()->put('fname', $admin->fname);
+           $request->session()->put('lname', $admin->lname);
            $request->session()->regenerate();
    
       
@@ -830,45 +837,46 @@ public function adminapproveCase(Request $request)
     
 
     public function printpdf($reference_number)
-    {
-        $timezone = 'Asia/Manila';
-        $currentDateTime = now()->timezone($timezone);
-        $formattedDateTime = $currentDateTime->format('F j, Y g:i A');
-        
-        // Fetch the data from the case table based on the reference number
-        $case = DB::table('case')->where('reference_number', $reference_number)->first();
-        
-        if (!$case) {
-            // Handle case when no data is found
-            return redirect()->back()->with('error', 'Case not found.');
-        }
+{
+    $timezone = 'Asia/Manila';
+    $currentDateTime = now()->timezone($timezone);
+    $formattedDateTime = $currentDateTime->format('F j, Y g:i A');
     
-        // Pass the case data to the view
-        $html = view('layout.print', ['case' => $case])->render();
-        
-        // Create a new TCPDF instance
-        $pdf = new TCPDF();
+    // Fetch the data from the case table based on the reference number
+    $case = DB::table('case')->where('reference_number', $reference_number)->first();
     
-        // Set document information
-        $pdf->SetCreator('Your Application Name');
-        $pdf->SetAuthor('Your Name');
-        $pdf->SetTitle('Case Report');
-        $pdf->SetSubject('Generated Case Report');
-    
-        // Add a page
-        $pdf->AddPage();
-    
-        // Set the font
-        $pdf->SetFont('helvetica', '', 12);
-    
-        // Write HTML content to the PDF
-        $pdf->writeHTML($html, true, false, true, false, '');
-    
-        // Set the file name and download the PDF
-        $filename = "Report_generation_{$formattedDateTime}.pdf";
-        return $pdf->Output($filename, 'D'); // 'D' for download, 'I' for inline display
+    if (!$case) {
+        // Handle case when no data is found
+        return redirect()->back()->with('error', 'Case not found.');
     }
 
+    // Pass the case data to the view
+    $html = view('layout.print', ['case' => $case])->render();
+    
+    // Create a new TCPDF instance
+    $pdf = new TCPDF();
+
+    // Set document information
+    $pdf->SetCreator('Your Application Name');
+    $pdf->SetAuthor('Your Name');
+    $pdf->SetTitle('Case Report');
+    $pdf->SetSubject('Generated Case Report');
+
+    // Add a page
+    $pdf->AddPage();
+
+    // Set the font
+    $pdf->SetFont('helvetica', '', 12);
+
+    // Write HTML content to the PDF
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    // Set the file name for the PDF
+    $filename = "Report_generation_{$formattedDateTime}.pdf";
+
+    // Output the PDF as inline
+    return $pdf->Output($filename, 'I'); // 'I' for inline display
+}
 
     // public function printpdf($reference_number)
     // {

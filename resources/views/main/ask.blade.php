@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum</title>
+    <title>Ask</title>
     <link rel="icon" type="image/x-icon" href="logo/logo.png">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/userpage/forum.css') }}">
 </head>
@@ -13,40 +13,36 @@
 <div class="container">
   <!-- <p class="style">Scroll</p> -->
 <div class="toggle-button-cover">
-  <div class="form"><p>Latest </p> <p> <!-- |</p> <p> Titles </p> --> <p> | &nbsp</p> <p><a href="#" onclick="handlePostClick()" style="text-decoration:none; color:#006699;">Post</a>
+<div class="form"><p>History </p> <p> <!-- |</p> <p> Titles </p> --> <p> | &nbsp</p> <p><a href="#" onclick="showModalone()" style="text-decoration:none; color:#006699;">Add Question</a>
   </p> </div>
 
 
-
-
-
-
-  <div id="updateModalone" class="modal">
+  <div id="updateModalone" class="modal" style="padding-bottom: 1000px;">
     <div class="modal-content">
         <span class="close" onclick="closeModalone()">&times;</span>
-        <h2 id="centered">Create Post</h2>
-        <form action="{{ route('forum.post') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="case">Case:</label>
-                <input type="text" name="case" id="case" required>
-            </div>
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" name="title" id="title" required>
-            </div>
-            <div class="form-group">
-            <textarea  name="story" type="text" id="input-message" placeholder="Story" required
-            style="width: 100%; height:20vh; padding-right:10px;"></textarea>
-            </div>
-
-            <input type="hidden" name="fname" value="{{ session('firstname') ?? null }}">
-            <input type="hidden" name="lname" value="{{ session('lastname') ?? null }}">
-            <input type="hidden" name="email" value="{{ session('user_email') ?? null }}">
-            <div class="form-group" id="centered">
-                <button type="submit" style="margin-right: 40px">Post</button>
-            </div>
-        </form>
+        <h2 id="centered">Question</h2>
+        <form action="{{ route('ask.question') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="form-group">
+        <label for="case">Title:</label>
+        <input type="text" name="title" id="title" required>
+    </div>
+    <div class="form-group">
+        <textarea name="question" id="input-message" placeholder="Question" required
+                  style="width: 100%; height:20vh; padding-right:10px;"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="image">Image:
+            <span style="font-style: italic; color: #888; font-size: 12px; padding-left: 5px;">(optional)</span>
+        </label>
+        <input type="file" name="image" id="image" onchange="displayImage('image', 'image_display_1')">
+        <img id="image_display_1" style="display:none; width: 400px; height: auto;" alt="Image Preview">
+    </div>
+    <input type="hidden" name="email" value="{{ session('user_email') ?? null }}">
+    <div class="form-group" id="centered">
+        <button type="submit" style="margin-right: 40px">Submit</button>
+    </div>
+</form>
         </div>
         </div>
 
@@ -59,18 +55,14 @@
       </div> -->
   </div>
 <div class="scroll" onLoad="autoScroll()">
-@foreach($forum as $item)
+@forelse($ask as $item)
 <table dir="ltr" style="width:100%">
   <tbody>
     <tr>
       <td style="margin:0;padding:0 0 0 16px;text-align:left;vertical-align:top;">
         <p style="color:#8f8f8f;line-height:1.3;margin: 20px 0 0 0;">
-          <a style="text-decoration: none; font-weight: bold; color: #006699;; font-size: 0.857em; white-space: nowrap; display: inline-block; position: relative; line-height: 1; margin-right: 10px;"><span style="background-color: #d47e65;display: inline-block; width: 10px; height: 10px;"></span><span style="color: #222222; vertical-align: text-top; line-height: 1; margin-left: 4px; padding-left: 2px; display: inline;max-width: 150px; overflow: hidden; text-overflow: ellipsis;" data-drop-close="true"> {{ $item->case }}</span></a>
-        </p>
-      </td>
-      <td style="margin:0;padding:0 16px 0 0;text-align:right;vertical-align:top;">
-        <p style="color:#8f8f8f;line-height:1.3;margin:20px 0 0 0;font-weight:400;">
-        {{($item->created_at)->format('F d, Y') }}
+        {{ $item->created_at->format('F d, Y h:i A') }}
+
         </p>
       </td>
     </tr>
@@ -82,8 +74,8 @@
     <tr>
       <td style="padding:0 8px 8px 16px; text-align:left; width:100%;">
         <h2 style="font-size:18px;font-weight:400;line-height:1.3;margin:0;padding:0;word-wrap:normal">
-          <a href="#" style="text-decoration: none; font-weight: bold; color: #006699;; font-weight:400;line-height:1.3;margin:0;padding:0;text-decoration:none">
-            <strong> {{ $item->title }}</strong>
+          <a href="#" style="text-decoration: none; font-weight: bold; color: #006699; font-weight:400;line-height:1.3;margin:0;padding:0;text-decoration:none">
+            <strong>{{($item->question)}}</strong>
           </a>
         </h2>
       </td>
@@ -91,15 +83,38 @@
   </tbody>
 </table>
 
+@if(!is_null($item->image) && $item->image !== '')
 <table dir="ltr" style="padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
   <tbody>
     <tr>
-      <td style="color:#0a0a0a;line-height:1.3;margin:0 auto;padding:0 0 0 16px;width:50px;">
-        <img src="logo/logo.png" style="border-radius:50%;clear:both;display:block;float:none;height:50px;width:50px;margin:0;max-width:100%;outline:0;text-align:center;text-decoration:none;" >
+      <td style="color:#0a0a0a;line-height:1.3;margin:0 auto;padding:0 0 0 16px;width:50px; text-align: center; vertical-align: middle;">
+        <img src="{{ $item->image }}" style=" display:block; margin: 0 auto; height:auto;width:auto; max-width:100%; outline:0;">
       </td>
-      <td style="color:#0a0a0a;padding:0 16px 0 8px;text-align:left;vertical-align:top;">
-            <h6 style="color:inherit;line-height:1.3;margin:0;padding:0;font-weight: normal;font-size:16px;">{{ $item->fname }}</h6>
-          <p style="color:inherit;font-size:14px;font-weight:400;line-height:1.3;margin:0 0 8px 0;padding:0;word-wrap:normal;">{{ $item->lname }}</p>
+    </tr>
+  </tbody>
+</table>
+@endif
+
+<table dir="ltr" style="border-bottom:1px solid #f3f3f3;padding:0;text-align:left;vertical-align:top;width:100%">
+  <tbody>
+    <tr>
+      <td style="color:#0a0a0a;font-size:14px;padding:0 16px 0 16px;text-align:left;width:100%;font-weight:normal;">
+        <p>{{($item->text)}}</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+@if(!is_null($item->reply) && $item->reply !== '')
+<table dir="ltr" style="vertical-align:top;width:100%">
+  <tbody>
+    <tr>
+      <td style="padding:0 8px 8px 16px; text-align:left; width:100%;">
+        <h2 style="font-size:18px;font-weight:400;line-height:1.3;margin:0;padding:0;word-wrap:normal">
+          <a href="#" style="text-decoration: none; font-weight: bold; color: #006699; font-weight:400;line-height:1.3;margin:0;padding:0;text-decoration:none">
+            ↪ Replied by <strong>{{($item->officer)}}</strong>
+          </a>
+        </h2>
       </td>
     </tr>
   </tbody>
@@ -109,32 +124,43 @@
   <tbody>
     <tr>
       <td style="color:#0a0a0a;font-size:14px;padding:0 16px 0 16px;text-align:left;width:100%;font-weight:normal;">
-        <p> {{ $item->story }}</p>
-
+        <p>{{($item->reply)}}</p>
       </td>
     </tr>
   </tbody>
 </table>
-@endforeach
-
-<table dir="ltr" style="padding:0;text-align:left;vertical-align:top;width:100%; margin-top:20px;">
+@else
+<table dir="ltr" style="vertical-align:top;width:100%">
   <tbody>
     <tr>
-      <td style="padding:0 8px 16px 16px;text-align:left;white-space:nowrap;vertical-align:top;width:75px">
-        <img src="https://forum.sublimetext.com/images/emails/heart.png" style="clear:both;display:inline-block;float:left;height:20px;margin:0;max-width:100%;opacity:.4;outline:0;text-decoration:none;width:auto">
-         <p style="color:#8f8f8f;float:left;line-height:1.3;margin:0 5px 10px 5px;padding:0;text-align:left;font-weight:400;"></p><!--asdwa -->
+      <td style="padding:0 8px 8px 16px; text-align:center; width:100%;">
+        <h2 style="font-size:18px;font-weight:400;line-height:1.3;margin:0;padding:0;word-wrap:normal">
+          <a href="#" style="text-decoration: none; font-weight: bold; color: #006699; font-weight:400;line-height:1.3;margin:0;padding:0;text-decoration:none">
+            <strong>😊 Thank you for your patience! Please hold on, your reply is on its way.</strong>
+          </a>
+        </h2>
       </td>
-      <td style="padding:0 8px 16px 8px;text-align:left;white-space:nowrap;vertical-align:top;width:75px">
-        <img src="https://forum.sublimetext.com/images/emails/comment.png" style="clear:none;display:inline-block;float:left;height:20px;margin:0;max-width:100%;opacity:.4;outline:0;text-decoration:none;width:auto">
-        <p style="color:#8f8f8f;float:left;line-height:1.3;margin:0 5px 10px 5px;padding:0;text-align:left;font-weight:400;"></p>
-      </td>
-      <td style="padding:0 8px 16px 8px;text-align:left;white-space:nowrap;vertical-align:top;">
-
-    </td>
-      <td style="line-height:1.3;padding:0 16px 0 8px;text-align:right;white-space:nowrap;vertical-align:top;">
-        <!-- <a href="#" style="text-decoration: none; font-weight: bold; color: #006699;; background-color: #2F70AC; color: #FFFFFF;; width:100%;text-decoration:none;padding:8px 16px;white-space:nowrap;">
-          viewing
-        </a> -->
+    </tr>
+  </tbody>
+</table>
+@endif
+<div style="background-color:#f3f3f3;">
+  <table dir="ltr" style="padding:0;width:100%">
+    <tbody><tr><td height="1px" style="border-collapse:collapse!important;line-height:20px;margin:0;mso-line-height-rule:exactly;padding:0;"> </td></tr></tbody>
+  </table>
+</div>
+@empty
+<table dir="ltr" style="vertical-align:top;width:100%">
+  <tbody>
+ <br><br>
+    <tr>
+      <td style="padding:0 8px 8px 16px; text-align:center; width:100%;">
+        <h2 style="font-size:18px;font-weight:400;line-height:1.3;margin:0;padding:0;word-wrap:normal">
+          <a href="#" style="text-decoration: none; font-weight: bold; color: #006699; font-weight:400;line-height:1.3;margin:0;padding:0;text-decoration:none">
+          
+          <strong>No History</strong>
+          </a>
+        </h2>
       </td>
     </tr>
   </tbody>
@@ -144,22 +170,27 @@
     <tbody><tr><td height="1px" style="border-collapse:collapse!important;line-height:20px;margin:0;mso-line-height-rule:exactly;padding:0;"> </td></tr></tbody>
   </table>
 </div>
+@endforelse
 
+
+
+
+<br><br><br><br><br>
 
 
 
 
 </div>
-
+<br><br><br><br><br>
+<br><br>
 </div>
-<br><br><br><br><br><br><br><br><br>
 <style>
   
 .modal {
         position: relative;
         display: none; 
         position: fixed; 
-        z-index: 1; 
+        z-index: 100000; 
         left: 0;
         top: 0;
         width: 100%; 
@@ -178,15 +209,18 @@
   
     /* Modal Content */
     .modal-content {
-        position: relative;
-        background-color: #fefefe;
-        margin: 5% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%; 
-        max-width: 600px;
-        border-radius: 8px;
-    }
+    position: relative;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    max-height: 50vh;  /* Ensure modal doesn't take up too much space */
+    overflow-y: auto;  /* Makes the content scrollable */
+}
+
 
     /* The Close Button */
     .close {
@@ -234,7 +268,7 @@
 </style>
 @include('layout.footer')
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-<script>
+<!-- <script>
         var scrolling = false; // Start with auto-scroll off
         var scrolldelay;
 
@@ -284,20 +318,10 @@
                 });
             }
         });
-    </script>
+    </script> -->
 
 <script>
-  const isLoggedIn = {{ auth()->check() ? 'true' : 'false' }};
 
-function handlePostClick() {
-    if (isLoggedIn) {
-        // Show the modal if the user is logged in
-        showModalone();
-    } else {
-        // Redirect to login page if the user is not logged in
-        window.location.href = '/Login'; // Replace with your login URL
-    }
-}
 
 function showModalone() {
     document.getElementById("updateModalone").style.display = "block";
@@ -314,5 +338,33 @@ window.onclick = function(event) {
     }
 }
 </script>
+<script>
+        function displayImage(inputId, imageId) {
+            var fileInput = document.getElementById(inputId);
+            var imageDisplay = document.getElementById(imageId);
+
+            imageDisplay.src = ''; // Clear the existing content in the image tag
+
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+
+                if (file.type.match(/^image\//)) {
+                    var reader = new FileReader();
+
+                    reader.readAsDataURL(file);
+
+                    reader.onload = function (e) {
+                        imageDisplay.src = e.target.result; // Set the image source
+                        imageDisplay.style.display = 'inline-block'; // Make the image visible
+                    };
+                } else {
+                    imageDisplay.alt = 'Selected file is not an image.'; // Show error message
+                    imageDisplay.style.display = 'none'; // Hide the image element
+                }
+            } else {
+                imageDisplay.style.display = 'none'; // Hide if no file is selected
+            }
+        }
+    </script>
 </body>
 </html>

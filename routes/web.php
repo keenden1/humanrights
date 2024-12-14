@@ -18,6 +18,7 @@ Route::get('/Officer-Form-9', [Chr_Admin::class,'Officer_Form_9'])->name('/Offic
 Route::get('/Officer-Form-10', [Chr_Admin::class,'Officer_Form_10'])->name('/Officer-Form-10');
 Route::get('/Officer-User-Account', [Chr_Admin::class,'Officer_User_Account'])->name('/Officer-User-Account');
 Route::get('/Officer-Endorse', [Chr_Admin::class,'Officer_Endorse'])->name('/Officer-Endorse');
+Route::get('/Officer-Chatbot', [Chr_Admin::class,'Officerchatbot'])->name('/Officer-Chatbot');
 
 Route::get('/Officer-Content', [Chr_Admin::class,'Officer_Content'])->name('/Officer-Content');
 Route::post('/Content-Case', [Chr_Admin::class, 'contentcase'])->name('Content.Case');
@@ -93,6 +94,9 @@ Route::get('/logout', [Chr_User::class,'logout'])->name('logout');
 Route::get('/Law', [Chr_User::class,'Law'])->name('Law');
 
 Route::get('/Forum', [Chr_User::class,'Forum'])->name('Forum');
+Route::post('/Forum-Post', [Chr_User::class, 'forum_post'])->name('forum.post');
+Route::get('/Ask', [Chr_User::class,'Ask'])->name('Ask');
+Route::post('/Ask-Question', [Chr_User::class, 'Askquestions'])->name('ask.question');
 Route::get('/Complain', [Chr_User::class,'Complain'])->name('Complain');
 Route::get('/AboutUs', [Chr_User::class,'AboutUs'])->name('AboutUs');
 Route::get('/Complain-form', [Chr_User::class,'Complain_Form'])->name('complain-form');
@@ -160,6 +164,8 @@ Route::middleware([UserEmailMiddleware::class])->group(function () {
 
     Route::get('/User-Messages', [Chr_User::class,'Message_Messages'])->name('/User-Messages');
 });
+
+
 
 // Download reference pdf
 Route::get('download-reference-pdf', [Chr_User::class, 'downloadReferencePdf'])->name('downloadReferencePdf');

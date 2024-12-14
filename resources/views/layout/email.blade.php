@@ -85,7 +85,7 @@ x
 
   <!-- start preheader -->
   <div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
-    A preheader is the short summary text that follows the subject line when an email is viewed in the inbox.
+  CHANGE PASSWORD FOR EMAIL ADDRESS IN CHRR1
   </div>
   <!-- end preheader -->
 
@@ -103,8 +103,8 @@ x
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
           <tr>
             <td align="center" valign="top" style="padding: 36px 24px;">
-              <a href="https://www.blogdesire.com" target="_blank" style="display: inline-block;">
-                <img src="{{ $logo }}" alt="Logo" border="0" width="48" style="display: block; width: 58px; max-width: 58px; min-width: 58px;">
+              <a href="https://chhr1.site/" target="_blank" style="display: inline-block;">
+              <img src="{{ $logoUrl }}" alt="Logo" border="0" width="48" style="display: block; width: 58px; max-width: 58px; min-width: 58px;">
               </a>
             </td>
           </tr>
@@ -155,7 +155,7 @@ x
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-              <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a href="http://127.0.0.1:8000/Homepage">CHRR1</a>, you can safely delete this email.</p>
+              <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't create an account with <a href="https://chhr1.site/Homepage">CHRR1</a>, you can safely delete this email.</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -181,15 +181,7 @@ x
           </tr>
           <!-- end button -->
 
-          <!-- start copy -->
-          <!-- <tr>
-            <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-              <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
-              <p style="margin: 0;"><a href="https://blogdesire.com" target="_blank">https://blogdesire.com/xxx-xxx-xxxx</a></p>
-            </td>
-          </tr> -->
-          <!-- end copy -->
-
+        
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
@@ -229,7 +221,7 @@ x
           <!-- start unsubscribe -->
           <tr>
             <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-              <p style="margin: 0;">To stop receiving these emails, you can <a href="http://127.0.0.1:8000/Login" target="_blank">unsubscribe</a> at any time.</p>
+              <p style="margin: 0;">To stop receiving these emails, you can <a href="https://chhr1.site/Login" target="_blank">unsubscribe</a> at any time.</p>
               <p style="margin: 0;">La Union Provincial Cooperative Union</p>
             </td>
           </tr>

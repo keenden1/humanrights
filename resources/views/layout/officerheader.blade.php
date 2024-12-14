@@ -63,7 +63,6 @@
                <ul class="child">
                   <li><a href="{{ url('Officer-Setting') }}">Profile</a></li>
                   <li><a href="{{ url('Officer-Content') }}">Content</a></li>
-                  <li><a href="#">Forum</a></li>
                 </ul>
               </li>
             </ul>
@@ -121,7 +120,7 @@
             </li>
 
 
-            <li class="profile_side apple" id="pepper">
+            <!-- <li class="profile_side apple" id="pepper">
               <a href="#" class="dropdown-toggle info-number">
               <i class="fa-regular fa-envelope" style="font-size:24px;"></i>
                 <span class="badge bg-green">6</span>
@@ -193,20 +192,16 @@
                         </span>
                   </a>
                 </li>
-                <!-- <li>
+                <li>
                   <div class="text-center">
                     <a>
                       <strong>Marked as Read</strong>
                       <i class="fa fa-angle-right"></i>
                     </a>
                   </div>
-                </li> -->
+                </li>
               </ul>
-            </li>
-
-
-
-
+            </li> -->
 
 
 

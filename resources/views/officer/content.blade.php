@@ -80,7 +80,7 @@
                    <td>{{ $cases->case ?? "N/A" }}</td>
                    <td>{{ $cases->created_by ?? "N/A" }}</td>
                    <td style="width:200px;">
-                    <a href="#" class="btn1">Update</a>
+                    <!-- <a href="#" class="btn1">Update</a> -->
                     <form action="{{ route('content.case.destroy', $cases->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this case?');">
                         @csrf
                         @method('DELETE')
@@ -120,11 +120,11 @@
             @else
             @foreach($sector as $sectors)
                 <tr>
-                   <td>{{ $cases->created_at->format('M. d, Y') ?? "N/A" }}</td>
+                   <td>{{ $sectors->created_at->format('M. d, Y') ?? "N/A" }}</td>
                    <td>{{ $sectors->sector ?? "N/A" }}</td>
                    <td>{{ $sectors->created_by ?? "N/A" }}</td>
                    <td style="width:200px;">
-                    <a href="#" class="btn1">Update</a>
+                    <!-- <a href="#" class="btn1">Update</a> -->
                     <form action="{{ route('content.sector.destroy', $sectors->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this case?');">
                         @csrf
                         @method('DELETE')
@@ -151,7 +151,7 @@
                     <th style="text-align: left;">Date</th>
                     <th style="text-align: left;">Title</th>
                     <th style="text-align: left;">Details</th>
-                    <th style="text-align: left;" colspan="2">Detail</th>
+                    <th style="text-align: left;"></th>
                 </tr>
             </thead>
             
@@ -167,7 +167,7 @@
                    <td>{{ $new->title ?? "N/A" }}</td>
                    <td>{{ Str::words($new->story ?? "N/A", 5, '...') }}</td>
                    <td style="width:200px;">
-                    <a href="#" class="btn1">Update</a>
+                    <!-- <a href="#" class="btn1">Update</a> -->
                     <form action="{{ route('content.news.destroy', $new->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this case?');">
                         @csrf
                         @method('DELETE')
@@ -185,16 +185,18 @@
         </div>
 </div>
 <div class="table-container2" id="book">
-        <h1 id="centered">Content Book</h1>
-        <button style="position:absolute;left:5%; top:0;" onclick="showModalthree()">ADD+</button>
+        <h1 id="centered">Chat Bot</h1>
        <div class="table-wrapper">
        <table >
             <thead>
                 <tr>
                     <th style="text-align: left;">Date</th>
-                    <th style="text-align: left;">Case</th>
-                    <th style="text-align: left;">Added By</th>
-                    <th style="text-align: left;" colspan="2">Detail</th>
+                    <th style="text-align: left;">Email</th>
+                    <th style="text-align: left;">Title</th>
+                    <th style="text-align: left;">Detail</th>
+                    <th style="text-align: left;">Replied_By</th>
+                    <th style="text-align: left;">Reply</th>
+                    <th style="text-align: left;"></th>
                 </tr>
             </thead>
             
@@ -207,17 +209,15 @@
             @foreach($book as $books)
                 <tr>
                    <td>{{ $books->created_at->format('M. d, Y') ?? "N/A" }}</td>
-                   <td>{{ $books->book ?? "N/A" }}</td>
-                   <td>{{ $books->created_by ?? "N/A" }}</td>
+                   <td>{{ $books->email ?? "N/A" }}</td>
+                   <td>{{ $books->question ?? "N/A" }}</td>
+                   <td>{{ Str::words($books->text ?? 'N/A', 4, '...') }}</td>
+                   <td>{{ $books->officer ?? "N/A" }}</td>
+                   <td>{{ Str::words($books->reply ?? 'N/A', 4, '...') }}</td>
                    <td style="width:200px;">
-                    <a href="#" class="btn1">Update</a>
-                    <form action="{{ route('content.book.destroy', $books->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this case?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn2">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                    </form>
+        
+                        <button type="button" class="btn1"
+                         onclick="showModalthree( '{{ $books->id }}', '{{ $books->email }}', '{{ $books->question }}', '{{ $books->text }}', '{{ $books->officer }}', '{{ $books->reply }}','{{ $books->image }}')">Reply</button>
                     </td>
                 </tr> 
                 @endforeach
@@ -297,7 +297,7 @@
 
 
 
-        <div id="updateModalone" class="modal">
+   <div id="updateModalone" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModalone()">&times;</span>
         <h2 id="centered">Add Sector</h2>
@@ -317,7 +317,7 @@
 
 
         <div id="updateModaltwo" class="modal" >
-    <div class="modal-content" style="border:2px solid red; height:500px;  overflow: auto;">
+    <div class="modal-content" style="height:500px;  overflow: auto;">
         <span class="close" onclick="closeModaltwo()">&times;</span>
         <h2 id="centered">ADD Newsfeed</h2>
         <form action="{{ route('Content.News') }}" method="POST" enctype="multipart/form-data">
@@ -332,7 +332,7 @@
             </div>
             <div class="form-group">
                 <label for="story">Story:</label>
-                <textarea name="story" id="story" rows="4" required style="width:100%;" placeholder="250 words only" maxlength="250"></textarea>
+                <textarea name="story" id="story" rows="4" required style="width:100%;" placeholder="Details" maxlength="250"></textarea>
             </div>
             <div class="form-group">
                 <label for="image_1">Image 1:</label>
@@ -354,33 +354,64 @@
         </div>
         </div>
 
-
-        <div id="updateModalthree" class="modal">
-    <div class="modal-content">
+<!-- Modal structure -->
+<div id="updateModalthree" class="modal">
+    <div class="modal-content" style="max-height: 70vh;  overflow-y: auto; ">
         <span class="close" onclick="closeModalthree()">&times;</span>
-        <h2 id="centered">ADD WALK-IN</h2>
-        <form action="" method="POST">
-            @csrf
-            @method('PUT') 
-            <div class="form-group">
-                <label for="firstname">First Name:</label>
-                <input type="text" name="firstname" id="firstname" value="" required>
+        <h2 id="centered">ADD REPLY</h2>
+       
+           
+            <div class="form-group" style="text-align:left; width:100%;">
+                <label for="email" style="font-weight: bold;">Email:</label>
+                <input type="text" name="email" id="email" readonly style="border:none;" >
             </div>
-            <div class="form-group">
-                <label for="lastname">Middle Name:</label>
-                <input type="text" name="middlename" id="middlename" placeholder="optional"  value="" >
+            <div class="form-group" style="text-align:left; width:100%;">
+                <label for="question" style="font-weight: bold;">Title</label>
+                <input type="text" name="question" id="question" readonly style="border:none;" >
             </div>
-            <div class="form-group">
-                <label for="lastname">Last Name:</label>
-                <input type="text" name="lastname" id="lastname" value="" required>
+             
+            <div class="form-group" style="text-align:left; width:100%;">
+                <label for="text" style="font-weight: bold;">Question</label>
+                <input type="text" name="text" id="text" readonly style="border:none;" >
+            </div>
+            <div class="form-group" style="text-align:left; width:100%;" id="level">
+                <label for="text" style="font-weight: bold;">Officer Incharge</label>
+                <input type="text" name="officer" id="officer" readonly style="border:none;" >
             </div>
            
-            <div class="form-group" id="centered" >
-                <button type="submit" style="margin-right: 40px">Update</button>
+            <div class="form-group" style="text-align:left; width:100%;" id="level1">
+                <label for="text" style="font-weight: bold;">Reply</label>
+                <input type="text" name="reply" id="reply" readonly style="border:none;" >
             </div>
-        </form>
-        </div>
-        </div>
+           
+           
+            <div class="form-group" style="text-align:left; width:100%;" id="image-container">
+                <label for="Image" style="font-weight: bold;">Image</label>
+                <img id="image" src="" alt="Image" style="width: 100%; height: auto;" />
+            </div>
+
+            <form action="" method="POST" id="updateForm" >
+            @csrf
+            @method('PUT')
+            <div class="form-group">
+                <label for="text" style="font-weight: bold;">Reply</label>
+                <input type="text" name="text" id="text" >
+            </div>
+            <div class="form-group" >
+                <input type="hidden" name="id" id="id"  >
+            </div>
+            <div class="form-group" >
+                <input type="hidden" name="officer"  value=" {{ session('fname') ?? null }} {{ session('lname') ?? null }}" >
+              
+            </div>
+            <div class="form-group" id="centered">
+                <button type="submit" style="margin-right: 40px">Reply</button>
+            </div>
+            </form>
+      
+    </div>
+</div>
+
 
         <div id="updateModalfour" class="modal">
     <div class="modal-content">
@@ -684,9 +715,45 @@ function showModaltwo() {
     document.getElementById("updateModaltwo").style.display = "block";
 }
 
-function showModalthree() {
-    document.getElementById("updateModalthree").style.display = "block";
+function showModalthree(id, email, question, text, officer, reply,image) {
+
+    var imageElement = document.getElementById('image');
+    var imageContainer = document.getElementById('image-container')
+    var levelElement = document.getElementById('level');
+    var levelElement1 = document.getElementById('level1');
+    var forms = document.getElementById('updateForm');
+
+    document.getElementById('id').value = id;
+    document.getElementById('email').value = email; 
+    document.getElementById('question').value = question; 
+    document.getElementById('text').value = text; 
+    document.getElementById('officer').value = officer; 
+    document.getElementById('reply').value = reply; 
+    document.getElementById('image').src = image;
+    document.getElementById('updateModalthree').style.display = 'block';
+
+    if (image && image !== '') {
+        imageElement.src = image;
+        imageContainer.style.display = 'block';  // Show the image
+    } else {
+        imageContainer.style.display = 'none';  // Hide the image if no URL is provided
+    }
+
+    if (reply && reply !== '') {
+        levelElement.style.display = 'block';  // Show the image
+        levelElement1.style.display = 'block'; 
+        forms.style.display = 'none'; 
+    } else {
+        levelElement.style.display = 'none';  // Hide the image if no URL is provided
+        levelElement1.style.display = 'none'; 
+        forms.style.display = 'block'; 
+    }
+
+    
+    
+
 }
+
 function showModalfour() {
     document.getElementById("updateModalfour").style.display = "block";
 }
