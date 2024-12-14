@@ -24,9 +24,18 @@ use App\Models\EmailVerification;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Storage;
 
 class Chr_User extends Controller
 {
+    
+    /**
+     * Update user profile with profile image.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
 
     function Message_Messages(){
         $user_email = session('user_email');
@@ -231,27 +240,49 @@ class Chr_User extends Controller
     }
 
     public function updateProfile(Request $request, $user_id)
-{
-    // Validation
-    $validatedData = $request->validate([
-        'firstname' => 'required|max:255',
-        'middlename' => 'nullable|max:255',
-        'lastname' => 'required|max:255',
-        'user_email' => 'required|email|max:255',
-        'birthdate' => 'nullable|date',
-        'age' => 'nullable|integer|min:0|max:150',
-        'address' => 'required|max:500',
-        'gender' => 'required|in:Male,Female,Other',
-        'contact' => 'nullable|regex:/^\d{10,15}$/',
-        'motto' => 'nullable|max:255',
-    ]);
-
-    // Update the profile
-    $profile = User::findOrFail($user_id);
-    $profile->update($validatedData);
-
-    return redirect()->route('profile.show', $user_id)->with('success', 'Profile updated successfully.');
-}
+    {
+        $user = User::findOrFail($user_id);
+    
+        // Validate request data
+        $validatedData = $request->validate([
+            'firstname' => 'required|max:255',
+            'middlename' => 'nullable|max:255',
+            'lastname' => 'required|max:255',
+            'user_email' => 'required|email|max:255',
+            'birthdate' => 'nullable|date',
+            'age' => 'nullable|integer|min:0|max:150',
+            'address' => 'required|max:500',
+            'gender' => 'required|in:Male,Female,Other',
+            'contact' => 'nullable|regex:/^\d{10,15}$/',
+            'motto' => 'nullable|max:255',
+            // 'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
+        ]);
+    
+        // Handle profile image upload
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+    
+            // Delete the old image if it exists
+            if ($user->profile_image && Storage::disk('public')->exists($user->profile_image)) {
+                Storage::disk('public')->delete($user->profile_image);
+            }
+    
+            // Store the new profile image and save the relative path
+            $imagePath = $file->store('profile_images', 'public');
+            $user->profile_image = $imagePath;
+        }
+    
+        // Update other fields
+        $user->fill($validatedData);
+    
+        // Save the user record
+        $user->save();
+    
+        return redirect()->route('profile.show', $user_id)->with('success', 'Profile updated successfully.');
+    }
+    
+    
+    
 
 
     public function user_register_post(Request $request)
@@ -569,10 +600,10 @@ public function chat_form(Request $request)
 
     public function showprofile($user_id)
     {
+        $user_id = session('user_id');
         $user = User::findOrFail($user_id);
         return view('main.profile', compact('user'));
     }
-    
 
 
 
