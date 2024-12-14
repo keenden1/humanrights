@@ -37,7 +37,7 @@
 
 .dropdown-usermenu a:hover{
   background:  #D9DEE4 !important;
- 
+
 }
 .dropdown-usermenu a {
   display: block;
@@ -51,13 +51,13 @@
 
 .child {
   display: none;
-  list-style-type: none; 
+  list-style-type: none;
   padding-left:40px;
 
 }
 .child li {
   margin: 15px 0;
- 
+
 }
 .child li a {
   color: #EDEDED;
@@ -108,7 +108,7 @@
 
 .site_title{
     margin: 10px !important;
-    
+
 }
 .hoy p{
 
@@ -125,7 +125,7 @@
   display: block;
   margin-left: 70px;
   z-index: 2;
-  
+
 }
 
 .nav-sm .nav.side-menu li a {
@@ -199,6 +199,18 @@
   width: 35%;
   float: left;
 }
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow: hidden;
+    display: block;
+    margin: auto;
+    transform: translateY(23px);
+}
+
 
 .img-circle.profile_img {
   width: 70%;
@@ -743,11 +755,11 @@ a:hover, a:focus {
   color: #000;
 }
 .nav.side-menu > li > a:hover span {
-  color: #000; 
+  color: #000;
 }
 .child li:hover{
   background: #F2F5F7 !important;
- 
+
 }
 .child li:hover a{
   color: #000 !important;
@@ -1544,11 +1556,11 @@ span.right {
 
 .user-profile {
   color: #5E6974 !important;
-  display: flex !important;         
-  align-items: center !important;      
-  justify-content: center !important;   
-  text-align: center !important;        
-  box-sizing: border-box !important; 
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
 
 }
 
@@ -1577,7 +1589,7 @@ ul.top_profiles li:nth-child(odd) {
 
 .sidebar {
     position: fixed;
-    left: -250px; 
+    left: -250px;
     top: 0;
     width: 90px;
     height: 100%;
@@ -1587,7 +1599,7 @@ ul.top_profiles li:nth-child(odd) {
     z-index: 1;
     display: none;
   }
-  
+
   .sidebar a {
     display: block;
     padding: 15px;
@@ -1595,11 +1607,11 @@ ul.top_profiles li:nth-child(odd) {
     text-decoration: none;
     transition: background 0.3s ease;
   }
-  
+
   .sidebar a:hover {
     background-color: #333;
   }
-  
+
   /* Menu open */
   .sidebar.active {
     left: 0;
