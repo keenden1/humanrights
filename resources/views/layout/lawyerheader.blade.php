@@ -32,7 +32,7 @@
           </div>
           <div class="profile_info">
             <span>Welcome,</span>
-            <h2>{{ session('admin_username') }}</h2>
+            <h2>{{ $admin->fname }} {{ $admin->lname }}</h2>
           </div>
         </div>
         <!-- /menu profile quick info -->
