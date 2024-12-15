@@ -170,6 +170,9 @@ class Chr_Admin extends Controller
     }
     function Officer_Form_10(){
         $admin_username = session('admin_username');
+        // Fetch the currently authenticated admin
+        $admin_id = session('id'); // or use Auth::id() if you're using Laravel Auth
+        $admin = Admin::findOrFail($admin_id);
         $cases = Cases::where('age', '<', 18)
         ->where(function ($query) {
             $query->where('status', 'Processing')
@@ -993,7 +996,7 @@ public function adminapproveCase(Request $request)
     }
 
     // Pass the case data to the view
-    $html = view('layout.print', ['case' => $case])->render();
+    $html = view('layout.print-v2', ['case' => $case])->render();
 
     // Create a new TCPDF instance
     $pdf = new TCPDF();
