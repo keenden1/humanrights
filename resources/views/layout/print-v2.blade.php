@@ -1,3 +1,11 @@
+
+@php
+    $timezone = 'Asia/Manila';
+    $currentDateTime = now()->timezone($timezone);
+    $formattedDate = $currentDateTime->format('F j, Y');
+    $formattedTime = $currentDateTime->format('g:i A');
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,8 +97,7 @@
         <th style="text-align: center;">
           <p class="header__title">COMMISSION ON HUMAN RIGHTS REGION 1</p>
           <p class="header__title">La Union Provincial Cooperative Union</p>
-          <p style="font-weight: normal !important; font-size: 10px;" class="header__date">December 12, 2024
-            &mdash; 02:10 PM</p>
+          <p style="font-weight: normal !important; font-size: 10px;" class="header__date">{{ $formattedDate }} &mdash; {{ $formattedTime }}</p>
         </th>
       </tr>
     </thead>
